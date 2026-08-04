@@ -79,6 +79,11 @@ class StoreDetailsController extends GetxController {
     Get.offAllNamed<void>(AppRoutes.dashboard);
   }
 
+  void saveAndGoBack() {
+    Utils.hideKeyboard(Get.context!);
+    Get.back<void>();
+  }
+
   @override
   void onClose() {
     storeNameController.dispose();

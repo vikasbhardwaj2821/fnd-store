@@ -21,6 +21,8 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
+    final isEditMode = arguments is Map && arguments['editMode'] == true;
     return Scaffold(
       backgroundColor: AppColors.white,
       body: GestureDetector(
@@ -29,10 +31,10 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
         child: SafeArea(
           child: Column(
             children: [
-              const AppHeader(
+              AppHeader(
                 title: AppStrings.storeDetails,
-                titleColor: AppColors.black,
-                backIconColor: AppColors.black,
+                titleColor: isEditMode ? AppColors.primary : AppColors.black,
+                backIconColor: isEditMode ? AppColors.primary : AppColors.black,
                 height: 64,
                 backIconSize: 16,
                 showBottomBorder: false,
@@ -49,8 +51,8 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _StorePhoto(controller: controller),
-                      const SizedBox(height: 54),
+                      _StoreImageUpload(controller: controller),
+                      const SizedBox(height: 24),
                       _StoreField(
                         label: AppStrings.storeName,
                         hint: AppStrings.storeNameHint,
@@ -66,9 +68,12 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                       ),
                       const SizedBox(height: 40),
                       AppButton(
-                        text: AppStrings.continueText,
-                        onTap: () => _showSuccessDialog(context),
-
+                        text: isEditMode
+                            ? AppStrings.editStoreDetails
+                            : AppStrings.continueText,
+                        onTap: isEditMode
+                            ? controller.saveAndGoBack
+                            : () => _showSuccessDialog(context),
                         showShadow: false,
                       ),
                     ],
@@ -90,6 +95,78 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
       barrierColor: AppColors.black42,
     );
   }
+}
+
+class _StoreImageUpload extends StatelessWidget {
+  const _StoreImageUpload({required this.controller});
+
+  final StoreDetailsController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => controller.openPhotoPicker(context),
+      child: Obx(
+        () => CustomPaint(
+          painter: _DashedRoundedBorderPainter(),
+          child: SizedBox(
+            width: double.infinity,
+            height: 112,
+            child: controller.storeImage.value == null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.storeUpload,
+                        width: 28,
+                        height: 28,
+                      ),
+                      const SizedBox(height: 10),
+                      const AppText(
+                        text: AppStrings.uploadStoreImage,
+                        color: AppColors.textSecondary,
+                        textSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(
+                      controller.storeImage.value!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DashedRoundedBorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(10)),
+      );
+    final paint = Paint()
+      ..color = AppColors.border
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    for (final metric in path.computeMetrics()) {
+      double distance = 0;
+      while (distance < metric.length) {
+        canvas.drawPath(metric.extractPath(distance, distance + 5), paint);
+        distance += 9;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashedRoundedBorderPainter oldDelegate) => false;
 }
 
 class _AccountCreatedDialog extends StatelessWidget {
@@ -137,52 +214,6 @@ class _AccountCreatedDialog extends StatelessWidget {
                 showShadow: false,
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StorePhoto extends StatelessWidget {
-  const _StorePhoto({required this.controller});
-
-  final StoreDetailsController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: GestureDetector(
-        onTap: () => controller.openPhotoPicker(context),
-        child: Obx(
-          () => Container(
-            width: 92,
-            height: 92,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.profilePhotoBackground,
-            ),
-            child: controller.storeImage.value == null
-                ? Center(
-                    child: Container(
-                      width: 25,
-                      height: 25,
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.primary,
-                      ),
-                      child: SvgPicture.asset(
-                        Assets.cameraNew,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.white,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  )
-                : Image.file(controller.storeImage.value!, fit: BoxFit.cover),
           ),
         ),
       ),

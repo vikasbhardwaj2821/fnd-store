@@ -49,6 +49,7 @@ abstract final class Assets {
   static const String chatIcon = 'assets/icons/chatIcon.svg';
   static const String callIcon = 'assets/icons/callIcon.svg';
   static const String navigationIcon = 'assets/icons/naviagtionIcon.svg';
+  static const String trackIcon = 'assets/icons/trackIcon.svg';
   static const String packageIcon = 'assets/icons/packageIcon.svg';
   static const String checklistIcon = 'assets/icons/checklistIcon.svg';
   static const String questionIcon = 'assets/icons/questionIcon.svg';
@@ -84,4 +85,7 @@ abstract final class Assets {
   static const String deleteAccount = 'assets/icons/deleteAccount.svg';
   static const String contactUs = 'assets/icons/contactUs.svg';
   static const String storeDetails = 'assets/icons/storeDetails.svg';
+  static const String storeUpload = 'assets/icons/storeUpload.svg';
+  static const String driverPhoto = 'assets/icons/westsideIcon.jpg';
+  static const String productImage = 'assets/images/productImage.jpg';
 }

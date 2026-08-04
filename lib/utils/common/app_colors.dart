@@ -50,4 +50,6 @@ abstract final class AppColors {
   static const Color dropoffMarkerBackground = Color(0xFF7FF28A);
   static const Color dropoffMarker = Color(0xFF001A08);
   static const Color routeConnector = Color(0xFFCFC8D3);
+  static const Color deliveredStatus = Color(0xFF7FF28A);
+  static const Color softSuccess = Color(0xFFEAF6EC);
 }

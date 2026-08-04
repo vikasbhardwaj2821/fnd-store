@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 
 import '../../modules/complete_profile/bindings/complete_profile_binding.dart';
 import '../../modules/complete_profile/views/complete_profile_view.dart';
+import '../../modules/bookings/views/booking_details_view.dart';
+import '../../modules/bookings/views/track_delivery_view.dart';
+import '../../modules/bookings/views/rate_delivery_view.dart';
 import '../../modules/cms/views/cms_view.dart';
 import '../../modules/contact_us/bindings/contact_us_binding.dart';
 import '../../modules/contact_us/views/contact_us_view.dart';
@@ -12,6 +15,8 @@ import '../../modules/edit_profile/views/edit_profile_view.dart';
 import '../../modules/home/views/home_view.dart';
 import '../../modules/login/bindings/login_binding.dart';
 import '../../modules/login/views/login_view.dart';
+import '../../modules/notifications/bindings/notifications_binding.dart';
+import '../../modules/notifications/views/notifications_view.dart';
 import '../../modules/onboarding/bindings/onboarding_binding.dart';
 import '../../modules/onboarding/views/onboarding_view.dart';
 import '../../modules/select_language/bindings/select_language_binding.dart';
@@ -64,6 +69,14 @@ abstract final class AppPages {
       page: ChangeLanguageView.new,
       binding: SelectLanguageBinding(),
     ),
+    GetPage<void>(
+      name: AppRoutes.notifications,
+      page: NotificationsView.new,
+      binding: NotificationsBinding(),
+    ),
+    GetPage<void>(name: AppRoutes.bookingDetails, page: BookingDetailsView.new),
+    GetPage<void>(name: AppRoutes.trackDelivery, page: TrackDeliveryView.new),
+    GetPage<void>(name: AppRoutes.rateDelivery, page: RateDeliveryView.new),
     GetPage<void>(
       name: AppRoutes.login,
       page: LoginView.new,

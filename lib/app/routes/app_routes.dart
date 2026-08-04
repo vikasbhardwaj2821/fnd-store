@@ -13,5 +13,9 @@ abstract final class AppRoutes {
   static const String termsAndConditions = '/terms-and-conditions';
   static const String contactUs = '/contact-us';
   static const String changeLanguage = '/change-language';
+  static const String notifications = '/notifications';
+  static const String bookingDetails = '/booking-details';
+  static const String trackDelivery = '/track-delivery';
+  static const String rateDelivery = '/rate-delivery';
   static const String home = dashboard;
 }

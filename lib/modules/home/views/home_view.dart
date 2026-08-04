@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../generated/asset_paths.dart';
+import '../../bookings/views/bookings_view.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
 import '../../../utils/common/app_text.dart';
+import '../../../utils/common/booking_card.dart';
 import '../../../utils/common/countries.dart';
 import '../../../utils/common/country_bottomsheet.dart';
 import '../../../utils/common/textform_field.dart';
@@ -53,6 +55,9 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildPage() {
     if (_selectedIndex == 0) {
       return const _HomePage();
+    }
+    if (_selectedIndex == 1) {
+      return const BookingsView();
     }
     if (_selectedIndex == 3) {
       return const _ProfilePage();
@@ -109,7 +114,8 @@ class _HomePage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                const _BookingCard(
+                const BookingCard(
+                  type: BookingCardType.ongoing,
                   orderNumber: '#FND-8821',
                   status: AppStrings.orderPickedUp,
                   statusColor: AppColors.bookingStatusOrange,
@@ -118,7 +124,8 @@ class _HomePage extends StatelessWidget {
                   time: AppStrings.today1430,
                 ),
                 const SizedBox(height: 12),
-                const _BookingCard(
+                const BookingCard(
+                  type: BookingCardType.ongoing,
                   orderNumber: '#FND-9042',
                   status: AppStrings.driverOnWay,
                   statusColor: AppColors.bookingStatusGrey,
@@ -189,23 +196,34 @@ class _HomeHeader extends StatelessWidget {
               ],
             ),
           ),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              SvgPicture.asset(Assets.notificationIcon, width: 18, height: 20),
-              PositionedDirectional(
-                end: -1,
-                top: -1,
-                child: Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: AppColors.countdown,
-                    shape: BoxShape.circle,
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => Get.toNamed<void>(AppRoutes.notifications),
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SvgPicture.asset(
+                    Assets.notificationIcon,
+                    width: 18,
+                    height: 20,
                   ),
-                ),
+                  PositionedDirectional(
+                    end: -1,
+                    top: -1,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: AppColors.countdown,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -226,15 +244,18 @@ class _DeliveredSummary extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.border),
       ),
-      child: Stack(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
                 text: AppStrings.totalDelivered,
-                color: AppColors.textSecondary,
+                color: AppColors.black,
                 textSize: 13,
+                fontWeight: FontWeight.w600,
               ),
               SizedBox(height: 3),
               AppText(
@@ -245,14 +266,10 @@ class _DeliveredSummary extends StatelessWidget {
               ),
             ],
           ),
-          PositionedDirectional(
-            end: 4,
-            bottom: -8,
-            child: const Icon(
-              Icons.local_shipping_outlined,
-              size: 78,
-              color: AppColors.bookingTruckWatermark,
-            ),
+          const Icon(
+            Icons.local_shipping_outlined,
+            size: 60,
+            color: AppColors.black42,
           ),
         ],
       ),
@@ -260,6 +277,8 @@ class _DeliveredSummary extends StatelessWidget {
   }
 }
 
+// TODO: Remove after the remaining legacy home layout is fully migrated.
+// ignore: unused_element
 class _BookingCard extends StatelessWidget {
   const _BookingCard({
     required this.orderNumber,
@@ -322,7 +341,7 @@ class _BookingCard extends StatelessWidget {
                   child: AppText(
                     text: status,
                     color: AppColors.black42,
-                    textSize: 12,
+                    textSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -883,6 +902,10 @@ class _SettingsPageState extends State<_SettingsPage> {
                         icon: Assets.storeDetails,
                         label: AppStrings.storeDetails,
                         showArrow: true,
+                        onTap: () => Get.toNamed<void>(
+                          AppRoutes.storeDetails,
+                          arguments: const {'editMode': true},
+                        ),
                       ),
                       _SettingsRow(
                         icon: Assets.changeLanguage,
@@ -972,17 +995,17 @@ class _AccountActionDialog extends StatelessWidget {
       child: Dialog(
         backgroundColor: AppColors.white,
         surfaceTintColor: AppColors.white,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 18),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 22),
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 48,
-                height: 48,
-                padding: const EdgeInsets.all(13),
+                width: 50,
+                height: 50,
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: isDelete ? AppColors.surface : AppColors.softPrimary,
                   shape: BoxShape.circle,
@@ -992,37 +1015,38 @@ class _AccountActionDialog extends StatelessWidget {
                   colorFilter: ColorFilter.mode(accent, BlendMode.srcIn),
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 12),
               AppText(
                 text: isDelete
                     ? AppStrings.deleteConfirmation
                     : AppStrings.logoutConfirmation,
                 color: AppColors.black,
-                textSize: 17,
-                fontWeight: FontWeight.w700,
+                textSize: 18,
+                fontWeight: FontWeight.w800,
                 lineHeight: 1.3,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 12),
               AppText(
                 text: isDelete
                     ? AppStrings.deleteDescription
                     : AppStrings.logoutDescription,
                 color: AppColors.textSecondary,
                 textSize: 12,
-                lineHeight: 1.45,
+                lineHeight: 1.35,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 22),
+              const SizedBox(height: 16),
               AppButton(
                 text: isDelete ? AppStrings.yesDelete : AppStrings.yesLogout,
                 onTap: onConfirm,
-                height: 48,
+                height: 50,
                 borderRadius: 8,
+                textSize: 14,
                 backgroundColor: accent,
                 showShadow: false,
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 14),
               GestureDetector(
                 onTap: Get.back<void>,
                 child: AppText(
