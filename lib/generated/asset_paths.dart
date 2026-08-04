@@ -11,7 +11,6 @@ abstract final class Assets {
   static const String westsideIcon = 'assets/icons/westsideIcon.jpg';
   static const String completedIcon = 'assets/icons/completedIcon.svg';
   static const String moneyIcon = 'assets/icons/moneyIcon.svg';
-  static const String dummyMap = 'assets/images/dummyMap.png';
   static const String homeIcon = 'assets/icons/homeIcon.svg';
   static const String bookingIcon = 'assets/icons/bookingIcon.svg';
   static const String bookingColored = 'assets/icons/bookingColored.svg';
@@ -23,7 +22,6 @@ abstract final class Assets {
   static const String backButton = 'assets/icons/backButton.png';
   static const String fndStoreLogo = 'assets/images/fndStoreLogo.png';
   static const String success = 'assets/images/success.png';
-  static const String homeDummy = 'assets/images/homeDummy.png';
   static const String googleIcon = 'assets/icons/googleIcon.svg';
   static const String appleIcon = 'assets/icons/appleIcon.svg';
   static const String checkIcon = 'assets/icons/checkIcon.png';
@@ -34,12 +32,6 @@ abstract final class Assets {
   static const String calendarIcon = 'assets/icons/calendarIcon.svg';
   static const String uploadIcon = 'assets/icons/uploadIcon.svg';
   static const String infoIcon = 'assets/icons/infoIcon.svg';
-  static const String onBoardingFirstImage =
-      'assets/images/onBoardingFirstImage.png';
-  static const String onBoardingSecondImage =
-      'assets/images/onBoardingSecondImage.png';
-  static const String onBoardingThirdImage =
-      'assets/images/onBoardingThirdImage.png';
   static const String warningIcon = 'assets/icons/warningIcon.svg';
   static const String dropOff = 'assets/icons/dropOff.svg';
   static const String pickUp = 'assets/icons/pickUp.svg';

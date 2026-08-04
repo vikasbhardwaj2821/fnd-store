@@ -19,9 +19,9 @@ class OnboardingPageData {
 
 class OnboardingController extends GetxController {
   static const List<OnboardingPageData> pages = [
-    OnboardingPageData(image: 'assets/images/onboardingScreenOne.png'),
-    OnboardingPageData(image: 'assets/images/onboardingScreenSecond.png'),
-    OnboardingPageData(image: 'assets/images/onboardingScreenThird.png'),
+    OnboardingPageData(image: 'assets/images/onboardingScreenOne.jpg'),
+    OnboardingPageData(image: 'assets/images/onboardingScreenSecond.jpg'),
+    OnboardingPageData(image: 'assets/images/onboardingScreenThird.jpg'),
   ];
 
   final PageController pageController = PageController();
