@@ -30,4 +30,12 @@ class SelectLanguageController extends GetxController {
     }
     Get.offAllNamed<void>(AppRoutes.completeProfile);
   }
+
+  Future<void> saveAndGoBack() async {
+    final locale = selectedLanguage.value == AppLanguage.arabic
+        ? const Locale('ar', 'AE')
+        : const Locale('en', 'US');
+    if (Get.locale != locale) await Get.updateLocale(locale);
+    Get.back<void>();
+  }
 }

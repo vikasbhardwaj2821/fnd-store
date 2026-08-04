@@ -795,6 +795,17 @@ class _SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<_SettingsPage> {
   bool _notificationsEnabled = true;
 
+  void _showAccountActionDialog({required bool isDelete}) {
+    Get.dialog<void>(
+      _AccountActionDialog(
+        isDelete: isDelete,
+        onConfirm: () => Get.offAllNamed<void>(AppRoutes.login),
+      ),
+      barrierDismissible: false,
+      barrierColor: AppColors.black42,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -877,6 +888,8 @@ class _SettingsPageState extends State<_SettingsPage> {
                         icon: Assets.changeLanguage,
                         label: AppStrings.changeLanguage,
                         showArrow: true,
+                        onTap: () =>
+                            Get.toNamed<void>(AppRoutes.changeLanguage),
                       ),
                       _SettingsRow(
                         icon: Assets.settingsTerms,
@@ -891,28 +904,31 @@ class _SettingsPageState extends State<_SettingsPage> {
                         showArrow: true,
                         onTap: () => Get.toNamed<void>(AppRoutes.privacyPolicy),
                       ),
-                      const _SettingsRow(
+                      _SettingsRow(
                         icon: Assets.contactUs,
                         label: AppStrings.contactUs,
                         showArrow: true,
                         showDivider: false,
+                        onTap: () => Get.toNamed<void>(AppRoutes.contactUs),
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   const _SettingsSectionLabel(text: AppStrings.accountActions),
                   const SizedBox(height: 7),
-                  const _SettingsCard(
+                  _SettingsCard(
                     children: [
                       _SettingsRow(
                         icon: Assets.settingsLogout,
                         label: AppStrings.logout,
+                        onTap: () => _showAccountActionDialog(isDelete: false),
                       ),
                       _SettingsRow(
                         icon: Assets.deleteAccount,
                         label: AppStrings.deleteAccount,
                         color: AppColors.countdown,
                         showDivider: false,
+                        onTap: () => _showAccountActionDialog(isDelete: true),
                       ),
                     ],
                   ),
@@ -937,6 +953,90 @@ class _SettingsPageState extends State<_SettingsPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _AccountActionDialog extends StatelessWidget {
+  const _AccountActionDialog({required this.isDelete, required this.onConfirm});
+
+  final bool isDelete;
+  final VoidCallback onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = isDelete ? AppColors.countdown : AppColors.primary;
+    return PopScope(
+      canPop: false,
+      child: Dialog(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 18),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                padding: const EdgeInsets.all(13),
+                decoration: BoxDecoration(
+                  color: isDelete ? AppColors.surface : AppColors.softPrimary,
+                  shape: BoxShape.circle,
+                ),
+                child: SvgPicture.asset(
+                  isDelete ? Assets.deleteAccount : Assets.settingsLogout,
+                  colorFilter: ColorFilter.mode(accent, BlendMode.srcIn),
+                ),
+              ),
+              const SizedBox(height: 18),
+              AppText(
+                text: isDelete
+                    ? AppStrings.deleteConfirmation
+                    : AppStrings.logoutConfirmation,
+                color: AppColors.black,
+                textSize: 17,
+                fontWeight: FontWeight.w700,
+                lineHeight: 1.3,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 18),
+              AppText(
+                text: isDelete
+                    ? AppStrings.deleteDescription
+                    : AppStrings.logoutDescription,
+                color: AppColors.textSecondary,
+                textSize: 12,
+                lineHeight: 1.45,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 22),
+              AppButton(
+                text: isDelete ? AppStrings.yesDelete : AppStrings.yesLogout,
+                onTap: onConfirm,
+                height: 48,
+                borderRadius: 8,
+                backgroundColor: accent,
+                showShadow: false,
+              ),
+              const SizedBox(height: 18),
+              GestureDetector(
+                onTap: Get.back<void>,
+                child: AppText(
+                  text: isDelete
+                      ? AppStrings.keepAccount
+                      : AppStrings.staySignedIn,
+                  color: AppColors.primary,
+                  textSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../../modules/complete_profile/bindings/complete_profile_binding.dart';
 import '../../modules/complete_profile/views/complete_profile_view.dart';
 import '../../modules/cms/views/cms_view.dart';
+import '../../modules/contact_us/bindings/contact_us_binding.dart';
+import '../../modules/contact_us/views/contact_us_view.dart';
 import '../../modules/create_request/bindings/create_request_binding.dart';
 import '../../modules/create_request/views/create_request_view.dart';
 import '../../modules/edit_profile/bindings/edit_profile_binding.dart';
@@ -13,6 +15,7 @@ import '../../modules/login/views/login_view.dart';
 import '../../modules/onboarding/bindings/onboarding_binding.dart';
 import '../../modules/onboarding/views/onboarding_view.dart';
 import '../../modules/select_language/bindings/select_language_binding.dart';
+import '../../modules/select_language/views/change_language_view.dart';
 import '../../modules/select_language/views/select_language_view.dart';
 import '../../modules/splash/bindings/splash_binding.dart';
 import '../../modules/splash/views/splash_view.dart';
@@ -51,6 +54,16 @@ abstract final class AppPages {
     ),
     GetPage<void>(name: AppRoutes.privacyPolicy, page: CmsView.new),
     GetPage<void>(name: AppRoutes.termsAndConditions, page: CmsView.new),
+    GetPage<void>(
+      name: AppRoutes.contactUs,
+      page: ContactUsView.new,
+      binding: ContactUsBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.changeLanguage,
+      page: ChangeLanguageView.new,
+      binding: SelectLanguageBinding(),
+    ),
     GetPage<void>(
       name: AppRoutes.login,
       page: LoginView.new,

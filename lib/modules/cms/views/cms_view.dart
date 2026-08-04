@@ -59,14 +59,14 @@ class CmsView extends StatelessWidget {
                           const AppText(
                             text: AppStrings.lastUpdated,
                             color: AppColors.textSecondary,
-                            textSize: 10,
+                            textSize: 11,
                             fontStyle: FontStyle.italic,
                           ),
                           const SizedBox(height: 16),
                           AppText(
                             text: notice,
                             color: AppColors.black,
-                            textSize: 11,
+                            textSize: 12,
                             lineHeight: 1.45,
                           ),
                         ],
@@ -78,7 +78,7 @@ class CmsView extends StatelessWidget {
                     const AppText(
                       text: AppStrings.introductionBody,
                       color: AppColors.black,
-                      textSize: 11,
+                      textSize: 12,
                       lineHeight: 1.45,
                     ),
                     const SizedBox(height: 18),
@@ -87,13 +87,40 @@ class CmsView extends StatelessWidget {
                     const AppText(
                       text: AppStrings.responsibilitiesBody,
                       color: AppColors.black,
-                      textSize: 11,
+                      textSize: 12,
                       lineHeight: 1.45,
                     ),
                     const SizedBox(height: 10),
                     const _CmsBullet(text: AppStrings.responsibilityOne),
                     const _CmsBullet(text: AppStrings.responsibilityTwo),
                     const _CmsBullet(text: AppStrings.responsibilityThree),
+                    const SizedBox(height: 12),
+                    const _CmsHeading(text: AppStrings.cmsPrivacySection),
+                    const SizedBox(height: 8),
+                    const AppText(
+                      text: AppStrings.cmsPrivacyBody,
+                      color: AppColors.black,
+                      textSize: 12,
+                      lineHeight: 1.45,
+                    ),
+                    const SizedBox(height: 18),
+                    const _CmsHeading(text: AppStrings.logisticsAndDelivery),
+                    const SizedBox(height: 8),
+                    const AppText(
+                      text: AppStrings.logisticsAndDeliveryBody,
+                      color: AppColors.black,
+                      textSize: 12,
+                      lineHeight: 1.45,
+                    ),
+                    const SizedBox(height: 18),
+                    const _CmsHeading(text: AppStrings.termination),
+                    const SizedBox(height: 8),
+                    const AppText(
+                      text: AppStrings.terminationBody,
+                      color: AppColors.black,
+                      textSize: 12,
+                      lineHeight: 1.45,
+                    ),
                   ],
                 ),
               ),
@@ -113,7 +140,7 @@ class _CmsHeading extends StatelessWidget {
   Widget build(BuildContext context) => AppText(
     text: text,
     color: AppColors.primary,
-    textSize: 13,
+    textSize: 14,
     fontWeight: FontWeight.w700,
   );
 }
@@ -129,13 +156,13 @@ class _CmsBullet extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText(text: '•', color: AppColors.black, textSize: 11),
+          const AppText(text: '•', color: AppColors.black, textSize: 12),
           const SizedBox(width: 8),
           Expanded(
             child: AppText(
               text: text,
               color: AppColors.black,
-              textSize: 11,
+              textSize: 12,
               lineHeight: 1.4,
             ),
           ),

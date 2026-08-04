@@ -153,6 +153,50 @@ class AppTranslations extends Translations {
           'Account security is the sole responsibility of the merchant.',
       AppStrings.responsibilityThree:
           'Delivery Pro reserves the right to terminate access for misuse.',
+      AppStrings.cmsPrivacySection: '3. Privacy Policy',
+      AppStrings.cmsPrivacyBody:
+          'Morbi tristique senectus et netus et malesuada fames ac turpis '
+          'egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, '
+          'tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. '
+          'Aenean ultricies mi vitae est. Mauris placerat eleifend leo.\n\n'
+          'Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat '
+          'wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean '
+          'fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, '
+          'sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar '
+          'facilisis. Ut felis.',
+      AppStrings.logisticsAndDelivery: '4. Logistics & Delivery',
+      AppStrings.logisticsAndDeliveryBody:
+          'Praesent dapibus, neque id cursus faucibus, tortor neque egestas '
+          'augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam '
+          'dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. '
+          'Phasellus ultrices nulla quis nibh. Quisque a lectus.',
+      AppStrings.termination: '5. Termination',
+      AppStrings.terminationBody:
+          'Pellentesque habitant morbi tristique senectus et netus et '
+          'malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat '
+          'vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit '
+          'amet quam egestas semper. Aenean ultricies mi vitae est. Mauris '
+          'placerat eleifend leo. Quisque sit amet est et sapien ullamcorper '
+          'pharetra.',
+      AppStrings.name: 'Name',
+      AppStrings.fullNameHint: 'Enter your full name',
+      AppStrings.emailAddressHint: 'Enter your email address',
+      AppStrings.description: 'Description',
+      AppStrings.helpHint: 'How can we help you?',
+      AppStrings.callSupport: 'Call Support',
+      AppStrings.supportPhone: '+1 (800) 555-LOGI',
+      AppStrings.submit: 'Submit',
+      AppStrings.logoutConfirmation: 'Are you sure you want to\nlogout?',
+      AppStrings.logoutDescription:
+          'You will need to sign in again to\nmanage your deliveries and access\nyour account details.',
+      AppStrings.yesLogout: 'Yes, Logout',
+      AppStrings.staySignedIn: 'No, Stay Signed In',
+      AppStrings.deleteConfirmation:
+          'Are you sure you want to\ndelete your account?',
+      AppStrings.deleteDescription:
+          'This will permanently delete your\naccount details and delivery data.\nThis action cannot be undone.',
+      AppStrings.yesDelete: 'Yes, Delete Account',
+      AppStrings.keepAccount: 'No, Keep My Account',
     },
     'ar_AE': {
       AppStrings.appName: 'متجر F.N.D',
@@ -292,6 +336,41 @@ class AppTranslations extends Translations {
       AppStrings.responsibilityTwo: 'أمان الحساب مسؤولية المستخدم وحده.',
       AppStrings.responsibilityThree:
           'يحق للمنصة إنهاء الوصول عند إساءة الاستخدام.',
+      AppStrings.cmsPrivacySection: '3. سياسة الخصوصية',
+      AppStrings.cmsPrivacyBody:
+          'نلتزم بحماية معلومات المستخدم وبياناته الشخصية، ومعالجتها وفق '
+          'الأنظمة المعمول بها. لا تُستخدم البيانات إلا لتقديم الخدمات '
+          'وتحسين تجربة المنصة ودعم العمليات اللوجستية.\n\n'
+          'يجب المحافظة على سرية المعلومات وعدم مشاركتها إلا ضمن نطاق '
+          'الخدمة أو عندما تتطلب الأنظمة ذلك.',
+      AppStrings.logisticsAndDelivery: '4. الخدمات اللوجستية والتوصيل',
+      AppStrings.logisticsAndDeliveryBody:
+          'تُنفذ عمليات الاستلام والتوصيل وفق التفاصيل المقدمة في الطلب. '
+          'يتحمل المستخدم مسؤولية صحة العناوين والمواعيد والتعليمات المتعلقة '
+          'بالشحنة.',
+      AppStrings.termination: '5. إنهاء الاستخدام',
+      AppStrings.terminationBody:
+          'يجوز تعليق الحساب أو إنهاء الوصول إلى المنصة عند مخالفة الشروط أو '
+          'إساءة استخدام الخدمات. تبقى الالتزامات السابقة للإنهاء سارية وفق '
+          'الأنظمة المعمول بها.',
+      AppStrings.name: 'الاسم',
+      AppStrings.fullNameHint: 'أدخل اسمك الكامل',
+      AppStrings.emailAddressHint: 'أدخل بريدك الإلكتروني',
+      AppStrings.description: 'الوصف',
+      AppStrings.helpHint: 'كيف يمكننا مساعدتك؟',
+      AppStrings.callSupport: 'اتصل بالدعم',
+      AppStrings.supportPhone: '+1 (800) 555-LOGI',
+      AppStrings.submit: 'إرسال',
+      AppStrings.logoutConfirmation: 'هل أنت متأكد أنك تريد\nتسجيل الخروج؟',
+      AppStrings.logoutDescription:
+          'ستحتاج إلى تسجيل الدخول مرة أخرى\nلإدارة عمليات التوصيل والوصول\nإلى تفاصيل حسابك.',
+      AppStrings.yesLogout: 'نعم، تسجيل الخروج',
+      AppStrings.staySignedIn: 'لا، ابقَ مسجلاً',
+      AppStrings.deleteConfirmation: 'هل أنت متأكد أنك تريد\nحذف حسابك؟',
+      AppStrings.deleteDescription:
+          'سيؤدي هذا إلى حذف تفاصيل حسابك\nوبيانات التوصيل نهائيًا.\nلا يمكن التراجع عن هذا الإجراء.',
+      AppStrings.yesDelete: 'نعم، حذف الحساب',
+      AppStrings.keepAccount: 'لا، احتفظ بحسابي',
     },
   };
 }

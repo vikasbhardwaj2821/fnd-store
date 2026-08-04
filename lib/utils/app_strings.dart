@@ -118,4 +118,26 @@ abstract final class AppStrings {
   static const String responsibilityOne = 'responsibility_one';
   static const String responsibilityTwo = 'responsibility_two';
   static const String responsibilityThree = 'responsibility_three';
+  static const String cmsPrivacySection = 'cms_privacy_section';
+  static const String cmsPrivacyBody = 'cms_privacy_body';
+  static const String logisticsAndDelivery = 'logistics_and_delivery';
+  static const String logisticsAndDeliveryBody = 'logistics_and_delivery_body';
+  static const String termination = 'termination';
+  static const String terminationBody = 'termination_body';
+  static const String name = 'name';
+  static const String fullNameHint = 'full_name_hint';
+  static const String emailAddressHint = 'email_address_hint';
+  static const String description = 'description';
+  static const String helpHint = 'help_hint';
+  static const String callSupport = 'call_support';
+  static const String supportPhone = 'support_phone';
+  static const String submit = 'submit';
+  static const String logoutConfirmation = 'logout_confirmation';
+  static const String logoutDescription = 'logout_description';
+  static const String yesLogout = 'yes_logout';
+  static const String staySignedIn = 'stay_signed_in';
+  static const String deleteConfirmation = 'delete_confirmation';
+  static const String deleteDescription = 'delete_description';
+  static const String yesDelete = 'yes_delete';
+  static const String keepAccount = 'keep_account';
 }

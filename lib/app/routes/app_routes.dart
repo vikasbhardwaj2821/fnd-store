@@ -11,5 +11,7 @@ abstract final class AppRoutes {
   static const String editProfile = '/edit-profile';
   static const String privacyPolicy = '/privacy-policy';
   static const String termsAndConditions = '/terms-and-conditions';
+  static const String contactUs = '/contact-us';
+  static const String changeLanguage = '/change-language';
   static const String home = dashboard;
 }
