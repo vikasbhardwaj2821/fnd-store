@@ -35,7 +35,7 @@ class OnboardingView extends GetView<OnboardingController> {
               top: false,
               minimum: const EdgeInsets.fromLTRB(24, 0, 24, 16),
               child: SizedBox(
-                height: 168,
+                height: 150,
                 child: Column(
                   children: [
                     const AppText(

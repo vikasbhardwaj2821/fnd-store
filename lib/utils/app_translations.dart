@@ -182,6 +182,23 @@ class AppTranslations extends Translations {
       AppStrings.reviewHint:
           'Optional: Mention any specific highlights or areas for improvement...',
       AppStrings.submitReview: 'Submit Review',
+      AppStrings.driverReviews: 'Driver Reviews',
+      AppStrings.reviewsTotal: '128 reviews total',
+      AppStrings.latestReviews: 'LATEST REVIEWS',
+      AppStrings.mostRecent: 'Most Recent',
+      AppStrings.reviewerSarah: 'Sarah W.',
+      AppStrings.reviewerMark: 'Mark R.',
+      AppStrings.reviewerJames: 'James L.',
+      AppStrings.twoDaysAgoReview: '2 days ago',
+      AppStrings.oneWeekAgo: '1 week ago',
+      AppStrings.twoWeeksAgo: '2 weeks ago',
+      AppStrings.reviewOne:
+          'Very professional and arrived on time! Alex was incredibly helpful and ensured my fragile items were secured correctly in the vehicle. Highly recommended!',
+      AppStrings.reviewTwo:
+          'Great service, handled the package with care. Communication was perfect from pickup to drop-off.',
+      AppStrings.reviewThree:
+          'Quick delivery and very polite driver. Alex made the whole process stress-free.',
+      AppStrings.loadMoreReviews: 'Load More Reviews',
       AppStrings.updateInformation: 'Update Information',
       AppStrings.editProfile: 'Edit Profile',
       AppStrings.changeProfilePhoto: 'Change Profile Photo',
@@ -474,6 +491,23 @@ class AppTranslations extends Translations {
       AppStrings.reviewHint:
           'اختياري: اذكر أي نقاط مميزة أو جوانب تحتاج إلى تحسين...',
       AppStrings.submitReview: 'إرسال التقييم',
+      AppStrings.driverReviews: 'تقييمات السائق',
+      AppStrings.reviewsTotal: 'إجمالي 128 تقييمًا',
+      AppStrings.latestReviews: 'أحدث التقييمات',
+      AppStrings.mostRecent: 'الأحدث',
+      AppStrings.reviewerSarah: 'سارة و.',
+      AppStrings.reviewerMark: 'مارك ر.',
+      AppStrings.reviewerJames: 'جيمس ل.',
+      AppStrings.twoDaysAgoReview: 'منذ يومين',
+      AppStrings.oneWeekAgo: 'منذ أسبوع',
+      AppStrings.twoWeeksAgo: 'منذ أسبوعين',
+      AppStrings.reviewOne:
+          'محترف للغاية ووصل في الموعد! كان أليكس متعاونًا وتأكد من تثبيت الأغراض القابلة للكسر بشكل صحيح. أوصي به بشدة!',
+      AppStrings.reviewTwo:
+          'خدمة رائعة وتعامل مع الطرد بعناية. كان التواصل ممتازًا من الاستلام حتى التسليم.',
+      AppStrings.reviewThree:
+          'توصيل سريع وسائق مهذب جدًا. جعل أليكس العملية كلها سهلة ومريحة.',
+      AppStrings.loadMoreReviews: 'تحميل المزيد من التقييمات',
       AppStrings.updateInformation: 'تحديث المعلومات',
       AppStrings.editProfile: 'تعديل الملف الشخصي',
       AppStrings.changeProfilePhoto: 'تغيير صورة الملف الشخصي',

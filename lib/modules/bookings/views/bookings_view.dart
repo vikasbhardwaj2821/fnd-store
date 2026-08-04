@@ -25,6 +25,7 @@ class _BookingsViewState extends State<BookingsView> {
         const AppHeader(
           title: AppStrings.bookings,
           centerTitle: true,
+          showBackButton: false,
           height: 56,
         ),
         Padding(
@@ -103,6 +104,7 @@ class _BookingsViewState extends State<BookingsView> {
           time: AppStrings.october12Date,
           status: AppStrings.delivered,
           statusColor: AppColors.deliveredStatus,
+          onTap: _openCompletedBookingDetails,
         ),
       ];
     }
@@ -115,6 +117,7 @@ class _BookingsViewState extends State<BookingsView> {
         time: AppStrings.today1430,
         status: AppStrings.orderPickedUp,
         statusColor: AppColors.bookingStatusOrange,
+        onAction: _openTracking,
       ),
       SizedBox(height: 10),
       BookingCard(
@@ -125,6 +128,7 @@ class _BookingsViewState extends State<BookingsView> {
         time: AppStrings.today1615,
         status: AppStrings.driverOnWay,
         statusColor: AppColors.bookingStatusGrey,
+        onAction: _openTracking,
       ),
       SizedBox(height: 10),
       BookingCard(
@@ -134,11 +138,23 @@ class _BookingsViewState extends State<BookingsView> {
         dropoffAddress: AppStrings.privateResidence,
         time: AppStrings.tomorrow0900,
         actionText: AppStrings.details,
+        onAction: _openBookingDetails,
       ),
     ];
   }
 
   static void _openBookingDetails() {
     Get.toNamed<void>(AppRoutes.bookingDetails);
+  }
+
+  static void _openCompletedBookingDetails() {
+    Get.toNamed<void>(
+      AppRoutes.bookingDetails,
+      arguments: const {'completed': true},
+    );
+  }
+
+  static void _openTracking() {
+    Get.toNamed<void>(AppRoutes.trackDelivery);
   }
 }

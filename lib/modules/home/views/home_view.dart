@@ -54,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildPage() {
     if (_selectedIndex == 0) {
-      return const _HomePage();
+      return _HomePage(onViewAll: () => _selectTab(1));
     }
     if (_selectedIndex == 1) {
       return const BookingsView();
@@ -77,7 +77,8 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class _HomePage extends StatelessWidget {
-  const _HomePage();
+  const _HomePage({required this.onViewAll});
+  final VoidCallback onViewAll;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class _HomePage extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: onViewAll,
                       child: const AppText(
                         text: AppStrings.viewAll,
                         color: AppColors.primary,
@@ -122,6 +123,7 @@ class _HomePage extends StatelessWidget {
                   pickupAddress: AppStrings.downtownHub,
                   dropoffAddress: AppStrings.westsideTerminal,
                   time: AppStrings.today1430,
+                  onAction: _openTracking,
                 ),
                 const SizedBox(height: 12),
                 const BookingCard(
@@ -132,6 +134,7 @@ class _HomePage extends StatelessWidget {
                   pickupAddress: AppStrings.eastPort,
                   dropoffAddress: AppStrings.centralStorage,
                   time: AppStrings.today1615,
+                  onAction: _openTracking,
                 ),
               ],
             ),
@@ -139,6 +142,10 @@ class _HomePage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static void _openTracking() {
+    Get.toNamed<void>(AppRoutes.trackDelivery);
   }
 }
 
@@ -563,7 +570,7 @@ class _ProfilePageState extends State<_ProfilePage> {
           title: AppStrings.profile,
           titleColor: AppColors.black,
           height: 64,
-          showBottomBorder: false,
+          showBottomBorder: true,
           centerTitle: true,
           showBackButton: false,
         ),
@@ -835,7 +842,7 @@ class _SettingsPageState extends State<_SettingsPage> {
             title: AppStrings.settings,
             titleColor: AppColors.primary,
             height: 64,
-            showBottomBorder: false,
+            showBottomBorder: true,
             centerTitle: true,
             showBackButton: false,
           ),

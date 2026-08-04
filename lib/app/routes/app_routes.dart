@@ -17,5 +17,6 @@ abstract final class AppRoutes {
   static const String bookingDetails = '/booking-details';
   static const String trackDelivery = '/track-delivery';
   static const String rateDelivery = '/rate-delivery';
+  static const String driverReviews = '/driver-reviews';
   static const String home = dashboard;
 }

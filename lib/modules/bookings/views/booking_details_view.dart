@@ -14,6 +14,8 @@ class BookingDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
+    final isCompleted = arguments is Map && arguments['completed'] == true;
     return Scaffold(
       backgroundColor: AppColors.pageBackground,
       body: SafeArea(
@@ -27,37 +29,38 @@ class BookingDetailsView extends StatelessWidget {
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
-                children: const [
-                  _StatusCard(),
-                  SizedBox(height: 16),
-                  _SectionTitle(AppStrings.recipientDetailTitle),
-                  SizedBox(height: 8),
-                  _RecipientCard(),
-                  SizedBox(height: 16),
-                  _SectionTitle(AppStrings.packageDetails),
-                  SizedBox(height: 8),
-                  _PackageCard(),
-                  SizedBox(height: 16),
-                  _SectionTitle(AppStrings.driverDetails),
-                  SizedBox(height: 8),
-                  _DriverCard(),
+                children: [
+                  _StatusCard(isCompleted: isCompleted),
+                  const SizedBox(height: 16),
+                  const _SectionTitle(AppStrings.recipientDetailTitle),
+                  const SizedBox(height: 8),
+                  const _RecipientCard(),
+                  const SizedBox(height: 16),
+                  const _SectionTitle(AppStrings.packageDetails),
+                  const SizedBox(height: 8),
+                  const _PackageCard(),
+                  const SizedBox(height: 16),
+                  const _SectionTitle(AppStrings.driverDetails),
+                  const SizedBox(height: 8),
+                  _DriverCard(showCallButton: !isCompleted),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              child: AppButton(
-                text: AppStrings.track,
-                onTap: _openTracking,
-                height: 50,
-                borderRadius: 8,
-                showShadow: false,
-                icon1: Assets.trackIcon,
-                widthIcon1: 18,
-                heightIcon1: 18,
-                iconColor: AppColors.white,
+            if (!isCompleted)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                child: AppButton(
+                  text: AppStrings.track,
+                  onTap: _openTracking,
+                  height: 50,
+                  borderRadius: 8,
+                  showShadow: false,
+                  icon1: Assets.trackIcon,
+                  widthIcon1: 18,
+                  heightIcon1: 18,
+                  iconColor: AppColors.white,
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -87,21 +90,25 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _StatusCard extends StatelessWidget {
-  const _StatusCard();
+  const _StatusCard({required this.isCompleted});
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: isCompleted ? AppColors.positive : AppColors.primary,
         borderRadius: BorderRadius.circular(9),
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _StatusValue(AppStrings.orderStatus, AppStrings.inTransit),
-          _StatusValue(AppStrings.orderId, '#FND-8821', alignEnd: true),
+          _StatusValue(
+            AppStrings.orderStatus,
+            isCompleted ? AppStrings.delivered : AppStrings.inTransit,
+          ),
+          const _StatusValue(AppStrings.orderId, '#FND-8821', alignEnd: true),
         ],
       ),
     );
@@ -286,80 +293,90 @@ class _PackageCard extends StatelessWidget {
 }
 
 class _DriverCard extends StatelessWidget {
-  const _DriverCard();
+  const _DriverCard({required this.showCallButton});
+  final bool showCallButton;
 
   @override
   Widget build(BuildContext context) {
-    return _CardShell(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const CircleAvatar(
-                radius: 25,
-                backgroundImage: AssetImage(Assets.driverPhoto),
-              ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(
-                      text: AppStrings.driverName,
-                      color: AppColors.black,
-                      textSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    AppText(
-                      text: AppStrings.driverVehicle,
-                      color: AppColors.textSecondary,
-                      textSize: 11,
-                      fontWeight: FontWeight.w500,
-                      maxLines: 2,
-                    ),
-                  ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Get.toNamed<void>(AppRoutes.driverReviews),
+      child: _CardShell(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage(Assets.driverPhoto),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                const SizedBox(width: 10),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        text: AppStrings.driverName,
+                        color: AppColors.black,
+                        textSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      AppText(
+                        text: AppStrings.driverVehicle,
+                        color: AppColors.textSecondary,
+                        textSize: 11,
+                        fontWeight: FontWeight.w500,
+                        maxLines: 2,
+                      ),
+                    ],
+                  ),
                 ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.star, color: AppColors.express, size: 13),
-                    SizedBox(width: 3),
-                    AppText(
-                      text: '4.9',
-                      color: AppColors.black,
-                      textSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.star, color: AppColors.express, size: 13),
+                      SizedBox(width: 3),
+                      AppText(
+                        text: '4.9',
+                        color: AppColors.black,
+                        textSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            if (showCallButton) ...[
+              const SizedBox(height: 10),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: AppButton(
+                  text: AppStrings.callDriver,
+                  onTap: BookingDetailsView._emptyAction,
+                  width: 150,
+                  height: 40,
+                  borderRadius: 8,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  textSize: 13,
+                  showShadow: false,
+                  icon1: Assets.callIcon,
+                  widthIcon1: 17,
+                  heightIcon1: 17,
+                  iconColor: AppColors.white,
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: AppButton(
-              text: AppStrings.callDriver,
-              onTap: BookingDetailsView._emptyAction,
-              width: 150,
-              height: 40,
-              borderRadius: 8,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              textSize: 13,
-              showShadow: false,
-              icon1: Assets.callIcon,
-              widthIcon1: 17,
-              heightIcon1: 17,
-              iconColor: AppColors.white,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

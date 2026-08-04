@@ -23,6 +23,7 @@ class BookingCard extends StatelessWidget {
     this.schedule,
     this.onAction,
     this.onCancel,
+    this.onTap,
   });
 
   final BookingCardType type;
@@ -36,106 +37,111 @@ class BookingCard extends StatelessWidget {
   final String? schedule;
   final VoidCallback? onAction;
   final VoidCallback? onCancel;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: AppColors.fieldBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          type == BookingCardType.upcoming
-              ? _UpcomingHeader(
-                  orderNumber: orderNumber,
-                  schedule: schedule ?? time,
-                )
-              : _StandardHeader(
-                  orderNumber: orderNumber,
-                  status: status,
-                  statusColor: statusColor,
-                  showStatusIcon: type == BookingCardType.completed,
-                ),
-          const SizedBox(height: 14),
-          _BookingRoute(
-            pickupAddress: pickupAddress,
-            dropoffAddress: dropoffAddress,
-            upcoming: type == BookingCardType.upcoming,
-          ),
-          const SizedBox(height: 15),
-          const Divider(height: 1, color: AppColors.border),
-          const SizedBox(height: 12),
-          if (type == BookingCardType.upcoming)
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: AppButton(
-                    text: AppStrings.cancel,
-                    onTap: onCancel ?? () {},
-                    height: 45,
-
-                    padding: EdgeInsets.zero,
-                    backgroundColor: AppColors.white,
-                    textColor: AppColors.primary,
-                    borderColor: AppColors.primary,
-                    borderWidth: 1,
-                    showShadow: false,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(11),
+          border: Border.all(color: AppColors.fieldBorder),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            type == BookingCardType.upcoming
+                ? _UpcomingHeader(
+                    orderNumber: orderNumber,
+                    schedule: schedule ?? time,
+                  )
+                : _StandardHeader(
+                    orderNumber: orderNumber,
+                    status: status,
+                    statusColor: statusColor,
+                    showStatusIcon: type == BookingCardType.completed,
                   ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  flex: 2,
-                  child: AppButton(
-                    text: AppStrings.details,
-                    onTap: onAction ?? () {},
-                    height: 45,
-
-                    padding: EdgeInsets.zero,
-                    showShadow: false,
-                  ),
-                ),
-              ],
-            )
-          else
-            Row(
-              children: [
-                SvgPicture.asset(
-                  Assets.calendarIcon,
-                  width: 18,
-                  height: 20,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.textSecondary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                const SizedBox(width: 7),
-                Expanded(
-                  child: AppText(
-                    text: time,
-                    color: AppColors.orLoginWith,
-                    fontWeight: FontWeight.w600,
-                    textSize: 12,
-                  ),
-                ),
-                if (type == BookingCardType.ongoing)
-                  AppButton(
-                    text: actionText,
-                    onTap: onAction ?? () {},
-                    width: 84,
-                    height: 38,
-                    borderRadius: 8,
-                    textSize: 13,
-                    padding: EdgeInsets.zero,
-                    showShadow: false,
-                  ),
-              ],
+            const SizedBox(height: 14),
+            _BookingRoute(
+              pickupAddress: pickupAddress,
+              dropoffAddress: dropoffAddress,
+              upcoming: type == BookingCardType.upcoming,
             ),
-        ],
+            const SizedBox(height: 15),
+            const Divider(height: 1, color: AppColors.border),
+            const SizedBox(height: 12),
+            if (type == BookingCardType.upcoming)
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: AppButton(
+                      text: AppStrings.cancel,
+                      onTap: onCancel ?? () {},
+                      height: 45,
+
+                      padding: EdgeInsets.zero,
+                      backgroundColor: AppColors.white,
+                      textColor: AppColors.primary,
+                      borderColor: AppColors.primary,
+                      borderWidth: 1,
+                      showShadow: false,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    flex: 2,
+                    child: AppButton(
+                      text: AppStrings.details,
+                      onTap: onAction ?? () {},
+                      height: 45,
+
+                      padding: EdgeInsets.zero,
+                      showShadow: false,
+                    ),
+                  ),
+                ],
+              )
+            else
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    Assets.calendarIcon,
+                    width: 18,
+                    height: 20,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.textSecondary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  const SizedBox(width: 7),
+                  Expanded(
+                    child: AppText(
+                      text: time,
+                      color: AppColors.orLoginWith,
+                      fontWeight: FontWeight.w600,
+                      textSize: 12,
+                    ),
+                  ),
+                  if (type == BookingCardType.ongoing)
+                    AppButton(
+                      text: actionText,
+                      onTap: onAction ?? () {},
+                      width: 84,
+                      height: 38,
+                      borderRadius: 8,
+                      textSize: 13,
+                      padding: EdgeInsets.zero,
+                      showShadow: false,
+                    ),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -305,7 +311,7 @@ class _BookingRoute extends StatelessWidget {
               address: pickupAddress,
               upcoming: upcoming,
             ),
-            SizedBox(height:15),
+            SizedBox(height: 15),
             _LocationRow(
               pickup: false,
               address: dropoffAddress,
@@ -334,7 +340,7 @@ class _LocationRow extends StatelessWidget {
     final markerColor = pickup ? AppColors.primary : AppColors.express;
     final markerSize = upcoming ? 18.0 : 26.0;
     return SizedBox(
-      height: upcoming ? 38 : 44,
+      height: upcoming ? 38 : 42,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

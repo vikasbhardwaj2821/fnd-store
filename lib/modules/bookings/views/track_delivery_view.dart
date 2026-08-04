@@ -27,7 +27,7 @@ class _TrackDeliveryViewState extends State<TrackDeliveryView> {
   @override
   void initState() {
     super.initState();
-    _deliveryTimer = Timer(const Duration(seconds: 5), () {
+    _deliveryTimer = Timer(const Duration(seconds: 12), () {
       if (mounted) setState(() => _isDelivered = true);
     });
   }
