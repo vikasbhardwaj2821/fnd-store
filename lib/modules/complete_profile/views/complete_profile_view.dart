@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../generated/asset_paths.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_strings.dart';
@@ -281,13 +282,16 @@ class _TermsAgreement extends StatelessWidget {
           textSize: 13,
           fontWeight: FontWeight.w500,
         ),
-        const AppText(
-          text: AppStrings.termsAndConditions,
-          color: AppColors.primary,
-          textSize: 14,
-          fontWeight: FontWeight.w700,
-          underline: true,
-          underlineColor: AppColors.primary,
+        GestureDetector(
+          onTap: () => Get.toNamed<void>(AppRoutes.termsAndConditions),
+          child: const AppText(
+            text: AppStrings.termsAndConditions,
+            color: AppColors.primary,
+            textSize: 14,
+            fontWeight: FontWeight.w700,
+            underline: true,
+            underlineColor: AppColors.primary,
+          ),
         ),
       ],
     );

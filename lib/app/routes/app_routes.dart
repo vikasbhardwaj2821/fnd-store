@@ -6,5 +6,10 @@ abstract final class AppRoutes {
   static const String verification = '/verification';
   static const String storeDetails = '/store-details';
   static const String onboarding = '/onboarding';
-  static const String home = '/home';
+  static const String dashboard = '/dashboard';
+  static const String createRequest = '/create-request';
+  static const String editProfile = '/edit-profile';
+  static const String privacyPolicy = '/privacy-policy';
+  static const String termsAndConditions = '/terms-and-conditions';
+  static const String home = dashboard;
 }

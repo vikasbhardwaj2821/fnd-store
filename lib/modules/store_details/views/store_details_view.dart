@@ -67,14 +67,74 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                       const SizedBox(height: 40),
                       AppButton(
                         text: AppStrings.continueText,
-                        onTap: controller.continueToStore,
-                        height: 52,
-                        borderRadius: 12,
+                        onTap: () => _showSuccessDialog(context),
+
                         showShadow: false,
                       ),
                     ],
                   ),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSuccessDialog(BuildContext context) {
+    Utils.hideKeyboard(context);
+    Get.dialog<void>(
+      _AccountCreatedDialog(onContinue: controller.continueToHome),
+      barrierDismissible: false,
+      barrierColor: AppColors.black42,
+    );
+  }
+}
+
+class _AccountCreatedDialog extends StatelessWidget {
+  const _AccountCreatedDialog({required this.onContinue});
+
+  final VoidCallback onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      child: Dialog(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 18),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(28, 38, 28, 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(Assets.success, width: 92, height: 92),
+              const SizedBox(height: 24),
+              const AppText(
+                text: AppStrings.accountCreated,
+                color: AppColors.black,
+                textSize: 20,
+                fontWeight: FontWeight.w700,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              const AppText(
+                text: AppStrings.accountCreatedDescription,
+                color: AppColors.textDisabled,
+                textSize: 15,
+                fontWeight: FontWeight.w600,
+                lineHeight: 1.20,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              AppButton(
+                text: AppStrings.continueText,
+                onTap: onContinue,
+                fontWeight: FontWeight.w700,
+                showShadow: false,
               ),
             ],
           ),

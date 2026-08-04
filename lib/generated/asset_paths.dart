@@ -14,12 +14,16 @@ abstract final class Assets {
   static const String dummyMap = 'assets/images/dummyMap.png';
   static const String homeIcon = 'assets/icons/homeIcon.svg';
   static const String bookingIcon = 'assets/icons/bookingIcon.svg';
+  static const String bookingColored = 'assets/icons/bookingColored.svg';
+  static const String bookingUncolored = 'assets/icons/bookinguncolored.svg';
   static const String profileIcon = 'assets/icons/profileIcon.svg';
   static const String settingsIcon = 'assets/icons/settingsIcon.svg';
   static const String carIcon = 'assets/icons/carIcon.svg';
   static const String cameraIcon = 'assets/icons/cameraIcon.svg';
   static const String backButton = 'assets/icons/backButton.png';
   static const String fndStoreLogo = 'assets/images/fndStoreLogo.png';
+  static const String success = 'assets/images/success.png';
+  static const String homeDummy = 'assets/images/homeDummy.png';
   static const String googleIcon = 'assets/icons/googleIcon.svg';
   static const String appleIcon = 'assets/icons/appleIcon.svg';
   static const String checkIcon = 'assets/icons/checkIcon.png';
@@ -72,4 +76,12 @@ abstract final class Assets {
   static const String privacyIcon = 'assets/icons/privacyIcon.svg';
   static const String paymentIcon = 'assets/icons/paymentIcon.svg';
   static const String verificationIcon = 'assets/icons/verificationIcon.svg';
+  static const String settingsArrow = 'assets/icons/arrowForword.svg';
+  static const String changeLanguage = 'assets/icons/changeLaguage.svg';
+  static const String settingsTerms = 'assets/icons/ternsAndConditions.svg';
+  static const String privacyPolicy = 'assets/icons/privacyPolicy.svg';
+  static const String settingsLogout = 'assets/icons/logoutSettings.svg';
+  static const String deleteAccount = 'assets/icons/deleteAccount.svg';
+  static const String contactUs = 'assets/icons/contactUs.svg';
+  static const String storeDetails = 'assets/icons/storeDetails.svg';
 }

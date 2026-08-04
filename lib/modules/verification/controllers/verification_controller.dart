@@ -32,7 +32,7 @@ class VerificationController extends GetxController {
 
   void verifyCode() {
     Utils.hideKeyboard(Get.context!);
-    Get.offAllNamed<void>(AppRoutes.home);
+    Get.offAllNamed<void>(AppRoutes.dashboard);
   }
 
   void resendCode() {

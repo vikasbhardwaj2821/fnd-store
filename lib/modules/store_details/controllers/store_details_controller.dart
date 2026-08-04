@@ -74,9 +74,9 @@ class StoreDetailsController extends GetxController {
     if (image != null) storeImage.value = File(image.path);
   }
 
-  void continueToStore() {
+  void continueToHome() {
     Utils.hideKeyboard(Get.context!);
-    Get.offAllNamed<void>(AppRoutes.home);
+    Get.offAllNamed<void>(AppRoutes.dashboard);
   }
 
   @override

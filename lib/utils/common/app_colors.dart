@@ -43,4 +43,11 @@ abstract final class AppColors {
   static const Color grateColor = Color(0xFF2B0056);
   static const Color checkColor = Color(0xFF00531E);
   static const Color blackNewColor = Color(0xFF1A1C1C);
+  static const Color bookingStatusOrange = Color(0xFFFFA000);
+  static const Color bookingStatusGrey = Color(0xFFE5E5E5);
+  static const Color bookingTruckWatermark = Color(0xFFF3F3F3);
+  static const Color pickupMarkerBackground = Color(0xFFE9D1FF);
+  static const Color dropoffMarkerBackground = Color(0xFF7FF28A);
+  static const Color dropoffMarker = Color(0xFF001A08);
+  static const Color routeConnector = Color(0xFFCFC8D3);
 }

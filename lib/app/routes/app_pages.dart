@@ -2,6 +2,11 @@ import 'package:get/get.dart';
 
 import '../../modules/complete_profile/bindings/complete_profile_binding.dart';
 import '../../modules/complete_profile/views/complete_profile_view.dart';
+import '../../modules/cms/views/cms_view.dart';
+import '../../modules/create_request/bindings/create_request_binding.dart';
+import '../../modules/create_request/views/create_request_view.dart';
+import '../../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../../modules/edit_profile/views/edit_profile_view.dart';
 import '../../modules/home/views/home_view.dart';
 import '../../modules/login/bindings/login_binding.dart';
 import '../../modules/login/views/login_view.dart';
@@ -35,6 +40,18 @@ abstract final class AppPages {
       binding: CompleteProfileBinding(),
     ),
     GetPage<void>(
+      name: AppRoutes.createRequest,
+      page: CreateRequestView.new,
+      binding: CreateRequestBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.editProfile,
+      page: EditProfileView.new,
+      binding: EditProfileBinding(),
+    ),
+    GetPage<void>(name: AppRoutes.privacyPolicy, page: CmsView.new),
+    GetPage<void>(name: AppRoutes.termsAndConditions, page: CmsView.new),
+    GetPage<void>(
       name: AppRoutes.login,
       page: LoginView.new,
       binding: LoginBinding(),
@@ -54,6 +71,6 @@ abstract final class AppPages {
       page: OnboardingView.new,
       binding: OnboardingBinding(),
     ),
-    GetPage<void>(name: AppRoutes.home, page: HomeView.new),
+    GetPage<void>(name: AppRoutes.dashboard, page: HomeView.new),
   ];
 }

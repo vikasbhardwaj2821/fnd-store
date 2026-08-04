@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../generated/asset_paths.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_strings.dart';
@@ -65,10 +66,13 @@ class LoginView extends GetView<LoginController> {
                       lineHeight: 1.5,
                     ),
                     const SizedBox(height: 14),
-                    const AppText(
-                      text: AppStrings.phonePrivacyNote,
-                      color: AppColors.textSecondary,
-                      textSize: 12,
+                    GestureDetector(
+                      onTap: () => Get.toNamed<void>(AppRoutes.privacyPolicy),
+                      child: const AppText(
+                        text: AppStrings.phonePrivacyNote,
+                        color: AppColors.textSecondary,
+                        textSize: 12,
+                      ),
                     ),
                     const SizedBox(height: 14),
                     _PhoneInput(controller: controller),

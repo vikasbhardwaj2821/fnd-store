@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fnd_store/app/app.dart';
 import 'package:fnd_store/modules/complete_profile/views/complete_profile_view.dart';
+import 'package:fnd_store/modules/home/views/home_view.dart';
 import 'package:fnd_store/modules/login/views/login_view.dart';
 import 'package:fnd_store/modules/onboarding/views/onboarding_view.dart';
 import 'package:fnd_store/modules/select_language/views/select_language_view.dart';
@@ -113,6 +114,7 @@ void main() {
 
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
-    expect(find.text('FND Store'), findsOneWidget);
+    expect(find.byType(HomeView), findsOneWidget);
+    expect(find.text("Today's Bookings"), findsOneWidget);
   });
 }

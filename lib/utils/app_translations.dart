@@ -58,6 +58,101 @@ class AppTranslations extends Translations {
       AppStrings.storeNameHint: 'F.N.D Online',
       AppStrings.storeLocation: 'Store Location',
       AppStrings.storeLocationHint: 'Dubai, UAE',
+      AppStrings.accountCreated: 'Account Created',
+      AppStrings.accountCreatedDescription:
+          'Your account has been created\nsuccessfully.',
+      AppStrings.home: 'Home',
+      AppStrings.bookings: 'Bookings',
+      AppStrings.profile: 'Profile',
+      AppStrings.settings: 'Settings',
+      AppStrings.homeGreeting: 'Hey, Mark! 👋',
+      AppStrings.happyCollecting: 'Happy Collecting!',
+      AppStrings.noDeliveryRequests: 'No Delivery Requests Yet!',
+      AppStrings.noDeliveryRequestsDescription:
+          "You haven't created any delivery requests today. Start\n"
+          'by creating a new request and assign it to a driver.',
+      AppStrings.createRequest: 'Create Request',
+      AppStrings.recipientDetail: 'Recipient Detail',
+      AppStrings.customerName: 'Customer Name',
+      AppStrings.enter: 'Enter',
+      AppStrings.packageDetails: 'Package Details',
+      AppStrings.productImage: 'Product Image',
+      AppStrings.upload: 'Upload',
+      AppStrings.pickupLocation: 'Pickup Location',
+      AppStrings.dropoffLocation: 'Dropoff Location',
+      AppStrings.enterLocation: 'Enter location',
+      AppStrings.date: 'Date',
+      AppStrings.time: 'Time',
+      AppStrings.select: 'Select',
+      AppStrings.packageInstructions: 'Package Instructions',
+      AppStrings.enterHere: 'Enter here...',
+      AppStrings.create: 'Create',
+      AppStrings.totalDelivered: 'Total Delivered',
+      AppStrings.todaysBookings: "Today's Bookings",
+      AppStrings.viewAll: 'View All',
+      AppStrings.orderId: 'Order ID',
+      AppStrings.orderPickedUp: 'Order picked up',
+      AppStrings.driverOnWay: 'Driver on the way',
+      AppStrings.pickup: 'Pickup',
+      AppStrings.dropoff: 'Drop-off',
+      AppStrings.downtownHub: 'Downtown Hub',
+      AppStrings.westsideTerminal: 'Westside Terminal',
+      AppStrings.eastPort: 'East Port',
+      AppStrings.centralStorage: 'Central Storage',
+      AppStrings.today1430: 'Today, 14:30 PM',
+      AppStrings.today1615: 'Today, 16:15 PM',
+      AppStrings.track: 'Track',
+      AppStrings.updateInformation: 'Update Information',
+      AppStrings.editProfile: 'Edit Profile',
+      AppStrings.changeProfilePhoto: 'Change Profile Photo',
+      AppStrings.emailAddress: 'Email Address',
+      AppStrings.saveChanges: 'Save Changes',
+      AppStrings.appSettings: 'App Settings',
+      AppStrings.appSettingsDescription: 'Configure your store experience',
+      AppStrings.preferences: 'Preferences',
+      AppStrings.notifications: 'Notifications',
+      AppStrings.legalAndSupport: 'Legal & Support',
+      AppStrings.changeLanguage: 'Change Language',
+      AppStrings.privacyPolicies: 'Privacy Policies',
+      AppStrings.contactUs: 'Contact Us',
+      AppStrings.accountActions: 'Account Actions',
+      AppStrings.logout: 'Logout',
+      AppStrings.deleteAccount: 'Delete Account',
+      AppStrings.appVersion: 'F.N.D Store v2.4.0',
+      AppStrings.managedBy: 'Managed by Logistics Core Systems',
+      AppStrings.privacyPolicyTitle: 'Privacy Policies',
+      AppStrings.lastUpdated: 'Last updated: October 24, 2023',
+      AppStrings.privacyNotice:
+          'Please read these privacy policies carefully before using the '
+          'F.N.D Store logistics platform operated by Delivery Pro. Your '
+          'access to and use of the service is conditioned on your acceptance '
+          'of and compliance with these policies.',
+      AppStrings.termsNotice:
+          'Please read these terms and conditions carefully before using the '
+          'F.N.D Store logistics platform operated by Delivery Pro. Your '
+          'access to and use of the service is conditioned on your acceptance '
+          'of and compliance with these terms.',
+      AppStrings.introduction: '1. Introduction',
+      AppStrings.introductionBody:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do '
+          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim '
+          'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut '
+          'aliquip ex ea commodo consequat. Duis aute irure dolor in '
+          'reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla '
+          'pariatur.\n\nExcepturi sint occaecat cupidatat non proident, sunt in '
+          'culpa qui officia deserunt mollit anim id est laborum. Curabitur '
+          'pretium tincidunt lacus. Nulla gravida orci a odio.',
+      AppStrings.responsibilities: '2. User Responsibilities',
+      AppStrings.responsibilitiesBody:
+          'Integer vitae justo eget magna fermentum iaculis eu non diam. '
+          'Phasellus vestibulum lorem sed risus ultricies tristique nulla. '
+          'Donec ac odio tempor orci dapibus ultrices in iaculis nunc.',
+      AppStrings.responsibilityOne:
+          'Users must maintain valid identification for all logistics operations.',
+      AppStrings.responsibilityTwo:
+          'Account security is the sole responsibility of the merchant.',
+      AppStrings.responsibilityThree:
+          'Delivery Pro reserves the right to terminate access for misuse.',
     },
     'ar_AE': {
       AppStrings.appName: 'متجر F.N.D',
@@ -111,6 +206,92 @@ class AppTranslations extends Translations {
       AppStrings.storeNameHint: 'F.N.D أونلاين',
       AppStrings.storeLocation: 'موقع المتجر',
       AppStrings.storeLocationHint: 'دبي، الإمارات',
+      AppStrings.accountCreated: 'تم إنشاء الحساب',
+      AppStrings.accountCreatedDescription: 'تم إنشاء حسابك\nبنجاح.',
+      AppStrings.home: 'الرئيسية',
+      AppStrings.bookings: 'الحجوزات',
+      AppStrings.profile: 'الملف الشخصي',
+      AppStrings.settings: 'الإعدادات',
+      AppStrings.homeGreeting: 'مرحبًا، مارك! 👋',
+      AppStrings.happyCollecting: 'جمعًا سعيدًا!',
+      AppStrings.noDeliveryRequests: 'لا توجد طلبات توصيل بعد!',
+      AppStrings.noDeliveryRequestsDescription:
+          'لم تنشئ أي طلبات توصيل اليوم. ابدأ\n'
+          'بإنشاء طلب جديد وتعيينه إلى سائق.',
+      AppStrings.createRequest: 'إنشاء طلب',
+      AppStrings.recipientDetail: 'تفاصيل المستلم',
+      AppStrings.customerName: 'اسم العميل',
+      AppStrings.enter: 'أدخل',
+      AppStrings.packageDetails: 'تفاصيل الطرد',
+      AppStrings.productImage: 'صورة المنتج',
+      AppStrings.upload: 'رفع',
+      AppStrings.pickupLocation: 'موقع الاستلام',
+      AppStrings.dropoffLocation: 'موقع التسليم',
+      AppStrings.enterLocation: 'أدخل الموقع',
+      AppStrings.date: 'التاريخ',
+      AppStrings.time: 'الوقت',
+      AppStrings.select: 'اختر',
+      AppStrings.packageInstructions: 'تعليمات الطرد',
+      AppStrings.enterHere: 'أدخل هنا...',
+      AppStrings.create: 'إنشاء',
+      AppStrings.totalDelivered: 'إجمالي التوصيلات',
+      AppStrings.todaysBookings: 'حجوزات اليوم',
+      AppStrings.viewAll: 'عرض الكل',
+      AppStrings.orderId: 'رقم الطلب',
+      AppStrings.orderPickedUp: 'تم استلام الطلب',
+      AppStrings.driverOnWay: 'السائق في الطريق',
+      AppStrings.pickup: 'الاستلام',
+      AppStrings.dropoff: 'التسليم',
+      AppStrings.downtownHub: 'مركز وسط المدينة',
+      AppStrings.westsideTerminal: 'محطة ويست سايد',
+      AppStrings.eastPort: 'الميناء الشرقي',
+      AppStrings.centralStorage: 'المخزن المركزي',
+      AppStrings.today1430: 'اليوم، 14:30',
+      AppStrings.today1615: 'اليوم، 16:15',
+      AppStrings.track: 'تتبع',
+      AppStrings.updateInformation: 'تحديث المعلومات',
+      AppStrings.editProfile: 'تعديل الملف الشخصي',
+      AppStrings.changeProfilePhoto: 'تغيير صورة الملف الشخصي',
+      AppStrings.emailAddress: 'عنوان البريد الإلكتروني',
+      AppStrings.saveChanges: 'حفظ التغييرات',
+      AppStrings.appSettings: 'إعدادات التطبيق',
+      AppStrings.appSettingsDescription: 'خصّص تجربة متجرك',
+      AppStrings.preferences: 'التفضيلات',
+      AppStrings.notifications: 'الإشعارات',
+      AppStrings.legalAndSupport: 'القانون والدعم',
+      AppStrings.changeLanguage: 'تغيير اللغة',
+      AppStrings.privacyPolicies: 'سياسات الخصوصية',
+      AppStrings.contactUs: 'اتصل بنا',
+      AppStrings.accountActions: 'إجراءات الحساب',
+      AppStrings.logout: 'تسجيل الخروج',
+      AppStrings.deleteAccount: 'حذف الحساب',
+      AppStrings.appVersion: 'متجر F.N.D إصدار 2.4.0',
+      AppStrings.managedBy: 'بإدارة أنظمة الخدمات اللوجستية الأساسية',
+      AppStrings.privacyPolicyTitle: 'سياسات الخصوصية',
+      AppStrings.lastUpdated: 'آخر تحديث: 24 أكتوبر 2023',
+      AppStrings.privacyNotice:
+          'يرجى قراءة سياسات الخصوصية هذه بعناية قبل استخدام منصة الخدمات '
+          'اللوجستية لمتجر F.N.D. يخضع استخدامك للخدمة لقبول هذه السياسات '
+          'والالتزام بها.',
+      AppStrings.termsNotice:
+          'يرجى قراءة هذه الشروط والأحكام بعناية قبل استخدام منصة الخدمات '
+          'اللوجستية لمتجر F.N.D. يخضع استخدامك للخدمة لقبول هذه الشروط '
+          'والالتزام بها.',
+      AppStrings.introduction: '1. المقدمة',
+      AppStrings.introductionBody:
+          'هذا نص توضيحي لسياسة استخدام المنصة والخدمات المقدمة. يوضح هذا '
+          'القسم نطاق الخدمة وكيفية التعامل مع المعلومات والطلبات والالتزامات '
+          'المرتبطة باستخدام التطبيق.\n\nيجب على المستخدم قراءة المعلومات '
+          'بعناية والالتزام بجميع المتطلبات المعمول بها.',
+      AppStrings.responsibilities: '2. مسؤوليات المستخدم',
+      AppStrings.responsibilitiesBody:
+          'يتحمل المستخدم مسؤولية صحة المعلومات المقدمة والمحافظة على أمان '
+          'الحساب واستخدام المنصة وفق الأنظمة والتعليمات.',
+      AppStrings.responsibilityOne:
+          'يجب توفير هوية صالحة لجميع العمليات اللوجستية.',
+      AppStrings.responsibilityTwo: 'أمان الحساب مسؤولية المستخدم وحده.',
+      AppStrings.responsibilityThree:
+          'يحق للمنصة إنهاء الوصول عند إساءة الاستخدام.',
     },
   };
 }

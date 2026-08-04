@@ -18,6 +18,7 @@ class AppHeader extends StatelessWidget {
     this.backIconSize = 16,
     this.showBottomBorder = true,
     this.centerTitle = false,
+    this.showBackButton = true,
   });
 
   final VoidCallback? onBack;
@@ -29,6 +30,7 @@ class AppHeader extends StatelessWidget {
   final double backIconSize;
   final bool showBottomBorder;
   final bool centerTitle;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -44,58 +46,62 @@ class AppHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.screenHorizontal,
       ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Material(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(8),
-              child: InkWell(
-                onTap: onBack ?? Get.back<void>,
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
+      child: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (showBackButton)
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Material(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  child: InkWell(
+                    onTap: onBack ?? Get.back<void>,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.fieldBorder),
-                  ),
-                  child: Image.asset(
-                    Assets.backButton,
-                    width: backIconSize,
-                    height: backIconSize,
-                    color: backIconColor ?? AppColors.primary,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.fieldBorder),
+                      ),
+                      child: Image.asset(
+                        Assets.backButton,
+                        width: backIconSize,
+                        height: backIconSize,
+                        color: backIconColor ?? AppColors.primary,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          if (title != null)
-            if (centerTitle)
-              AppText(
-                text: title!,
-                color: titleColor ?? AppColors.primary,
-                textSize: 18,
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.center,
-              )
-            else
-              PositionedDirectional(
-                start: 48,
-                end: trailing == null ? 0 : 48,
-                child: AppText(
+            if (title != null)
+              if (centerTitle)
+                AppText(
                   text: title!,
                   color: titleColor ?? AppColors.primary,
                   textSize: 18,
                   fontWeight: FontWeight.w700,
+                  textAlign: TextAlign.center,
+                )
+              else
+                PositionedDirectional(
+                  start: 48,
+                  end: trailing == null ? 0 : 48,
+                  child: AppText(
+                    text: title!,
+                    color: titleColor ?? AppColors.primary,
+                    textSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-          if (trailing != null)
-            Align(alignment: AlignmentDirectional.centerEnd, child: trailing),
-        ],
+            if (trailing != null)
+              Align(alignment: AlignmentDirectional.centerEnd, child: trailing),
+          ],
+        ),
       ),
     );
   }
