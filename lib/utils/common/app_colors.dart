@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+
+abstract final class AppColors {
+  static const Color primary = Color(0xFF431874);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+  static const Color splashBackground = Color(0xFF000611);
+  static const Color surface = Color(0xFFF7F5F9);
+  static const Color error = Color(0xFFBA1A1A);
+  static const Color transparent = Color(0x00000000);
+  static const Color pageBackground = Color(0xFFFCFBFC);
+  static const Color textPrimary = Color(0xFF39343D);
+  static const Color textSecondary = Color(0xFF6D6872);
+  static const Color bodyText = Color(0xFF4B4B4B);
+  static const Color hintText = Color(0xFF8A858F);
+  static const Color border = Color(0xFFCDC3D2);
+  static const Color radioDisabled = Color(0xFFCBD5E1);
+  static const Color languageTileBorder = Color(0xFF9C9C9C);
+  static const Color textDisabled = Color(0xFF9A9A9A);
+  static const Color fieldBorder = Color(0xFFE1DEE4);
+  static const Color profilePhotoBackground = Color(0xFFE5E5E7);
+  static const Color otpBorder = Color(0xFFF0EDF2);
+  static const Color otpPlaceholder = Color(0xFFE2DEE5);
+  static const Color countdown = Color(0xFFE32636);
+  static const Color softPrimary = Color(0xFFF0EBF4);
+  static const Color orLoginWith = Color(0xFF4B4450);
+  static const Color black42 = Color(0x6B000000);
+  static const Color black68 = Color(0xAD000000);
+  static const Color white12 = Color(0x1FFFFFFF);
+  static const Color white70 = Color(0xB3FFFFFF);
+  static const Color buttonShadow = Color(0x1A2B0056);
+  static const Color iconMuted = Color(0xFF817A86);
+  static const Color success = Color(0xFF004A20);
+  static const Color reviewPending = Color(0xFFFFAA25);
+  static const Color online = Color(0xFF00B852);
+  static const Color positive = Color(0xFF00A94F);
+  static const Color earn = Color(0xFF00B148);
+  static const Color activeDelivery = Color(0xFF431874);
+  static const Color express = Color(0xFFFCAB28);
+  static const Color disabledButtonText = Color(0xFFB99DCE);
+  static const Color callColor = Color(0xFFEEDBFF);
+  static const Color fragileColor = Color(0xFFE2E2E2);
+  static const Color grateColor = Color(0xFF2B0056);
+  static const Color checkColor = Color(0xFF00531E);
+  static const Color blackNewColor = Color(0xFF1A1C1C);
+}

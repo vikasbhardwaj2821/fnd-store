@@ -1,0 +1,106 @@
+import 'package:get/get.dart';
+
+import 'app_strings.dart';
+
+class AppTranslations extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+    'en_US': {
+      AppStrings.appName: 'FND Store',
+      AppStrings.selectLanguage: 'Select Language',
+      AppStrings.english: 'English',
+      AppStrings.arabic: 'Arabic',
+      AppStrings.arabicSymbol: 'ض',
+      AppStrings.continueText: 'Continue',
+      AppStrings.onboardingWelcome: 'Welcome to F.N.D Store',
+      AppStrings.onboardingDescription:
+          'Lorem Ipsum is simply dummy text of the printing\n'
+          'and typesetting industry.',
+      AppStrings.next: 'Next',
+      AppStrings.back: 'Back',
+      AppStrings.getStarted: 'Get Started',
+      AppStrings.selectCountry: 'Select Country',
+      AppStrings.searchCountry: 'Search country',
+      AppStrings.error: 'Error',
+      AppStrings.completeProfile: 'Complete Profile',
+      AppStrings.addProfilePhotoOptional: 'Add profile photo (optional)',
+      AppStrings.chooseFromLibrary: 'Choose from Photo Library',
+      AppStrings.takePhoto: 'Take Photo',
+      AppStrings.cancel: 'Cancel',
+      AppStrings.firstName: 'First name',
+      AppStrings.firstNameHint: 'Mily',
+      AppStrings.lastName: 'Last name',
+      AppStrings.lastNameHint: 'Deo',
+      AppStrings.email: 'Email',
+      AppStrings.emailHint: 'milydeo123@gmail.com',
+      AppStrings.phoneNumber: 'Phone Number',
+      AppStrings.phoneHint: '50 000 0000',
+      AppStrings.agreeWith: 'I agree with the ',
+      AppStrings.termsAndConditions: 'Terms & Conditions.',
+      AppStrings.alreadyHaveAccount: 'Already have an account? ',
+      AppStrings.signIn: 'Sign In',
+      AppStrings.loginPhoneTitle: 'Phone Number',
+      AppStrings.loginPhoneDescription:
+          'Please enter your valid phone number. We will send\n'
+          'you a 4-digit code to verify your account.',
+      AppStrings.phonePrivacyNote: "We'll never share your number",
+      AppStrings.loginPhoneHint: '1234567890',
+      AppStrings.orContinueWith: 'Or continue with',
+      AppStrings.dontHaveAccount: "Don't have an account? ",
+      AppStrings.signUp: 'Sign Up',
+      AppStrings.verificationCode: 'Verification Code',
+      AppStrings.verificationDescription:
+          "Type the verification code\nwe've sent you",
+      AppStrings.resendIn: 'Resend in',
+      AppStrings.resendCode: 'Resend code',
+    },
+    'ar_AE': {
+      AppStrings.appName: 'متجر F.N.D',
+      AppStrings.selectLanguage: 'اختر اللغة',
+      AppStrings.english: 'الإنجليزية',
+      AppStrings.arabic: 'العربية',
+      AppStrings.arabicSymbol: 'ض',
+      AppStrings.continueText: 'متابعة',
+      AppStrings.onboardingWelcome: 'مرحبًا بك في متجر F.N.D',
+      AppStrings.onboardingDescription:
+          'لوريم إيبسوم هو نص شكلي يُستخدم في صناعات الطباعة\n'
+          'والتنضيد.',
+      AppStrings.next: 'التالي',
+      AppStrings.back: 'رجوع',
+      AppStrings.getStarted: 'ابدأ الآن',
+      AppStrings.selectCountry: 'اختر الدولة',
+      AppStrings.searchCountry: 'ابحث عن دولة',
+      AppStrings.error: 'خطأ',
+      AppStrings.completeProfile: 'أكمل الملف الشخصي',
+      AppStrings.addProfilePhotoOptional: 'أضف صورة شخصية (اختياري)',
+      AppStrings.chooseFromLibrary: 'اختر من مكتبة الصور',
+      AppStrings.takePhoto: 'التقط صورة',
+      AppStrings.cancel: 'إلغاء',
+      AppStrings.firstName: 'الاسم الأول',
+      AppStrings.firstNameHint: 'ميلي',
+      AppStrings.lastName: 'اسم العائلة',
+      AppStrings.lastNameHint: 'ديو',
+      AppStrings.email: 'البريد الإلكتروني',
+      AppStrings.emailHint: 'milydeo123@gmail.com',
+      AppStrings.phoneNumber: 'رقم الهاتف',
+      AppStrings.phoneHint: '50 000 0000',
+      AppStrings.agreeWith: 'أوافق على ',
+      AppStrings.termsAndConditions: 'الشروط والأحكام.',
+      AppStrings.alreadyHaveAccount: 'لديك حساب بالفعل؟ ',
+      AppStrings.signIn: 'تسجيل الدخول',
+      AppStrings.loginPhoneTitle: 'رقم الهاتف',
+      AppStrings.loginPhoneDescription:
+          'يرجى إدخال رقم هاتف صالح. سنرسل إليك\n'
+          'رمزًا مكونًا من 4 أرقام للتحقق من حسابك.',
+      AppStrings.phonePrivacyNote: 'لن نشارك رقمك مطلقًا',
+      AppStrings.loginPhoneHint: '1234567890',
+      AppStrings.orContinueWith: 'أو تابع باستخدام',
+      AppStrings.dontHaveAccount: 'ليس لديك حساب؟ ',
+      AppStrings.signUp: 'إنشاء حساب',
+      AppStrings.verificationCode: 'رمز التحقق',
+      AppStrings.verificationDescription: 'اكتب رمز التحقق\nالذي أرسلناه إليك',
+      AppStrings.resendIn: 'إعادة الإرسال خلال',
+      AppStrings.resendCode: 'إعادة إرسال الرمز',
+    },
+  };
+}

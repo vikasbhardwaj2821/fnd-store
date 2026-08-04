@@ -1,0 +1,75 @@
+/// Stable generated asset paths used throughout the application.
+abstract final class Assets {
+  static const String notificationIcon = 'assets/icons/notificationIcon.svg';
+  static const String arrowForwordIcon = 'assets/icons/arrowForwordIcon.svg';
+  static const String mapIcon = 'assets/icons/mapIcon.svg';
+  static const String pickupIcon = 'assets/icons/pickupIcon.svg';
+  static const String locationPinIcon = 'assets/icons/locationPinIcon.svg';
+  static const String newlocationIcon = 'assets/icons/newlocationicon.svg';
+  static const String clockIcon = 'assets/icons/clockIcon.svg';
+  static const String gourmetIcon = 'assets/icons/gourmetIcon.svg';
+  static const String westsideIcon = 'assets/icons/westsideIcon.jpg';
+  static const String completedIcon = 'assets/icons/completedIcon.svg';
+  static const String moneyIcon = 'assets/icons/moneyIcon.svg';
+  static const String dummyMap = 'assets/images/dummyMap.png';
+  static const String homeIcon = 'assets/icons/homeIcon.svg';
+  static const String bookingIcon = 'assets/icons/bookingIcon.svg';
+  static const String profileIcon = 'assets/icons/profileIcon.svg';
+  static const String settingsIcon = 'assets/icons/settingsIcon.svg';
+  static const String carIcon = 'assets/icons/carIcon.svg';
+  static const String cameraIcon = 'assets/icons/cameraIcon.svg';
+  static const String backButton = 'assets/icons/backButton.png';
+  static const String fndStoreLogo = 'assets/images/fndStoreLogo.png';
+  static const String googleIcon = 'assets/icons/googleIcon.svg';
+  static const String appleIcon = 'assets/icons/appleIcon.svg';
+  static const String checkIcon = 'assets/icons/checkIcon.png';
+  static const String aplicationReviewIcon =
+      'assets/icons/aplicationReviewIcon.png';
+  static const String adminReview = 'assets/icons/adminReview.png';
+  static const String licenceIcon = 'assets/icons/licenceIcon.svg';
+  static const String calendarIcon = 'assets/icons/calendarIcon.svg';
+  static const String uploadIcon = 'assets/icons/uploadIcon.svg';
+  static const String infoIcon = 'assets/icons/infoIcon.svg';
+  static const String onBoardingFirstImage =
+      'assets/images/onBoardingFirstImage.png';
+  static const String onBoardingSecondImage =
+      'assets/images/onBoardingSecondImage.png';
+  static const String onBoardingThirdImage =
+      'assets/images/onBoardingThirdImage.png';
+  static const String warningIcon = 'assets/icons/warningIcon.svg';
+  static const String dropOff = 'assets/icons/dropOff.svg';
+  static const String pickUp = 'assets/icons/pickUp.svg';
+  static const String truckIcon = 'assets/icons/truckIcon.svg';
+  static const String expressIcon = 'assets/icons/expressIcon.svg';
+  static const String moreIcon = 'assets/icons/moreIcon.svg';
+  static const String chatIcon = 'assets/icons/chatIcon.svg';
+  static const String callIcon = 'assets/icons/callIcon.svg';
+  static const String navigationIcon = 'assets/icons/naviagtionIcon.svg';
+  static const String packageIcon = 'assets/icons/packageIcon.svg';
+  static const String checklistIcon = 'assets/icons/checklistIcon.svg';
+  static const String questionIcon = 'assets/icons/questionIcon.svg';
+  static const String qrIcon = 'assets/icons/qrIcon.svg';
+  static const String cameraNew = 'assets/icons/cameraNew.svg';
+  static const String locationNew = 'assets/icons/locationNew.svg';
+  static const String startJourneyIcon = 'assets/icons/startJourneyIcon.svg';
+  static const String instructionIcon = 'assets/icons/instructionIcon.svg';
+  static const String timeIcon = 'assets/icons/timeIcon.svg';
+  static const String distanceIcon = 'assets/icons/distanceIcon.svg';
+  static const String shareIcon = 'assets/icons/shareIcon.svg';
+  static const String wallet = 'assets/icons/wallet.svg';
+  static const String person = 'assets/icons/person.svg';
+  static const String bookingComplete = 'assets/icons/bookingComplete.svg';
+  static const String finishJobTick = 'assets/icons/finishJobTick.svg';
+  static const String starColored = 'assets/icons/starColored.svg';
+  static const String starUncolored = 'assets/icons/starUncolored.svg';
+  static const String license = 'assets/icons/license.svg';
+  static const String vechile = 'assets/icons/vechile.svg';
+  static const String profileStar = 'assets/icons/profileStar.svg';
+  static const String languageIcon = 'assets/icons/languageIcon.svg';
+  static const String logoutIcon = 'assets/icons/logoutIcon.svg';
+  static const String termsIcon = 'assets/icons/termsIcon.svg';
+  static const String helpIcon = 'assets/icons/helpIcon.svg';
+  static const String privacyIcon = 'assets/icons/privacyIcon.svg';
+  static const String paymentIcon = 'assets/icons/paymentIcon.svg';
+  static const String verificationIcon = 'assets/icons/verificationIcon.svg';
+}
