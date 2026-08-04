@@ -13,7 +13,8 @@ import '../../modules/create_request/bindings/create_request_binding.dart';
 import '../../modules/create_request/views/create_request_view.dart';
 import '../../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../../modules/edit_profile/views/edit_profile_view.dart';
-import '../../modules/home/views/home_view.dart';
+import '../../modules/dashboard/bindings/dashboard_binding.dart';
+import '../../modules/dashboard/views/dashboard_view.dart';
 import '../../modules/login/bindings/login_binding.dart';
 import '../../modules/login/views/login_view.dart';
 import '../../modules/notifications/bindings/notifications_binding.dart';
@@ -99,6 +100,10 @@ abstract final class AppPages {
       page: OnboardingView.new,
       binding: OnboardingBinding(),
     ),
-    GetPage<void>(name: AppRoutes.dashboard, page: HomeView.new),
+    GetPage<void>(
+      name: AppRoutes.dashboard,
+      page: DashboardView.new,
+      binding: DashboardBinding(),
+    ),
   ];
 }
