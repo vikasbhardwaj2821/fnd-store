@@ -11,6 +11,8 @@ import '../../modules/select_language/bindings/select_language_binding.dart';
 import '../../modules/select_language/views/select_language_view.dart';
 import '../../modules/splash/bindings/splash_binding.dart';
 import '../../modules/splash/views/splash_view.dart';
+import '../../modules/store_details/bindings/store_details_binding.dart';
+import '../../modules/store_details/views/store_details_view.dart';
 import '../../modules/verification/bindings/verification_binding.dart';
 import '../../modules/verification/views/verification_view.dart';
 import 'app_routes.dart';
@@ -41,6 +43,11 @@ abstract final class AppPages {
       name: AppRoutes.verification,
       page: VerificationView.new,
       binding: VerificationBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.storeDetails,
+      page: StoreDetailsView.new,
+      binding: StoreDetailsBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.onboarding,

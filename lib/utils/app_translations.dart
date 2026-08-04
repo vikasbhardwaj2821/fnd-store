@@ -53,6 +53,11 @@ class AppTranslations extends Translations {
           "Type the verification code\nwe've sent you",
       AppStrings.resendIn: 'Resend in',
       AppStrings.resendCode: 'Resend code',
+      AppStrings.storeDetails: 'Store Details',
+      AppStrings.storeName: 'Store Name',
+      AppStrings.storeNameHint: 'F.N.D Online',
+      AppStrings.storeLocation: 'Store Location',
+      AppStrings.storeLocationHint: 'Dubai, UAE',
     },
     'ar_AE': {
       AppStrings.appName: 'متجر F.N.D',
@@ -101,6 +106,11 @@ class AppTranslations extends Translations {
       AppStrings.verificationDescription: 'اكتب رمز التحقق\nالذي أرسلناه إليك',
       AppStrings.resendIn: 'إعادة الإرسال خلال',
       AppStrings.resendCode: 'إعادة إرسال الرمز',
+      AppStrings.storeDetails: 'تفاصيل المتجر',
+      AppStrings.storeName: 'اسم المتجر',
+      AppStrings.storeNameHint: 'F.N.D أونلاين',
+      AppStrings.storeLocation: 'موقع المتجر',
+      AppStrings.storeLocationHint: 'دبي، الإمارات',
     },
   };
 }

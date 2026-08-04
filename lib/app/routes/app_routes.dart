@@ -4,6 +4,7 @@ abstract final class AppRoutes {
   static const String completeProfile = '/complete-profile';
   static const String login = '/login';
   static const String verification = '/verification';
+  static const String storeDetails = '/store-details';
   static const String onboarding = '/onboarding';
   static const String home = '/home';
 }

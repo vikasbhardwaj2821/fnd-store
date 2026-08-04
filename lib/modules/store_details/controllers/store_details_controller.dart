@@ -9,19 +9,12 @@ import '../../../app/routes/app_routes.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_text.dart';
-import '../../../utils/common/countries.dart';
 import '../../../utils/utils.dart';
 
-class CompleteProfileController extends GetxController {
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-  final Rxn<File> profileImage = Rxn<File>();
-  final RxBool acceptedTerms = false.obs;
-  final Rx<Country> selectedCountry = allCountries
-      .firstWhere((country) => country.code == 'AE')
-      .obs;
+class StoreDetailsController extends GetxController {
+  final storeNameController = TextEditingController();
+  final storeLocationController = TextEditingController();
+  final Rxn<File> storeImage = Rxn<File>();
 
   final ImagePicker _imagePicker = ImagePicker();
 
@@ -78,36 +71,18 @@ class CompleteProfileController extends GetxController {
       imageQuality: 85,
       maxWidth: 1200,
     );
-
-    if (image != null) {
-      profileImage.value = File(image.path);
-    }
-  }
-
-  void toggleTerms(bool? value) {
-    acceptedTerms.value = value ?? false;
-  }
-
-  void selectCountry(Country country) {
-    selectedCountry.value = country;
-    phoneController.clear();
+    if (image != null) storeImage.value = File(image.path);
   }
 
   void continueToStore() {
     Utils.hideKeyboard(Get.context!);
-    Get.toNamed<void>(AppRoutes.storeDetails);
-  }
-
-  void openSignIn() {
-    Get.toNamed<void>(AppRoutes.login);
+    Get.offAllNamed<void>(AppRoutes.home);
   }
 
   @override
   void onClose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
+    storeNameController.dispose();
+    storeLocationController.dispose();
     super.onClose();
   }
 }

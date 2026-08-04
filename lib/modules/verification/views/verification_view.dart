@@ -39,13 +39,15 @@ class VerificationView extends GetView<VerificationController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const AppText(
-                        text: AppStrings.verificationDescription,
-                        color: AppColors.black,
-                        textSize: 16,
-                        fontWeight: FontWeight.w500,
-                        lineHeight: 1.35,
-                        textAlign: TextAlign.center,
+                      Center(
+                        child: const AppText(
+                          text: AppStrings.verificationDescription,
+                          color: AppColors.black,
+                          textSize: 16,
+                          fontWeight: FontWeight.w500,
+                          lineHeight: 1.35,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       const SizedBox(height: 34),
                       LayoutBuilder(

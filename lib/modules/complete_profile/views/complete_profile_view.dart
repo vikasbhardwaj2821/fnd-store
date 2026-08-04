@@ -36,6 +36,10 @@ class CompleteProfileView extends GetView<CompleteProfileController> {
                 title: AppStrings.completeProfile,
                 titleColor: AppColors.black,
                 backIconColor: AppColors.black,
+                height: 64,
+                backIconSize: 16,
+                showBottomBorder: false,
+                centerTitle: true,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -274,13 +278,13 @@ class _TermsAgreement extends StatelessWidget {
         const AppText(
           text: AppStrings.agreeWith,
           color: AppColors.black,
-          textSize: 12,
+          textSize: 13,
           fontWeight: FontWeight.w500,
         ),
         const AppText(
           text: AppStrings.termsAndConditions,
           color: AppColors.primary,
-          textSize: 13,
+          textSize: 14,
           fontWeight: FontWeight.w700,
           underline: true,
           underlineColor: AppColors.primary,

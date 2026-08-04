@@ -42,4 +42,9 @@ abstract final class AppStrings {
   static const String resendIn = 'resend_in';
   static const String resendCode = 'resend_code';
   static const String otpPlaceholder = '0';
+  static const String storeDetails = 'store_details';
+  static const String storeName = 'store_name';
+  static const String storeNameHint = 'store_name_hint';
+  static const String storeLocation = 'store_location';
+  static const String storeLocationHint = 'store_location_hint';
 }
