@@ -42,6 +42,8 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.screenHorizontal,
                     20,

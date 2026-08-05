@@ -24,15 +24,20 @@ class DashboardView extends GetView<DashboardController> {
         color: AppColors.pageBackground,
         child: SafeArea(
           bottom: false,
-          child: Obx(() {
-            final index = controller.currentIndex.value;
-            if (index == 0) {
-              return HomeView(onViewAll: () => controller.changeTab(1));
-            }
-            if (index == 1) return const BookingsView();
-            if (index == 3) return const ProfileView();
-            return const SettingsView();
-          }),
+          child: Obx(
+            () => IndexedStack(
+              index: controller.currentIndex.value == 2
+                  ? 0
+                  : controller.currentIndex.value,
+              children: [
+                HomeView(onViewAll: () => controller.changeTab(1)),
+                const BookingsView(),
+                const SizedBox.shrink(),
+                const ProfileView(),
+                const SettingsView(),
+              ],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: Obx(
@@ -184,8 +189,8 @@ class _NavigationItem extends StatelessWidget {
             AppText(
               text: label,
               color: color,
-              textSize: 10,
-              fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              textSize: selected ?12:11,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
               maxLines: 1,
             ),
           ],

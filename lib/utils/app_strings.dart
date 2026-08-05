@@ -1,5 +1,5 @@
 abstract final class AppStrings {
-  static const String appName = 'app_name';
+  static const String appName = 'FND Store';
   static const String selectLanguage = 'select_language';
   static const String english = 'english';
   static const String arabic = 'arabic';

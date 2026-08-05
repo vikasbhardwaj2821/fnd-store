@@ -299,6 +299,9 @@ class _TrackingMap extends StatelessWidget {
             mapToolbarEnabled: false,
             compassEnabled: false,
             myLocationButtonEnabled: false,
+            scrollGesturesEnabled: false,
+            zoomGesturesEnabled: false,
+            tiltGesturesEnabled: false,
             rotateGesturesEnabled: false,
             markers: {
               Marker(

@@ -35,6 +35,8 @@ class ContactUsView extends GetView<ContactUsController> {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.screenHorizontal,
                     14,

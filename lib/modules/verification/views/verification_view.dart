@@ -34,6 +34,8 @@ class VerificationView extends GetView<VerificationController> {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.fromLTRB(32, 34, 32, 28),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -34,8 +34,8 @@ class SelectLanguageView extends GetView<SelectLanguageController> {
                         child: AppText(
                           text: AppStrings.selectLanguage,
                           color: AppColors.black,
-                          textSize: 18,
-                          fontWeight: FontWeight.w700,
+                          textSize: 22,
+                          fontWeight: FontWeight.w800,
                           lineHeight: 1.2,
                         ),
                       ),

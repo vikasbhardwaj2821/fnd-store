@@ -93,6 +93,10 @@ class AppButton extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(borderRadius ?? 14),
+          splashFactory: NoSplash.splashFactory,
+          overlayColor: const WidgetStatePropertyAll<Color>(
+            AppColors.transparent,
+          ),
           child: Container(
             padding: padding ?? const EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,

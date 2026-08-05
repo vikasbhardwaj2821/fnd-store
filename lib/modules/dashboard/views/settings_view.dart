@@ -352,7 +352,7 @@ class _SettingsRow extends StatelessWidget {
                 child: AppText(
                   text: label,
                   color: foreground,
-                  textSize: 12,
+                  textSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),

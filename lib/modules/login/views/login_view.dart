@@ -26,6 +26,7 @@ class LoginView extends GetView<LoginController> {
         onTap: () => Utils.hideKeyboard(context),
         child: SafeArea(
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.authHorizontal,
               12,

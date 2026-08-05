@@ -41,6 +41,8 @@ class CreateRequestView extends GetView<CreateRequestController> {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.screenHorizontal,
                     4,

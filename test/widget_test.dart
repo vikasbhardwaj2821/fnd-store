@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fnd_store/app/app.dart';
-import 'package:fnd_store/modules/complete_profile/views/complete_profile_view.dart';
 import 'package:fnd_store/modules/dashboard/views/dashboard_view.dart';
 import 'package:fnd_store/modules/login/views/login_view.dart';
 import 'package:fnd_store/modules/onboarding/views/onboarding_view.dart';
@@ -18,7 +17,6 @@ import 'package:fnd_store/modules/splash/views/splash_view.dart';
 import 'package:fnd_store/modules/verification/views/verification_view.dart';
 import 'package:fnd_store/utils/app_strings.dart';
 import 'package:fnd_store/utils/app_translations.dart';
-import 'package:fnd_store/utils/common/textform_field.dart';
 
 void main() {
   test('provides English and Arabic store translations', () {
@@ -40,6 +38,15 @@ void main() {
   testWidgets('shows splash, onboarding, then language selection', (
     WidgetTester tester,
   ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    tester.view.viewPadding = const FakeViewPadding(bottom: 48);
+    tester.view.systemGestureInsets = const FakeViewPadding(bottom: 48);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetViewPadding);
+    addTearDown(tester.view.resetSystemGestureInsets);
+
     await tester.pumpWidget(const FndStoreApp());
 
     expect(find.byType(SplashView), findsOneWidget);
@@ -79,30 +86,14 @@ void main() {
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(CompleteProfileView), findsOneWidget);
-    expect(find.text('Complete Profile'), findsOneWidget);
-    expect(find.text('+971'), findsOneWidget);
-    expect(find.text('50 000 0000'), findsOneWidget);
-    expect(find.text('Sign In'), findsOneWidget);
-    expect(find.text('Facebook'), findsNothing);
-
-    final profileFields = find.byType(CommonTextField);
-    expect(profileFields, findsNWidgets(4));
-    for (final element in profileFields.evaluate()) {
-      expect(tester.getSize(find.byWidget(element.widget)).height, 52);
-    }
-
-    await tester.ensureVisible(find.text('Sign In'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Sign In'));
-    await tester.pumpAndSettle();
-
     expect(find.byType(LoginView), findsOneWidget);
     expect(find.text('Phone Number'), findsOneWidget);
     expect(find.text('+971'), findsOneWidget);
     expect(find.text('Or continue with'), findsOneWidget);
     expect(find.text('Facebook'), findsNothing);
 
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
 
@@ -116,5 +107,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(DashboardView), findsOneWidget);
     expect(find.text("Today's Bookings"), findsOneWidget);
+    expect(tester.getBottomRight(find.text('Home')).dy, lessThanOrEqualTo(520));
   });
 }

@@ -36,6 +36,8 @@ class EditProfileView extends GetView<EditProfileController> {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.screenHorizontal,
                     18,

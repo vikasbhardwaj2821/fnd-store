@@ -28,7 +28,7 @@ class SelectLanguageController extends GetxController {
     if (Get.locale != locale) {
       await Get.updateLocale(locale);
     }
-    Get.offAllNamed<void>(AppRoutes.completeProfile);
+    Get.offAllNamed<void>(AppRoutes.login);
   }
 
   Future<void> saveAndGoBack() async {

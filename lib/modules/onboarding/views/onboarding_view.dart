@@ -35,7 +35,7 @@ class OnboardingView extends GetView<OnboardingController> {
               top: false,
               minimum: const EdgeInsets.fromLTRB(24, 0, 24, 16),
               child: SizedBox(
-                height: 150,
+                height: 210,
                 child: Column(
                   children: [
                     const AppText(
@@ -63,15 +63,15 @@ class OnboardingView extends GetView<OnboardingController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 52,
-                            height: 40,
+                            width: 110,
+                            height: 45,
                             child: controller.isFirstPage
                                 ? null
                                 : AppButton(
                                     text: AppStrings.back,
                                     onTap: controller.previousPage,
-                                    width: 52,
-                                    height: 40,
+                                    width: 110,
+                                    height: 45,
                                     padding: EdgeInsets.zero,
                                     backgroundColor: AppColors.transparent,
                                     textColor: AppColors.textSecondary,
@@ -85,13 +85,13 @@ class OnboardingView extends GetView<OnboardingController> {
                                 ? AppStrings.getStarted
                                 : AppStrings.next,
                             onTap: controller.nextPage,
-                            width: controller.isLastPage ? 108 : 84,
-                            height: 40,
-                            borderRadius: 20,
+                            width: controller.isLastPage ? 110 : 110,
+                            height: 45,
+                            borderRadius: 30,
                             padding: const EdgeInsets.symmetric(horizontal: 14),
                             backgroundColor: AppColors.primary,
                             textColor: AppColors.white,
-                            textSize: 12,
+                            textSize: 13,
                             fontWeight: FontWeight.w500,
                             showShadow: false,
                           ),

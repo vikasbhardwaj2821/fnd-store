@@ -51,6 +51,8 @@ class _RateDeliveryViewState extends State<RateDeliveryView> {
             ),
             Expanded(
               child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

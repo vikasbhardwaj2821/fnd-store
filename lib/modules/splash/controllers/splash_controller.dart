@@ -22,14 +22,11 @@ class SplashController extends GetxController {
     if (_isPreparing) return;
     _isPreparing = true;
 
-    await Future.wait<void>([
-      Future<void>.delayed(const Duration(seconds: 3)),
-      Future.wait<void>(
-        OnboardingController.pages.map(
-          (page) => precacheImage(page.provider(context), context),
-        ),
-      ),
-    ]);
+    final minimumSplashTime = Future<void>.delayed(const Duration(seconds: 3));
+    for (final page in OnboardingController.pages) {
+      await precacheImage(page.provider(context), context);
+    }
+    await minimumSplashTime;
 
     if (!isClosed) {
       Get.offNamed<void>(AppRoutes.onboarding);
