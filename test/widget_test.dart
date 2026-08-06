@@ -31,6 +31,7 @@ void main() {
       'مرحبًا بك في متجر F.N.D',
     );
     expect(translations['ar_AE']?[AppStrings.next], 'التالي');
+    expect(translations['ar_AE']?[AppStrings.skip], 'تخطي');
     expect(translations['ar_AE']?[AppStrings.back], 'رجوع');
     expect(translations['ar_AE']?[AppStrings.getStarted], 'ابدأ الآن');
   });
@@ -64,7 +65,7 @@ void main() {
 
     expect(find.byType(OnboardingView), findsOneWidget);
     expect(find.text('Welcome to F.N.D Store'), findsOneWidget);
-    expect(find.text('Skip'), findsNothing);
+    expect(find.text('Skip'), findsOneWidget);
     expect(find.text('Next'), findsOneWidget);
 
     await tester.tap(find.text('Next'));
@@ -74,6 +75,7 @@ void main() {
     await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Get Started'), findsOneWidget);
+    expect(find.text('Skip'), findsNothing);
 
     await tester.tap(find.text('Get Started'));
     await tester.pumpAndSettle();
@@ -106,7 +108,8 @@ void main() {
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.byType(DashboardView), findsOneWidget);
-    expect(find.text("Today's Bookings"), findsOneWidget);
+    expect(find.text('No Delivery Requests Yet!'), findsOneWidget);
+    expect(find.text("Today's Bookings"), findsNothing);
     expect(tester.getBottomRight(find.text('Home')).dy, lessThanOrEqualTo(520));
   });
 }

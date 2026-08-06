@@ -29,13 +29,43 @@ class OnboardingView extends GetView<OnboardingController> {
               );
             },
           ),
+          PositionedDirectional(
+            top: 0,
+            end: 10,
+            child: SafeArea(
+              bottom: false,
+              child: Obx(
+                () => controller.isLastPage
+                    ? const SizedBox.shrink()
+                    : TextButton(
+                        onPressed: controller.skipOnboarding,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.black,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          minimumSize: const Size(52, 44),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          splashFactory: NoSplash.splashFactory,
+                        ),
+                        child: const AppText(
+                          text: AppStrings.skip,
+                          color: AppColors.black,
+                          textSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: SafeArea(
               top: false,
               minimum: const EdgeInsets.fromLTRB(24, 0, 24, 16),
               child: SizedBox(
-                height: 210,
+                height: 170,
                 child: Column(
                   children: [
                     const AppText(
@@ -98,6 +128,7 @@ class OnboardingView extends GetView<OnboardingController> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

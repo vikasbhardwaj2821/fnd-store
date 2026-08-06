@@ -30,7 +30,10 @@ class DashboardView extends GetView<DashboardController> {
                   ? 0
                   : controller.currentIndex.value,
               children: [
-                HomeView(onViewAll: () => controller.changeTab(1)),
+                HomeView(
+                  hasCreatedRequest: controller.hasCreatedRequest.value,
+                  onViewAll: () => controller.changeTab(1),
+                ),
                 const BookingsView(),
                 const SizedBox.shrink(),
                 const ProfileView(),
@@ -189,7 +192,7 @@ class _NavigationItem extends StatelessWidget {
             AppText(
               text: label,
               color: color,
-              textSize: selected ?12:11,
+              textSize: selected ? 12 : 11,
               fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
               maxLines: 1,
             ),

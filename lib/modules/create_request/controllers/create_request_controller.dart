@@ -62,7 +62,10 @@ class CreateRequestController extends GetxController {
 
   void createRequest() {
     Utils.hideKeyboard(Get.context!);
-    Get.offAllNamed<void>(AppRoutes.dashboard);
+    Get.offAllNamed<void>(
+      AppRoutes.dashboard,
+      arguments: const {'hasCreatedRequest': true},
+    );
   }
 
   @override

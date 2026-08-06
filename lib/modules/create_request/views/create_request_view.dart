@@ -221,7 +221,7 @@ class _RequestField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText(text: label, color: AppColors.black, textSize: 11),
+        AppText(text: label, color: AppColors.black, textSize: 12),
         const SizedBox(height: 5),
         SizedBox(
           height: height,
@@ -263,7 +263,7 @@ class _UploadField extends StatelessWidget {
         const AppText(
           text: AppStrings.productImage,
           color: AppColors.black,
-          textSize: 11,
+          textSize: 12,
         ),
         const SizedBox(height: 5),
         GestureDetector(

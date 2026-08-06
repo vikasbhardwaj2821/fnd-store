@@ -7,6 +7,7 @@ abstract final class AppStrings {
   static const String continueText = 'continue';
   static const String onboardingWelcome = 'onboarding_welcome';
   static const String onboardingDescription = 'onboarding_description';
+  static const String skip = 'skip';
   static const String next = 'next';
   static const String back = 'back';
   static const String getStarted = 'get_started';

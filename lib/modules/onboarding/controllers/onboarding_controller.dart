@@ -34,9 +34,13 @@ class OnboardingController extends GetxController {
     currentPage.value = index;
   }
 
+  void skipOnboarding() {
+    Get.offNamed<void>(AppRoutes.selectLanguage);
+  }
+
   Future<void> nextPage() async {
     if (isLastPage) {
-      Get.offNamed<void>(AppRoutes.selectLanguage);
+      skipOnboarding();
       return;
     }
 

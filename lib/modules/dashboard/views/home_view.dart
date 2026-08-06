@@ -11,7 +11,13 @@ import '../../../utils/common/app_text.dart';
 import '../../../utils/common/booking_card.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key, required this.onViewAll});
+  const HomeView({
+    super.key,
+    required this.hasCreatedRequest,
+    required this.onViewAll,
+  });
+
+  final bool hasCreatedRequest;
   final VoidCallback onViewAll;
 
   @override
@@ -20,59 +26,61 @@ class HomeView extends StatelessWidget {
       children: [
         const _HomeHeader(),
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const _DeliveredSummary(),
-                const SizedBox(height: 14),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: AppText(
-                        text: AppStrings.todaysBookings,
-                        color: AppColors.black,
-                        textSize: 15,
-                        fontWeight: FontWeight.w500,
+          child: hasCreatedRequest
+              ? SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const _DeliveredSummary(),
+                      const SizedBox(height: 14),
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: AppText(
+                              text: AppStrings.todaysBookings,
+                              color: AppColors.black,
+                              textSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: onViewAll,
+                            child: const AppText(
+                              text: AppStrings.viewAll,
+                              color: AppColors.primary,
+                              textSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: onViewAll,
-                      child: const AppText(
-                        text: AppStrings.viewAll,
-                        color: AppColors.primary,
-                        textSize: 13,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 12),
+                      const BookingCard(
+                        type: BookingCardType.ongoing,
+                        orderNumber: '#FND-8821',
+                        status: AppStrings.orderPickedUp,
+                        statusColor: AppColors.bookingStatusOrange,
+                        pickupAddress: AppStrings.downtownHub,
+                        dropoffAddress: AppStrings.westsideTerminal,
+                        time: AppStrings.today1430,
+                        onAction: _openTracking,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                const BookingCard(
-                  type: BookingCardType.ongoing,
-                  orderNumber: '#FND-8821',
-                  status: AppStrings.orderPickedUp,
-                  statusColor: AppColors.bookingStatusOrange,
-                  pickupAddress: AppStrings.downtownHub,
-                  dropoffAddress: AppStrings.westsideTerminal,
-                  time: AppStrings.today1430,
-                  onAction: _openTracking,
-                ),
-                const SizedBox(height: 12),
-                const BookingCard(
-                  type: BookingCardType.ongoing,
-                  orderNumber: '#FND-9042',
-                  status: AppStrings.driverOnWay,
-                  statusColor: AppColors.bookingStatusGrey,
-                  pickupAddress: AppStrings.eastPort,
-                  dropoffAddress: AppStrings.centralStorage,
-                  time: AppStrings.today1615,
-                  onAction: _openTracking,
-                ),
-              ],
-            ),
-          ),
+                      const SizedBox(height: 12),
+                      const BookingCard(
+                        type: BookingCardType.ongoing,
+                        orderNumber: '#FND-9042',
+                        status: AppStrings.driverOnWay,
+                        statusColor: AppColors.bookingStatusGrey,
+                        pickupAddress: AppStrings.eastPort,
+                        dropoffAddress: AppStrings.centralStorage,
+                        time: AppStrings.today1615,
+                        onAction: _openTracking,
+                      ),
+                    ],
+                  ),
+                )
+              : const _EmptyHome(),
         ),
       ],
     );
@@ -80,6 +88,54 @@ class HomeView extends StatelessWidget {
 
   static void _openTracking() {
     Get.toNamed<void>(AppRoutes.trackDelivery);
+  }
+}
+
+class _EmptyHome extends StatelessWidget {
+  const _EmptyHome();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              Assets.homeDummy,
+              width: 95,
+              height: 69,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 14),
+            const AppText(
+              text: AppStrings.noDeliveryRequests,
+              color: AppColors.black,
+              textSize: 16,
+              fontWeight: FontWeight.w800,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            const AppText(
+              text: AppStrings.noDeliveryRequestsDescription,
+              color: AppColors.textSecondary,
+              textSize: 12,
+              lineHeight: 1.45,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            AppButton(
+              text: AppStrings.createRequest,
+              onTap: () => Get.toNamed<void>(AppRoutes.createRequest),
+              height: 56,
+              borderRadius: 14,
+              showShadow: false,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

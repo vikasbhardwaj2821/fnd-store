@@ -16,6 +16,7 @@ class AppTranslations extends Translations {
       AppStrings.onboardingDescription:
           'Lorem Ipsum is simply dummy text of the printing\n'
           'and typesetting industry.',
+      AppStrings.skip: 'Skip',
       AppStrings.next: 'Next',
       AppStrings.back: 'Back',
       AppStrings.getStarted: 'Get Started',
@@ -331,6 +332,7 @@ class AppTranslations extends Translations {
       AppStrings.onboardingDescription:
           'لوريم إيبسوم هو نص شكلي يُستخدم في صناعات الطباعة\n'
           'والتنضيد.',
+      AppStrings.skip: 'تخطي',
       AppStrings.next: 'التالي',
       AppStrings.back: 'رجوع',
       AppStrings.getStarted: 'ابدأ الآن',

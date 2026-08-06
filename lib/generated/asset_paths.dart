@@ -21,6 +21,7 @@ abstract final class Assets {
   static const String cameraIcon = 'assets/icons/cameraIcon.svg';
   static const String backButton = 'assets/icons/backButton.png';
   static const String fndStoreLogo = 'assets/images/fndStoreLogo.png';
+  static const String homeDummy = 'assets/images/homeDummy.png';
   static const String success = 'assets/images/success.png';
   static const String googleIcon = 'assets/icons/googleIcon.svg';
   static const String appleIcon = 'assets/icons/appleIcon.svg';
