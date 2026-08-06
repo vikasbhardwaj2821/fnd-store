@@ -72,12 +72,12 @@ class CreateRequestView extends GetView<CreateRequestController> {
                         children: [
                           _UploadField(controller: controller),
                           const SizedBox(height: 12),
-                          _RequestField(
-                            label: AppStrings.productImage,
-                            hint: AppStrings.upload,
-                            controller: controller.productController,
-                          ),
-                          const SizedBox(height: 12),
+                          // _RequestField(
+                          //   label: AppStrings.productImage,
+                          //   hint: AppStrings.upload,
+                          //   controller: controller.productController,
+                          // ),
+                          // const SizedBox(height: 12),
                           _RequestField(
                             label: AppStrings.pickupLocation,
                             hint: AppStrings.enterLocation,
