@@ -161,22 +161,6 @@ class _SettingsPageState extends State<SettingsView> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 34),
-                  const Center(
-                    child: AppText(
-                      text: AppStrings.appVersion,
-                      color: AppColors.textSecondary,
-                      textSize: 10,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Center(
-                    child: AppText(
-                      text: AppStrings.managedBy,
-                      color: AppColors.textDisabled,
-                      textSize: 9,
-                    ),
-                  ),
                 ],
               ),
             ),

@@ -65,6 +65,7 @@ class HomeView extends StatelessWidget {
                         dropoffAddress: AppStrings.westsideTerminal,
                         time: AppStrings.today1430,
                         onAction: _openTracking,
+                        onTap: _openBookingDetails,
                       ),
                       const SizedBox(height: 12),
                       const BookingCard(
@@ -76,6 +77,7 @@ class HomeView extends StatelessWidget {
                         dropoffAddress: AppStrings.centralStorage,
                         time: AppStrings.today1615,
                         onAction: _openTracking,
+                        onTap: _openBookingDetails,
                       ),
                     ],
                   ),
@@ -88,6 +90,10 @@ class HomeView extends StatelessWidget {
 
   static void _openTracking() {
     Get.toNamed<void>(AppRoutes.trackDelivery);
+  }
+
+  static void _openBookingDetails() {
+    Get.toNamed<void>(AppRoutes.bookingDetails);
   }
 }
 

@@ -91,6 +91,7 @@ class _BookingsViewState extends State<BookingsView> {
           time: AppStrings.october26Schedule,
           schedule: AppStrings.october26Schedule,
           onAction: _openBookingDetails,
+          onTap: _openBookingDetails,
         ),
       ];
     }
@@ -118,6 +119,7 @@ class _BookingsViewState extends State<BookingsView> {
         status: AppStrings.orderPickedUp,
         statusColor: AppColors.bookingStatusOrange,
         onAction: _openTracking,
+        onTap: _openBookingDetails,
       ),
       SizedBox(height: 10),
       BookingCard(
@@ -129,6 +131,7 @@ class _BookingsViewState extends State<BookingsView> {
         status: AppStrings.driverOnWay,
         statusColor: AppColors.bookingStatusGrey,
         onAction: _openTracking,
+        onTap: _openBookingDetails,
       ),
       SizedBox(height: 10),
       BookingCard(
@@ -139,6 +142,7 @@ class _BookingsViewState extends State<BookingsView> {
         time: AppStrings.tomorrow0900,
         actionText: AppStrings.details,
         onAction: _openBookingDetails,
+        onTap: _openBookingDetails,
       ),
     ];
   }
