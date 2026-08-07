@@ -16,6 +16,8 @@ class BookingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = Get.arguments;
     final isCompleted = arguments is Map && arguments['completed'] == true;
+    final fromTrackDelivery =
+        arguments is Map && arguments['fromTrackDelivery'] == true;
     return Scaffold(
       backgroundColor: AppColors.pageBackground,
       body: SafeArea(
@@ -51,7 +53,7 @@ class BookingDetailsView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                 child: AppButton(
                   text: AppStrings.track,
-                  onTap: _openTracking,
+                  onTap: () => _openTracking(fromTrackDelivery),
                   height: 50,
                   borderRadius: 8,
                   showShadow: false,
@@ -69,7 +71,11 @@ class BookingDetailsView extends StatelessWidget {
 
   static void _emptyAction() {}
 
-  static void _openTracking() {
+  static void _openTracking(bool fromTrackDelivery) {
+    if (fromTrackDelivery) {
+      Get.back<void>();
+      return;
+    }
     Get.toNamed<void>(AppRoutes.trackDelivery);
   }
 }

@@ -557,7 +557,10 @@ class _OrderFooter extends StatelessWidget {
         ),
       ),
       GestureDetector(
-        onTap: () => Get.toNamed<void>(AppRoutes.bookingDetails),
+        onTap: () => Get.toNamed<void>(
+          AppRoutes.bookingDetails,
+          arguments: const {'fromTrackDelivery': true},
+        ),
         child: const Row(
           children: [
             AppText(
