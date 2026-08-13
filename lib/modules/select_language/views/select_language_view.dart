@@ -29,7 +29,7 @@ class SelectLanguageView extends GetView<SelectLanguageController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const SizedBox(height: 42),
+                      const SizedBox(height: 20),
                       const Center(
                         child: AppText(
                           text: AppStrings.selectLanguage,
@@ -39,16 +39,16 @@ class SelectLanguageView extends GetView<SelectLanguageController> {
                           lineHeight: 1.2,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 10),
                       Center(
                         child: Image.asset(
                           Assets.fndStoreLogo,
-                          width: 150,
-                          height: 132,
+                          width: 200,
+                          height: 200,
                           fit: BoxFit.contain,
                         ),
                       ),
-                      const SizedBox(height: 34),
+                      const SizedBox(height: 30),
                       Obx(
                         () => _LanguageTile(
                           title: AppStrings.english,
