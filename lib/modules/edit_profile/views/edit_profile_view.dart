@@ -79,6 +79,7 @@ class EditProfileView extends GetView<EditProfileController> {
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                         ],
+                        readOnly: true,
                       ),
                       const SizedBox(height: 34),
                       AppButton(
@@ -128,17 +129,27 @@ class _EditProfilePhoto extends StatelessWidget {
                   child: Obx(
                     () => ClipOval(
                       child: controller.profileImage.value == null
-                          ? Container(
-                              padding: const EdgeInsets.all(20),
-                              color: AppColors.profilePhotoBackground,
-                              child: SvgPicture.asset(
-                                Assets.person,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.iconMuted,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            )
+                          ? controller.existingProfileImageUrl.isEmpty
+                                ? Container(
+                                    padding: const EdgeInsets.all(20),
+                                    color: AppColors.profilePhotoBackground,
+                                    child: SvgPicture.asset(
+                                      Assets.person,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.iconMuted,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  )
+                                : Image.network(
+                                    controller.existingProfileImageUrl,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, _, _) => Container(
+                                      padding: const EdgeInsets.all(20),
+                                      color: AppColors.profilePhotoBackground,
+                                      child: SvgPicture.asset(Assets.person),
+                                    ),
+                                  )
                           : Image.file(
                               controller.profileImage.value!,
                               fit: BoxFit.cover,
@@ -190,6 +201,7 @@ class _EditField extends StatelessWidget {
     this.keyboardType,
     this.textInputAction,
     this.inputFormatters,
+    this.readOnly = false,
   });
 
   final String label;
@@ -198,6 +210,7 @@ class _EditField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +245,7 @@ class _EditField extends StatelessWidget {
                     keyboardType: keyboardType,
                     textInputAction: textInputAction,
                     inputFormatters: inputFormatters,
+                    readOnly: readOnly,
                     borderSide: false,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,

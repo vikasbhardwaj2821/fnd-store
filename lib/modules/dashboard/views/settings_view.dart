@@ -9,6 +9,8 @@ import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
 import '../../../utils/common/app_text.dart';
+import '../bindings/dashboard_binding.dart';
+import '../controllers/settings_controller.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -18,13 +20,23 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsView> {
+  late final SettingsController _controller;
+
   bool _notificationsEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = DashboardBinding.ensureSettingsDependencies();
+  }
 
   void _showAccountActionDialog({required bool isDelete}) {
     Get.dialog<void>(
       _AccountActionDialog(
         isDelete: isDelete,
-        onConfirm: () => Get.offAllNamed<void>(AppRoutes.login),
+        onConfirm: isDelete
+            ? () => Get.offAllNamed<void>(AppRoutes.login)
+            : _controller.logoutApi,
       ),
       barrierDismissible: false,
       barrierColor: AppColors.black42,

@@ -1,18 +1,22 @@
 import 'dart:io';
 
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../app/routes/app_routes.dart';
-import '../../../utils/app_strings.dart';
-import '../../../utils/common/app_colors.dart';
-import '../../../utils/common/app_text.dart';
+import '../../../data/network/auth_api_provider.dart';
+import '../../../data/validators/validator.dart';
 import '../../../utils/common/countries.dart';
+import '../../../utils/common/camera_helper.dart';
 import '../../../utils/utils.dart';
 
-class CompleteProfileController extends GetxController {
+class CompleteProfileController extends GetxController
+    implements CameraOnCompleteListener {
+  CompleteProfileController(this._apiProvider) {
+    cameraHelper = CameraHelper(this);
+  }
+
+  final AuthApiProvider _apiProvider;
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -23,64 +27,17 @@ class CompleteProfileController extends GetxController {
       .firstWhere((country) => country.code == 'AE')
       .obs;
 
-  final ImagePicker _imagePicker = ImagePicker();
-
   void openPhotoPicker(BuildContext context) {
-    showAdaptiveActionSheet(
-      context: context,
-      isDismissible: true,
-      bottomSheetColor: AppColors.white,
-      actions: [
-        BottomSheetAction(
-          title: const Center(
-            child: AppText(
-              text: AppStrings.chooseFromLibrary,
-              color: AppColors.primary,
-              textSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          onPressed: (_) {
-            Get.back<void>();
-            _pickImage(ImageSource.gallery);
-          },
-        ),
-        BottomSheetAction(
-          title: const Center(
-            child: AppText(
-              text: AppStrings.takePhoto,
-              color: AppColors.primary,
-              textSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          onPressed: (_) {
-            Get.back<void>();
-            _pickImage(ImageSource.camera);
-          },
-        ),
-      ],
-      cancelAction: CancelAction(
-        title: const AppText(
-          text: AppStrings.cancel,
-          color: AppColors.error,
-          textSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-        onPressed: (_) => Get.back<void>(),
-      ),
-    );
+    cameraHelper.openImagePicker();
   }
 
-  Future<void> _pickImage(ImageSource source) async {
-    final image = await _imagePicker.pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1200,
-    );
+  late final CameraHelper cameraHelper;
 
-    if (image != null) {
-      profileImage.value = File(image.path);
+  @override
+  void onSuccessFile(String file, String fileType) {
+    if (fileType == 'image') {
+      profileImage.value = File(file);
+      debugPrint('📸 Image selected path: $file');
     }
   }
 
@@ -93,9 +50,56 @@ class CompleteProfileController extends GetxController {
     phoneController.clear();
   }
 
-  void continueToStore() {
+  Future<void> continueToStore() async {
     Utils.hideKeyboard(Get.context!);
-    Get.toNamed<void>(AppRoutes.storeDetails);
+
+    final isValid = Validator.validateCompleteProfile(
+      firstName: firstNameController,
+      lastName: lastNameController,
+      email: emailController,
+      phone: phoneController,
+      country: selectedCountry.value,
+      acceptedTerms: acceptedTerms.value,
+    );
+    if (!isValid) return;
+
+    await signupApi();
+  }
+
+  Future<void> signupApi() async {
+    final body = <String, dynamic>{
+      'mobile_number': phoneController.text.trim(),
+      'country_code': '+${selectedCountry.value.dialCode}',
+      'role': 2,
+      'firstName': firstNameController.text.trim(),
+      'lastName': lastNameController.text.trim(),
+      'email': emailController.text.trim(),
+    };
+
+    final imagePath = profileImage.value?.path ?? '';
+    if (imagePath.isNotEmpty) {
+      body['profilePicture'] = imagePath.split('/').last;
+    }
+
+    final response = await _apiProvider.signup(body);
+    if (response.success && response.body != null) {
+      final user = response.body!;
+      Get.toNamed<void>(
+        AppRoutes.verification,
+        arguments: {
+          'flow': 'signup',
+          'user': user,
+          'mobile_number': user.phoneNumber ?? phoneController.text.trim(),
+          'country_code': user.countryCode,
+          'otp': user.otp,
+        },
+      );
+      return;
+    }
+
+    Utils.showSnackBar(
+      response.message ?? 'Unable to create account. Please try again.',
+    );
   }
 
   void openSignIn() {

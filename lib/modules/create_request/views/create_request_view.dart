@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../generated/asset_paths.dart';
+import '../../../data/network/google_places_service.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
@@ -83,6 +84,16 @@ class CreateRequestView extends GetView<CreateRequestController> {
                             hint: AppStrings.enterLocation,
                             controller: controller.pickupController,
                             suffix: _locationIcon,
+                            onChanged: controller.searchPickupLocation,
+                          ),
+                          Obx(
+                            () => controller.pickupSuggestions.isEmpty
+                                ? const SizedBox.shrink()
+                                : _SuggestionList(
+                                    suggestions:
+                                        controller.pickupSuggestions.toList(),
+                                    onTap: controller.selectPickupPlace,
+                                  ),
                           ),
                           const SizedBox(height: 12),
                           _RequestField(
@@ -90,6 +101,16 @@ class CreateRequestView extends GetView<CreateRequestController> {
                             hint: AppStrings.enterLocation,
                             controller: controller.dropoffController,
                             suffix: _locationIcon,
+                            onChanged: controller.searchDropoffLocation,
+                          ),
+                          Obx(
+                            () => controller.dropoffSuggestions.isEmpty
+                                ? const SizedBox.shrink()
+                                : _SuggestionList(
+                                    suggestions:
+                                        controller.dropoffSuggestions.toList(),
+                                    onTap: controller.selectDropoffPlace,
+                                  ),
                           ),
                           const SizedBox(height: 12),
                           _RequestField(
@@ -199,6 +220,7 @@ class _RequestField extends StatelessWidget {
     required this.hint,
     required this.controller,
     this.suffix,
+    this.onChanged,
     this.readOnly = false,
     this.onTap,
     this.height = _fieldHeight,
@@ -210,6 +232,7 @@ class _RequestField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
   final Widget? suffix;
+  final ValueChanged<String>? onChanged;
   final bool readOnly;
   final VoidCallback? onTap;
   final double height;
@@ -234,6 +257,7 @@ class _RequestField extends StatelessWidget {
             suffixIcon: suffix,
             suffixIconConstraints: const BoxConstraints(minWidth: 36),
             maxLines: maxLines,
+            onChanged: onChanged,
             borderRadius: _fieldRadius,
             borderColor: AppColors.fieldBorder,
             focusBorderColor: AppColors.primary,
@@ -247,6 +271,48 @@ class _RequestField extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SuggestionList extends StatelessWidget {
+  const _SuggestionList({
+    required this.suggestions,
+    required this.onTap,
+  });
+
+  final List<PlaceSuggestion> suggestions;
+  final Future<void> Function(PlaceSuggestion) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (suggestions.isEmpty) return const SizedBox.shrink();
+    return Container(
+      margin: const EdgeInsets.only(top: 6),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.fieldBorder),
+      ),
+      constraints: const BoxConstraints(maxHeight: 180),
+        child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: suggestions.length,
+        separatorBuilder: (_, _) =>
+            const Divider(height: 1, color: AppColors.fieldBorder),
+        itemBuilder: (context, index) {
+          final item = suggestions[index];
+          return ListTile(
+            dense: true,
+            title: AppText(
+              text: item.description,
+              color: AppColors.black,
+              textSize: 13,
+            ),
+            onTap: () => onTap(item),
+          );
+        },
+      ),
     );
   }
 }

@@ -9,6 +9,7 @@ import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_text.dart';
 import '../../../utils/common/booking_card.dart';
+import '../controllers/dashboard_controller.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({
@@ -150,85 +151,107 @@ class _HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-        border: Border(
-          bottom: BorderSide(color: AppColors.fieldBorder, width: 1),
+    final controller = Get.find<DashboardController>();
+    return Obx(
+      () => Container(
+        height: 64,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: const BoxDecoration(
+          color: AppColors.white,
+          border: Border(
+            bottom: BorderSide(color: AppColors.fieldBorder, width: 1),
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            padding: const EdgeInsets.all(7),
-            decoration: const BoxDecoration(
-              color: AppColors.profilePhotoBackground,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              Assets.person,
-              colorFilter: const ColorFilter.mode(
-                AppColors.iconMuted,
-                BlendMode.srcIn,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: ClipOval(
+                child: controller.profileImageUrl.isEmpty
+                    ? Container(
+                        padding: const EdgeInsets.all(7),
+                        color: AppColors.profilePhotoBackground,
+                        child: SvgPicture.asset(
+                          Assets.person,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.iconMuted,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      )
+                    : Image.network(
+                        controller.profileImageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Container(
+                          padding: const EdgeInsets.all(7),
+                          color: AppColors.profilePhotoBackground,
+                          child: SvgPicture.asset(
+                            Assets.person,
+                            colorFilter: const ColorFilter.mode(
+                              AppColors.iconMuted,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
-          ),
-          const SizedBox(width: 9),
-          const Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  text: AppStrings.homeGreeting,
-                  color: AppColors.black,
-                  textSize: 13,
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(height: 2),
-                AppText(
-                  text: AppStrings.happyCollecting,
-                  color: AppColors.textSecondary,
-                  textSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => Get.toNamed<void>(AppRoutes.notifications),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Stack(
-                clipBehavior: Clip.none,
+            const SizedBox(width: 9),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(
-                    Assets.notificationIcon,
-                    width: 18,
-                    height: 20,
+                  AppText(
+                    text: controller.user.value?.fullName.isNotEmpty == true
+                        ? controller.user.value!.fullName
+                        : AppStrings.homeGreeting,
+                    color: AppColors.black,
+                    textSize: 13,
+                    fontWeight: FontWeight.w700,
                   ),
-                  PositionedDirectional(
-                    end: -1,
-                    top: -1,
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColors.countdown,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
+                  const SizedBox(height: 2),
+                  const AppText(
+                    text: AppStrings.happyCollecting,
+                    color: AppColors.textSecondary,
+                    textSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => Get.toNamed<void>(AppRoutes.notifications),
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.notificationIcon,
+                      width: 18,
+                      height: 20,
+                    ),
+                    PositionedDirectional(
+                      end: -1,
+                      top: -1,
+                      child: Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: AppColors.countdown,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

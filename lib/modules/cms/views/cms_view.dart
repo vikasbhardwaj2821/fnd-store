@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
@@ -6,20 +7,33 @@ import '../../../utils/app_spacing.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
-import '../../../utils/common/app_text.dart';
+import '../../dashboard/controllers/settings_controller.dart';
 
-class CmsView extends StatelessWidget {
+class CmsView extends StatefulWidget {
   const CmsView({super.key});
 
   @override
+  State<CmsView> createState() => _CmsViewState();
+}
+
+class _CmsViewState extends State<CmsView> {
+  final SettingsController _controller = Get.find<SettingsController>();
+  late final bool _isPrivacy;
+
+  @override
+  void initState() {
+    super.initState();
+    _isPrivacy = Get.currentRoute == AppRoutes.privacyPolicy;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.getCms(_isPrivacy ? 'privacy-policy' : 'terms');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isPrivacy = Get.currentRoute == AppRoutes.privacyPolicy;
-    final title = isPrivacy
+    final title = _isPrivacy
         ? AppStrings.privacyPolicyTitle
         : AppStrings.termsAndConditions;
-    final notice = isPrivacy
-        ? AppStrings.privacyNotice
-        : AppStrings.termsNotice;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -35,138 +49,52 @@ class CmsView extends StatelessWidget {
               centerTitle: true,
             ),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.screenHorizontal,
-                  14,
-                  AppSpacing.screenHorizontal,
-                  28,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(9),
-                        border: Border.all(color: AppColors.border),
+              child: Obx(() {
+                final description = _controller.cms.value?.description;
+                if (description == null || description.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.screenHorizontal,
+                    14,
+                    AppSpacing.screenHorizontal,
+                    28,
+                  ),
+                  child: Html(
+                    data: description,
+                    style: {
+                      'body': Style(
+                        margin: Margins.zero,
+                        padding: HtmlPaddings.zero,
+                        color: AppColors.black,
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: FontSize(12),
+                        lineHeight: const LineHeight(1.45),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const AppText(
-                            text: AppStrings.lastUpdated,
-                            color: AppColors.textSecondary,
-                            textSize: 11,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          const SizedBox(height: 16),
-                          AppText(
-                            text: notice,
-                            color: AppColors.black,
-                            textSize: 12,
-                            lineHeight: 1.45,
-                          ),
-                        ],
+                      'h1': Style(
+                        color: AppColors.primary,
+                        fontSize: FontSize(20),
+                        fontWeight: FontWeight.w700,
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    const _CmsHeading(text: AppStrings.introduction),
-                    const SizedBox(height: 8),
-                    const AppText(
-                      text: AppStrings.introductionBody,
-                      color: AppColors.black,
-                      textSize: 12,
-                      lineHeight: 1.45,
-                    ),
-                    const SizedBox(height: 18),
-                    const _CmsHeading(text: AppStrings.responsibilities),
-                    const SizedBox(height: 8),
-                    const AppText(
-                      text: AppStrings.responsibilitiesBody,
-                      color: AppColors.black,
-                      textSize: 12,
-                      lineHeight: 1.45,
-                    ),
-                    const SizedBox(height: 10),
-                    const _CmsBullet(text: AppStrings.responsibilityOne),
-                    const _CmsBullet(text: AppStrings.responsibilityTwo),
-                    const _CmsBullet(text: AppStrings.responsibilityThree),
-                    const SizedBox(height: 12),
-                    const _CmsHeading(text: AppStrings.cmsPrivacySection),
-                    const SizedBox(height: 8),
-                    const AppText(
-                      text: AppStrings.cmsPrivacyBody,
-                      color: AppColors.black,
-                      textSize: 12,
-                      lineHeight: 1.45,
-                    ),
-                    const SizedBox(height: 18),
-                    const _CmsHeading(text: AppStrings.logisticsAndDelivery),
-                    const SizedBox(height: 8),
-                    const AppText(
-                      text: AppStrings.logisticsAndDeliveryBody,
-                      color: AppColors.black,
-                      textSize: 12,
-                      lineHeight: 1.45,
-                    ),
-                    const SizedBox(height: 18),
-                    const _CmsHeading(text: AppStrings.termination),
-                    const SizedBox(height: 8),
-                    const AppText(
-                      text: AppStrings.terminationBody,
-                      color: AppColors.black,
-                      textSize: 12,
-                      lineHeight: 1.45,
-                    ),
-                  ],
-                ),
-              ),
+                      'h2': Style(
+                        color: AppColors.primary,
+                        fontSize: FontSize(16),
+                        fontWeight: FontWeight.w700,
+                      ),
+                      'h3': Style(
+                        color: AppColors.primary,
+                        fontSize: FontSize(14),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _CmsHeading extends StatelessWidget {
-  const _CmsHeading({required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => AppText(
-    text: text,
-    color: AppColors.primary,
-    textSize: 14,
-    fontWeight: FontWeight.w700,
-  );
-}
-
-class _CmsBullet extends StatelessWidget {
-  const _CmsBullet({required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 14, bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const AppText(text: '•', color: AppColors.black, textSize: 12),
-          const SizedBox(width: 8),
-          Expanded(
-            child: AppText(
-              text: text,
-              color: AppColors.black,
-              textSize: 12,
-              lineHeight: 1.4,
-            ),
-          ),
-        ],
       ),
     );
   }

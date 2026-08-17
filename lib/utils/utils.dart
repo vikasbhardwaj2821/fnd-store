@@ -6,10 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'app_strings.dart';
+import '../generated/asset_paths.dart';
 import 'common/app_colors.dart';
+import 'common/app_text.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = Get.key;
 
 abstract final class Utils {
+  static OverlayEntry? _snackBarEntry;
+
   static Map<String, dynamic> _decodeJwtPart(String part) {
     final normalized = base64Url.normalize(part);
     final decoded = utf8.decode(base64Url.decode(normalized));
@@ -59,18 +64,67 @@ abstract final class Utils {
     if (Get.isDialogOpen ?? false) Get.back<void>();
   }
 
-  static void showSnackBar(String message, {bool isError = false}) {
-    if (Get.isSnackbarOpen) Get.closeCurrentSnackbar();
+  /// Shows the FND Store custom overlay snackbar.
+  static void showSnackBar(String message) {
+    final overlay = navigatorKey.currentState?.overlay;
+    if (overlay == null) return;
 
-    Get.snackbar(
-      isError ? AppStrings.error.tr : AppStrings.appName.tr,
-      message,
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: isError ? AppColors.error : AppColors.primary,
-      colorText: AppColors.white,
-      margin: const EdgeInsets.all(16),
-      borderRadius: 12,
+    _snackBarEntry?.remove();
+    late final OverlayEntry entry;
+    entry = OverlayEntry(
+      builder: (context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            top: kToolbarHeight,
+            child: Material(
+              color: AppColors.black,
+              borderRadius: BorderRadius.circular(25),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.9,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        Assets.fndStoreLogo,
+                        height: 20,
+                        width: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: AppText(
+                          text: message,
+                          textAlign: TextAlign.center,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+
+    _snackBarEntry = entry;
+    overlay.insert(entry);
+
+    Future<void>.delayed(const Duration(seconds: 3), () {
+      if (_snackBarEntry == entry) {
+        entry.remove();
+        _snackBarEntry = null;
+      }
+    });
   }
 
   static void hideKeyboard(BuildContext context) {

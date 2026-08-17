@@ -7,6 +7,7 @@ import '../../modules/bookings/views/track_delivery_view.dart';
 import '../../modules/bookings/views/rate_delivery_view.dart';
 import '../../modules/bookings/views/driver_reviews_view.dart';
 import '../../modules/cms/views/cms_view.dart';
+import '../../modules/cms/bindings/cms_binding.dart';
 import '../../modules/contact_us/bindings/contact_us_binding.dart';
 import '../../modules/contact_us/views/contact_us_view.dart';
 import '../../modules/create_request/bindings/create_request_binding.dart';
@@ -59,8 +60,16 @@ abstract final class AppPages {
       page: EditProfileView.new,
       binding: EditProfileBinding(),
     ),
-    GetPage<void>(name: AppRoutes.privacyPolicy, page: CmsView.new),
-    GetPage<void>(name: AppRoutes.termsAndConditions, page: CmsView.new),
+    GetPage<void>(
+      name: AppRoutes.privacyPolicy,
+      page: CmsView.new,
+      binding: CmsBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.termsAndConditions,
+      page: CmsView.new,
+      binding: CmsBinding(),
+    ),
     GetPage<void>(
       name: AppRoutes.contactUs,
       page: ContactUsView.new,

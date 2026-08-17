@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
+import '../../../data/shared/auth_session.dart';
+import '../../../utils/db_helper.dart';
 
 class SplashController extends GetxController {
   bool _isPreparing = false;
@@ -25,7 +27,13 @@ class SplashController extends GetxController {
     await minimumSplashTime;
 
     if (!isClosed) {
-      Get.offNamed<void>(AppRoutes.selectLanguage);
+      final isLoggedIn =
+          DbHelper().getIsLoggedIn() &&
+          AuthSession.instance.user != null &&
+          AuthSession.instance.token?.isNotEmpty == true;
+      Get.offAllNamed<void>(
+        isLoggedIn ? AppRoutes.dashboard : AppRoutes.selectLanguage,
+      );
     }
   }
 }

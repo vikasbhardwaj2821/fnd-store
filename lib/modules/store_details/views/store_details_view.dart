@@ -67,7 +67,9 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                         hint: AppStrings.storeLocationHint,
                         controller: controller.storeLocationController,
                         textInputAction: TextInputAction.done,
+                        onChanged: controller.searchLocation,
                       ),
+                      _LocationSuggestions(controller: controller),
                       const SizedBox(height: 40),
                       AppButton(
                         text: isEditMode
@@ -75,7 +77,12 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                             : AppStrings.continueText,
                         onTap: isEditMode
                             ? controller.saveAndGoBack
-                            : () => _showSuccessDialog(context),
+                            : () async {
+                                if (await controller.submitStoreDetails() &&
+                                    context.mounted) {
+                                  _showSuccessDialog(context);
+                                }
+                              },
                         showShadow: false,
                       ),
                     ],
@@ -229,12 +236,14 @@ class _StoreField extends StatelessWidget {
     required this.hint,
     required this.controller,
     required this.textInputAction,
+    this.onChanged,
   });
 
   final String label;
   final String hint;
   final TextEditingController controller;
   final TextInputAction textInputAction;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -250,6 +259,7 @@ class _StoreField extends StatelessWidget {
             margin: EdgeInsets.zero,
             hintText: hint,
             textInputAction: textInputAction,
+            onChanged: onChanged,
             borderRadius: _storeFieldRadius,
             fillColor: AppColors.white,
             borderColor: AppColors.fieldBorder,
@@ -266,5 +276,72 @@ class _StoreField extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _LocationSuggestions extends StatelessWidget {
+  const _LocationSuggestions({required this.controller});
+
+  final StoreDetailsController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (controller.suggestions.isEmpty) return const SizedBox.shrink();
+      return Container(
+        margin: const EdgeInsets.only(top: 4),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.fieldBorder),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ...controller.suggestions
+                .take(5)
+                .map(
+                  (suggestion) => ListTile(
+                    dense: true,
+                    leading: const Icon(
+                      Icons.location_on_outlined,
+                      color: AppColors.primary,
+                    ),
+                    title: Text(
+                      suggestion.description,
+                      style: const TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 12,
+                      ),
+                    ),
+                    onTap: () => controller.selectPlace(suggestion),
+                  ),
+                ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text(
+                    'Powered by',
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  SvgPicture.asset(Assets.googleIcon, width: 14, height: 14),
+                  const SizedBox(width: 3),
+                  const Text(
+                    'Google',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
