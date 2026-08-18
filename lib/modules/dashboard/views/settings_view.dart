@@ -35,9 +35,7 @@ class _SettingsPageState extends State<SettingsView> {
     Get.dialog<void>(
       _AccountActionDialog(
         isDelete: isDelete,
-        onConfirm: isDelete
-            ? () => Get.offAllNamed<void>(AppRoutes.login)
-            : _controller.logoutApi,
+        onConfirm: isDelete ? _controller.deleteAccountApi : _controller.logoutApi,
       ),
       barrierDismissible: false,
       barrierColor: AppColors.black42,

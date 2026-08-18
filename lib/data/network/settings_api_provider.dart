@@ -20,6 +20,19 @@ class SettingsApiProvider {
     );
   }
 
+  Future<ApiResponse<Map<String, dynamic>>> deleteAccount() {
+    return _apiHelper.callApi<Map<String, dynamic>>(
+      ApiConstants.deleteAccount,
+      RequestType.delete,
+      body: const {
+        'reason': 'I no longer need this account',
+      },
+      showLoading: true,
+      fromJsonT: (data) =>
+          data is Map ? Map<String, dynamic>.from(data) : <String, dynamic>{},
+    );
+  }
+
   Future<ApiResponse<CmsModel>> getCms(String type) {
     return _apiHelper.callApi<CmsModel>(
       ApiConstants.cms(type),

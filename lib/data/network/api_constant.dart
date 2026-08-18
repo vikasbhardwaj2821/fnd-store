@@ -11,6 +11,7 @@ abstract final class ApiConstants {
   static const String verifySignupOtp = '$baseUrl/signup/verify-otp';
   static const String completeProfile = '$baseUrl/complete-profile';
   static const String logout = '$baseUrl/logout';
+  static const String deleteAccount = '$baseUrl/account';
   static const String storeDetails = '$baseUrl/store/details';
   static const String createRequest = '$baseUrl/store/create-request';
   static const String storeBookings = '$baseUrl/store/bookings';

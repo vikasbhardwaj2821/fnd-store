@@ -75,4 +75,20 @@ class SettingsController extends GetxController {
       response.message ?? 'Unable to logout. Please try again.',
     );
   }
+
+  Future<void> deleteAccountApi() async {
+    Get.back<void>();
+    await Future<void>.delayed(Duration.zero);
+
+    final response = await _apiProvider.deleteAccount();
+    if (response.success) {
+      await AuthSession.instance.clear();
+      Get.offAllNamed<void>(AppRoutes.login);
+      return;
+    }
+
+    Utils.showSnackBar(
+      response.message ?? 'Unable to delete account. Please try again.',
+    );
+  }
 }
