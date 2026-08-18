@@ -8,6 +8,7 @@ import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
+import '../../../utils/common/app_image_view.dart';
 import '../../../utils/common/app_text.dart';
 import '../../../utils/common/textform_field.dart';
 import '../../../utils/utils.dart';
@@ -75,14 +76,15 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                         text: isEditMode
                             ? AppStrings.editStoreDetails
                             : AppStrings.continueText,
-                        onTap: isEditMode
-                            ? controller.saveAndGoBack
-                            : () async {
-                                if (await controller.submitStoreDetails() &&
-                                    context.mounted) {
-                                  _showSuccessDialog(context);
-                                }
-                              },
+                        onTap: () async {
+                          final saved = await controller.submitStoreDetails();
+                          if (!saved || !context.mounted) return;
+                          if (isEditMode) {
+                            controller.saveAndGoBack();
+                          } else {
+                            _showSuccessDialog(context);
+                          }
+                        },
                         showShadow: false,
                       ),
                     ],
@@ -122,23 +124,30 @@ class _StoreImageUpload extends StatelessWidget {
             width: double.infinity,
             height: 112,
             child: controller.storeImage.value == null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        Assets.storeUpload,
-                        width: 28,
-                        height: 28,
-                      ),
-                      const SizedBox(height: 10),
-                      const AppText(
-                        text: AppStrings.uploadStoreImage,
-                        color: AppColors.textSecondary,
-                        textSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  )
+                ? controller.existingStoreImageUrl.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.storeUpload,
+                            width: 28,
+                            height: 28,
+                          ),
+                          const SizedBox(height: 10),
+                          const AppText(
+                            text: AppStrings.uploadStoreImage,
+                            color: AppColors.textSecondary,
+                            textSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      )
+                    : AppImageView(
+                        imageUrl: controller.existingStoreImageUrl,
+                        width: double.infinity,
+                        height: 112,
+                        borderRadius: BorderRadius.circular(10),
+                      )
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.file(

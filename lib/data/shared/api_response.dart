@@ -14,7 +14,11 @@ class ApiResponse<T> {
     Map<String, dynamic> json,
     T Function(dynamic) fromJson,
   ) {
-    final payload = json.containsKey('body') ? json['body'] : json['data'];
+    final payload = json.containsKey('body')
+        ? json['body']
+        : json.containsKey('data')
+        ? json['data']
+        : json['url'];
     return ApiResponse<T>(
       success:
           json['success'] == true ||

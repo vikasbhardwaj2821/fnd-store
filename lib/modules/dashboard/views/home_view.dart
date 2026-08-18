@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../app/routes/app_routes.dart';
+import '../../../data/models/home_model.dart';
 import '../../../generated/asset_paths.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
+import '../../../utils/common/app_image_view.dart';
 import '../../../utils/common/app_text.dart';
 import '../../../utils/common/booking_card.dart';
 import '../controllers/dashboard_controller.dart';
@@ -23,67 +26,57 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DashboardController>();
     return Column(
       children: [
         const _HomeHeader(),
         Expanded(
-          child: hasCreatedRequest
-              ? SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const _DeliveredSummary(),
-                      const SizedBox(height: 14),
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: AppText(
-                              text: AppStrings.todaysBookings,
-                              color: AppColors.black,
-                              textSize: 15,
-                              fontWeight: FontWeight.w500,
+          child: Obx(
+            () => controller.isHomeLoading.value
+                ? const _HomeShimmer()
+                : controller.hasHomeItems
+                    ? SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _DeliveredSummary(
+                              totalDelivered:
+                                  controller.homeData.value?.totalDelivered ??
+                                  0,
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: onViewAll,
-                            child: const AppText(
-                              text: AppStrings.viewAll,
-                              color: AppColors.primary,
-                              textSize: 13,
-                              fontWeight: FontWeight.w500,
+                            const SizedBox(height: 14),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: AppText(
+                                    text: AppStrings.todaysBookings,
+                                    color: AppColors.black,
+                                    textSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: onViewAll,
+                                  child: const AppText(
+                                    text: AppStrings.viewAll,
+                                    color: AppColors.primary,
+                                    textSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      const BookingCard(
-                        type: BookingCardType.ongoing,
-                        orderNumber: '#FND-8821',
-                        status: AppStrings.orderPickedUp,
-                        statusColor: AppColors.bookingStatusOrange,
-                        pickupAddress: AppStrings.downtownHub,
-                        dropoffAddress: AppStrings.westsideTerminal,
-                        time: AppStrings.today1430,
-                        onAction: _openTracking,
-                        onTap: _openBookingDetails,
-                      ),
-                      const SizedBox(height: 12),
-                      const BookingCard(
-                        type: BookingCardType.ongoing,
-                        orderNumber: '#FND-9042',
-                        status: AppStrings.driverOnWay,
-                        statusColor: AppColors.bookingStatusGrey,
-                        pickupAddress: AppStrings.eastPort,
-                        dropoffAddress: AppStrings.centralStorage,
-                        time: AppStrings.today1615,
-                        onAction: _openTracking,
-                        onTap: _openBookingDetails,
-                      ),
-                    ],
-                  ),
-                )
-              : const _EmptyHome(),
+                            const SizedBox(height: 12),
+                            ..._buildBookingCards(
+                              controller.homeData.value?.todayBookings ??
+                                  const [],
+                            ),
+                          ],
+                        ),
+                      )
+                    : const _EmptyHome(),
+          ),
         ),
       ],
     );
@@ -95,6 +88,97 @@ class HomeView extends StatelessWidget {
 
   static void _openBookingDetails() {
     Get.toNamed<void>(AppRoutes.bookingDetails);
+  }
+
+  static List<Widget> _buildBookingCards(List<HomeBooking> bookings) {
+    return bookings
+        .map(
+          (booking) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: BookingCard(
+              type: BookingCardType.ongoing,
+              orderNumber: booking.orderNumber == null
+                  ? ''
+                  : '#${booking.orderNumber}',
+              status: _statusLabel(booking.status),
+              statusColor: _statusColor(booking.status),
+              pickupAddress: booking.pickupLocation ?? '',
+              dropoffAddress: booking.dropoffLocation ?? '',
+              time: _bookingTime(booking),
+              onAction: _openTracking,
+              onTap: _openBookingDetails,
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  static String _bookingTime(HomeBooking booking) {
+    final dateLabel = _bookingDateLabel(booking.scheduledDate);
+    final timeLabel = _bookingTime12Hour(booking.scheduledTimeFrom);
+    if (dateLabel.isEmpty) return timeLabel;
+    if (timeLabel.isEmpty) return dateLabel;
+    return '$dateLabel • $timeLabel';
+  }
+
+  static String _bookingDateLabel(String? rawDate) {
+    final parsed = _parseDate(rawDate);
+    if (parsed == null) return rawDate ?? '';
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final selected = DateTime(parsed.year, parsed.month, parsed.day);
+    if (selected == today) return 'Today';
+    if (selected == today.add(const Duration(days: 1))) return 'Tomorrow';
+    return DateFormat('dd MMM yyyy').format(parsed);
+  }
+
+  static String _bookingTime12Hour(String? rawTime) {
+    final parsed = _parseTime(rawTime);
+    if (parsed == null) return rawTime ?? '';
+    final time = TimeOfDay(hour: parsed.hour, minute: parsed.minute);
+    return DateFormat(
+      'hh:mm a',
+    ).format(DateTime(2000, 1, 1, time.hour, time.minute));
+  }
+
+  static DateTime? _parseDate(String? value) {
+    if (value == null || value.isEmpty) return null;
+    try {
+      return DateTime.parse(value);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static DateTime? _parseTime(String? value) {
+    if (value == null || value.isEmpty) return null;
+    final parts = value.split(':');
+    if (parts.length < 2) return null;
+    final hour = int.tryParse(parts[0]);
+    final minute = int.tryParse(parts[1]);
+    if (hour == null || minute == null) return null;
+    return DateTime(2000, 1, 1, hour, minute);
+  }
+
+  static String _statusLabel(int? status) {
+    return switch (status) {
+      0 => AppStrings.orderPickedUp,
+      1 => AppStrings.driverOnWay,
+      2 => AppStrings.delivered,
+      3 => 'cancelled',
+      _ => AppStrings.orderPickedUp,
+    };
+  }
+
+  static Color _statusColor(int? status) {
+    return switch (status) {
+      0 => AppColors.bookingStatusOrange,
+      1 => AppColors.bookingStatusGrey,
+      2 => AppColors.success,
+      3 => AppColors.error,
+      _ => AppColors.bookingStatusGrey,
+    };
   }
 }
 
@@ -146,6 +230,218 @@ class _EmptyHome extends StatelessWidget {
   }
 }
 
+class _HomeShimmer extends StatefulWidget {
+  const _HomeShimmer();
+
+  @override
+  State<_HomeShimmer> createState() => _HomeShimmerState();
+}
+
+class _HomeShimmerState extends State<_HomeShimmer>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const _ShimmerCard(height: 92),
+              const SizedBox(height: 14),
+              const _ShimmerLine(widthFactor: 0.45),
+              const SizedBox(height: 12),
+              const _ShimmerBookingCard(),
+              const SizedBox(height: 12),
+              const _ShimmerBookingCard(),
+              const SizedBox(height: 12),
+              const _ShimmerBookingCard(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ShimmerBookingCard extends StatelessWidget {
+  const _ShimmerBookingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 170,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: AppColors.fieldBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          _ShimmerLine(widthFactor: 0.38),
+          SizedBox(height: 14),
+          _ShimmerLine(widthFactor: 1),
+          SizedBox(height: 10),
+          _ShimmerLine(widthFactor: 0.72),
+          SizedBox(height: 10),
+          Divider(height: 1),
+          SizedBox(height: 12),
+          _ShimmerLine(widthFactor: 0.42),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShimmerCard extends StatelessWidget {
+  const _ShimmerCard({required this.height});
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.fieldBorder),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _ShimmerLine(widthFactor: 0.38, height: 14),
+            _ShimmerBox(width: 60, height: 60),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ShimmerLine extends StatelessWidget {
+  const _ShimmerLine({
+    required this.widthFactor,
+    this.height = 12,
+  });
+
+  final double widthFactor;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final effectiveWidth = constraints.maxWidth.isFinite
+            ? constraints.maxWidth * widthFactor
+            : 120.0;
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: _ShimmerBox(width: effectiveWidth, height: height),
+        );
+      },
+    );
+  }
+}
+
+class _ShimmerBox extends StatelessWidget {
+  const _ShimmerBox({this.width, required this.height});
+
+  final double? width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final actualWidth = width ?? constraints.maxWidth;
+        return _ShimmerGradientBox(width: actualWidth, height: height);
+      },
+    );
+  }
+}
+
+class _ShimmerGradientBox extends StatefulWidget {
+  const _ShimmerGradientBox({
+    required this.width,
+    required this.height,
+  });
+
+  final double width;
+  final double height;
+
+  @override
+  State<_ShimmerGradientBox> createState() => _ShimmerGradientBoxState();
+}
+
+class _ShimmerGradientBoxState extends State<_ShimmerGradientBox>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: LinearGradient(
+              begin: Alignment(-1.0 + (_controller.value * 2), 0),
+              end: Alignment(1.0 + (_controller.value * 2), 0),
+              colors: const [
+                Color(0xFFF1EEF8),
+                Color(0xFFE4DBF2),
+                Color(0xFFF1EEF8),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _HomeHeader extends StatelessWidget {
   const _HomeHeader();
 
@@ -164,38 +460,12 @@ class _HomeHeader extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SizedBox(
+            AppImageView(
+              imageUrl: controller.profileImageUrl,
               width: 32,
               height: 32,
-              child: ClipOval(
-                child: controller.profileImageUrl.isEmpty
-                    ? Container(
-                        padding: const EdgeInsets.all(7),
-                        color: AppColors.profilePhotoBackground,
-                        child: SvgPicture.asset(
-                          Assets.person,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.iconMuted,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      )
-                    : Image.network(
-                        controller.profileImageUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(
-                          padding: const EdgeInsets.all(7),
-                          color: AppColors.profilePhotoBackground,
-                          child: SvgPicture.asset(
-                            Assets.person,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.iconMuted,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
+              isCircle: true,
+              placeholderPadding: const EdgeInsets.all(7),
             ),
             const SizedBox(width: 9),
             Expanded(
@@ -258,7 +528,9 @@ class _HomeHeader extends StatelessWidget {
 }
 
 class _DeliveredSummary extends StatelessWidget {
-  const _DeliveredSummary();
+  const _DeliveredSummary({required this.totalDelivered});
+
+  final int totalDelivered;
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +546,7 @@ class _DeliveredSummary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
@@ -285,7 +557,7 @@ class _DeliveredSummary extends StatelessWidget {
               ),
               SizedBox(height: 3),
               AppText(
-                text: '1,284',
+                text: totalDelivered.toString(),
                 color: AppColors.primary,
                 textSize: 27,
                 fontWeight: FontWeight.w700,

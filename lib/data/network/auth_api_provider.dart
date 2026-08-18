@@ -1,13 +1,32 @@
+import 'dart:io';
+
 import '../models/user_model.dart';
 import '../shared/api_helper.dart';
 import '../shared/api_response.dart';
 import 'api_constant.dart';
 import 'base_client.dart';
+import 'package:dio/dio.dart';
 
 class AuthApiProvider {
   const AuthApiProvider(this._apiHelper);
 
   final ApiHelper _apiHelper;
+
+  Future<ApiResponse<String>> uploadImage(File file) {
+    return _apiHelper.callApi<String>(
+      ApiConstants.upload,
+      RequestType.post,
+      showLoading: true,
+      isMultipart: true,
+      formData: FormData.fromMap({
+        'image': MultipartFile.fromFileSync(
+          file.path,
+          filename: file.path.split('/').last,
+        ),
+      }),
+      fromJsonT: (data) => data?.toString() ?? '',
+    );
+  }
 
   /// Logs in or registers a store user and sends an OTP.
   Future<ApiResponse<UserModel>> login(Map<String, dynamic> body) {

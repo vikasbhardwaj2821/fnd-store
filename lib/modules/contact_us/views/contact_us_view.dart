@@ -47,23 +47,15 @@ class ContactUsView extends GetView<ContactUsController> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _ContactField(
-                        label: AppStrings.name,
-                        hint: AppStrings.fullNameHint,
-                        controller: controller.nameController,
-                        prefix: Icons.person_outline,
-                      ),
-                      const SizedBox(height: 14),
-                      _ContactField(
-                        label: AppStrings.email,
-                        hint: AppStrings.emailAddressHint,
-                        controller: controller.emailController,
-                        prefix: Icons.mail_outline,
-                        keyboardType: TextInputType.emailAddress,
+                        label: 'Subject',
+                        hint: 'Enter subject',
+                        controller: controller.subjectController,
+                        prefix: Icons.edit_note_outlined,
                       ),
                       const SizedBox(height: 14),
                       _ContactField(
                         label: AppStrings.description,
-                        hint: AppStrings.helpHint,
+                        hint: 'Enter your message',
                         controller: controller.descriptionController,
                         height: 126,
                         maxLines: 6,
@@ -143,8 +135,7 @@ class _ContactField extends StatelessWidget {
     required this.hint,
     required this.controller,
     this.prefix,
-    this.keyboardType,
-    this.height = 48,
+    this.height = 52,
     this.maxLines = 1,
     this.textAlignVertical = TextAlignVertical.center,
   });
@@ -153,7 +144,6 @@ class _ContactField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
   final IconData? prefix;
-  final TextInputType? keyboardType;
   final double height;
   final int maxLines;
   final TextAlignVertical textAlignVertical;
@@ -171,22 +161,20 @@ class _ContactField extends StatelessWidget {
             controller: controller,
             margin: EdgeInsets.zero,
             hintText: hint,
-            keyboardType: keyboardType,
             maxLines: maxLines,
             prefixIcon: prefix == null
                 ? null
-                : Icon(prefix, color: AppColors.textSecondary, size: 16),
-            prefixIconConstraints: const BoxConstraints(minWidth: 36),
-            borderRadius: 9,
-            borderColor: AppColors.border,
+                : Icon(prefix, color: AppColors.textSecondary, size: 18),
+            prefixIconConstraints: const BoxConstraints(minWidth: 40),
+            borderRadius: 12,
+            fillColor: AppColors.white,
+            borderColor: AppColors.fieldBorder,
             focusBorderColor: AppColors.primary,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 14,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
             textAlignVertical: textAlignVertical,
-            fontSize: 12,
-            hintSize: 11,
+            isDense: false,
+            fontSize: 14,
+            hintSize: 14,
           ),
         ),
       ],

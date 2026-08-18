@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/network/api_constant.dart';
 import '../../../data/network/auth_api_provider.dart';
 import '../../../data/network/google_places_service.dart';
+import '../../../data/shared/auth_session.dart';
 import '../../../data/validators/validator.dart';
 import '../../../utils/common/camera_helper.dart';
 import '../../../utils/utils.dart';
@@ -27,10 +30,27 @@ class StoreDetailsController extends GetxController
   final RxnDouble longitude = RxnDouble();
   Timer? _searchTimer;
   bool _selectingPlace = false;
+  final RxBool isEditMode = false.obs;
   late final CameraHelper cameraHelper;
 
   void openPhotoPicker(BuildContext context) {
     cameraHelper.openImagePicker();
+  }
+
+  String get existingStoreImageUrl {
+    final store = AuthSession.instance.user?.store;
+    final image = store?.image;
+    return image == null || image.isEmpty ? '' : ApiConstants.mediaUrl(image);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    final arguments = Get.arguments;
+    isEditMode.value = arguments is Map && arguments['editMode'] == true;
+    if (isEditMode.value) {
+      _loadLocalStore();
+    }
   }
 
   @override
@@ -94,19 +114,48 @@ class StoreDetailsController extends GetxController
       );
       return false;
     }
+    String? uploadedImageUrl;
+    final imagePath = storeImage.value?.path ?? '';
+    if (imagePath.isNotEmpty) {
+      final uploadResponse = await _apiProvider.uploadImage(File(imagePath));
+      uploadedImageUrl = uploadResponse.body?.toString();
+      if (!uploadResponse.success || uploadedImageUrl == null) {
+        Utils.showSnackBar(
+          uploadResponse.message ?? 'Unable to upload image. Please try again.',
+        );
+        return false;
+      }
+    }
+
     final body = <String, dynamic>{
       'storeName': storeNameController.text.trim(),
       'location': storeLocationController.text.trim(),
       'latitude': latitude.value.toString(),
       'longitude': longitude.value.toString(),
     };
-    final imagePath = storeImage.value?.path ?? '';
-    if (imagePath.isNotEmpty) {
-      body['storeImage'] = imagePath.split('/').last;
+    if (uploadedImageUrl != null) {
+      body['storeImage'] = uploadedImageUrl;
     }
 
     final response = await _apiProvider.addStoreDetails(body);
-    if (response.success) return true;
+    if (response.success) {
+      final currentUser = AuthSession.instance.user;
+      if (currentUser != null) {
+        await AuthSession.instance.setUser(
+          currentUser.copyWith(
+            store: StoreModel(
+              id: currentUser.store?.id,
+              name: storeNameController.text.trim(),
+              location: storeLocationController.text.trim(),
+              image: uploadedImageUrl ?? currentUser.store?.image,
+              latitude: latitude.value,
+              longitude: longitude.value,
+            ),
+          ),
+        );
+      }
+      return true;
+    }
     Utils.showSnackBar(
       response.message ?? 'Unable to save store details. Please try again.',
     );
@@ -121,6 +170,18 @@ class StoreDetailsController extends GetxController
   void saveAndGoBack() {
     Utils.hideKeyboard(Get.context!);
     Get.back<void>();
+  }
+
+  void _loadLocalStore() {
+    final store = AuthSession.instance.user?.store;
+    if (store == null) return;
+    storeNameController.text = store.name ?? '';
+    storeLocationController.text = store.location ?? '';
+    latitude.value = store.latitude;
+    longitude.value = store.longitude;
+    if (store.image != null && store.image!.isNotEmpty) {
+      storeImage.value = null;
+    }
   }
 
   @override

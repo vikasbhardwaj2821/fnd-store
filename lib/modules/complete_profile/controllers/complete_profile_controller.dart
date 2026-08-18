@@ -67,6 +67,14 @@ class CompleteProfileController extends GetxController
   }
 
   Future<void> signupApi() async {
+    String? uploadedImageUrl;
+    final imagePath = profileImage.value?.path ?? '';
+    if (imagePath.isNotEmpty) {
+      final uploadResponse = await _apiProvider.uploadImage(File(imagePath));
+      uploadedImageUrl = uploadResponse.body?.toString();
+      if (!uploadResponse.success || uploadedImageUrl == null) return;
+    }
+
     final body = <String, dynamic>{
       'mobile_number': phoneController.text.trim(),
       'country_code': '+${selectedCountry.value.dialCode}',
@@ -76,9 +84,8 @@ class CompleteProfileController extends GetxController
       'email': emailController.text.trim(),
     };
 
-    final imagePath = profileImage.value?.path ?? '';
-    if (imagePath.isNotEmpty) {
-      body['profilePicture'] = imagePath.split('/').last;
+    if (uploadedImageUrl != null) {
+      body['profilePicture'] = uploadedImageUrl;
     }
 
     final response = await _apiProvider.signup(body);

@@ -9,6 +9,7 @@ import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
 import '../../../utils/common/app_text.dart';
+import '../../../data/shared/auth_session.dart';
 import '../bindings/dashboard_binding.dart';
 import '../controllers/settings_controller.dart';
 
@@ -22,7 +23,7 @@ class SettingsView extends StatefulWidget {
 class _SettingsPageState extends State<SettingsView> {
   late final SettingsController _controller;
 
-  bool _notificationsEnabled = true;
+  bool _notificationsEnabled = AuthSession.instance.user?.isNotificationOn == 1;
 
   @override
   void initState() {
@@ -101,8 +102,12 @@ class _SettingsPageState extends State<SettingsView> {
                           scale: 0.82,
                           child: Switch(
                             value: _notificationsEnabled,
-                            onChanged: (value) =>
-                                setState(() => _notificationsEnabled = value),
+                            onChanged: (value) async {
+                              setState(() => _notificationsEnabled = value);
+                              await _controller.updateSettings(
+                                isNotificationOn: value,
+                              );
+                            },
                             activeTrackColor: AppColors.primary,
                             activeThumbColor: AppColors.white,
                             inactiveTrackColor: AppColors.border,

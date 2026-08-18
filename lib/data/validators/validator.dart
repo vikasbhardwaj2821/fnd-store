@@ -86,15 +86,18 @@ abstract final class Validator {
     required TextEditingController customerName,
     required TextEditingController phone,
     required Country country,
+    required bool hasImage,
     required TextEditingController pickupLocation,
     required TextEditingController dropoffLocation,
     required TextEditingController date,
     required TextEditingController time,
+    required TextEditingController instructions,
   }) {
     if (customerName.text.trim().isEmpty) {
       return _error('Please enter the recipient name.');
     }
     if (!validatePhone(phone, country)) return false;
+    if (!hasImage) return _error('Please upload product image.');
     if (pickupLocation.text.trim().isEmpty) {
       return _error('Please enter the pickup location.');
     }
@@ -103,6 +106,9 @@ abstract final class Validator {
     }
     if (date.text.trim().isEmpty) return _error('Please select a date.');
     if (time.text.trim().isEmpty) return _error('Please select the time.');
+    if (instructions.text.trim().isEmpty) {
+      return _error('Please enter the instructions.');
+    }
     return true;
   }
 

@@ -43,6 +43,11 @@ class BaseClient {
 
   Future<Response<dynamic>> handleRequest(ApiRequest request) async {
     final token = await _accessTokenProvider?.call();
+    if (kDebugMode) {
+      debugPrint(
+        'AUTH TOKEN: ${token == null || token.isEmpty ? '(none)' : 'Bearer $token'}',
+      );
+    }
     final options = Options(
       headers: token == null || token.isEmpty
           ? null

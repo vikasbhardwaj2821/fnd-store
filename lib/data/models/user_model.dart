@@ -106,7 +106,7 @@ class UserModel {
           ? StoreModel.fromJson(
               Map<String, dynamic>.from(userJson['store'] as Map),
             )
-          : null,
+          : _firstStore(userJson['stores']),
     );
   }
 
@@ -217,9 +217,15 @@ class StoreModel {
 
   factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
     id: json['id']?.toString() ?? json['storeID']?.toString(),
-    name: json['name']?.toString() ?? json['storeName']?.toString(),
+    name:
+        json['name']?.toString() ??
+        json['storeName']?.toString() ??
+        json['store_name']?.toString(),
     location: json['location']?.toString() ?? json['storeLocation']?.toString(),
-    image: json['image']?.toString() ?? json['storeImage']?.toString(),
+    image:
+        json['image']?.toString() ??
+        json['storeImage']?.toString() ??
+        json['store_image']?.toString(),
     latitude: _asDouble(json['latitude']),
     longitude: _asDouble(json['longitude']),
   );
@@ -252,3 +258,7 @@ List<StoreModel> _asStoreList(dynamic value) => value is List
           .map((item) => StoreModel.fromJson(Map<String, dynamic>.from(item)))
           .toList()
     : <StoreModel>[];
+
+StoreModel? _firstStore(dynamic value) => value is List && value.isNotEmpty
+    ? StoreModel.fromJson(Map<String, dynamic>.from(value.first as Map))
+    : null;

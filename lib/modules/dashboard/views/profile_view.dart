@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
-import '../../../generated/asset_paths.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
+import '../../../utils/common/app_image_view.dart';
 import '../../../utils/common/app_text.dart';
 import '../../../utils/common/countries.dart';
 import '../../../utils/common/textform_field.dart';
@@ -74,12 +73,12 @@ class _ProfilePageState extends State<ProfileView> {
           centerTitle: true,
           showBackButton: false,
         ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Obx(
                   () => _ProfilePhoto(
                     imageUrl: _dashboardController.profileImageUrl,
@@ -134,45 +133,12 @@ class _ProfilePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
+      child: AppImageView(
+        imageUrl: imageUrl,
         width: 86,
         height: 86,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned.fill(
-              child: ClipOval(
-                child: imageUrl.isEmpty
-                    ? Container(
-                        padding: const EdgeInsets.all(20),
-                        color: AppColors.profilePhotoBackground,
-                        child: SvgPicture.asset(
-                          Assets.person,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.iconMuted,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      )
-                    : Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(
-                          padding: const EdgeInsets.all(20),
-                          color: AppColors.profilePhotoBackground,
-                          child: SvgPicture.asset(
-                            Assets.person,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.iconMuted,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
-            ),
-          ],
-        ),
+        isCircle: true,
+        placeholderPadding: const EdgeInsets.all(20),
       ),
     );
   }

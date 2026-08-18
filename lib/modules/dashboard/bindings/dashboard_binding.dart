@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../data/network/base_client.dart';
+import '../../../data/network/home_api_provider.dart';
 import '../../../data/network/settings_api_provider.dart';
 import '../../../data/shared/api_helper.dart';
 import '../../../data/shared/auth_session.dart';
@@ -20,6 +21,9 @@ class DashboardBinding extends Bindings {
     if (!Get.isRegistered<SettingsApiProvider>()) {
       Get.put<SettingsApiProvider>(SettingsApiProvider(Get.find<ApiHelper>()));
     }
+    if (!Get.isRegistered<HomeApiProvider>()) {
+      Get.put<HomeApiProvider>(HomeApiProvider(Get.find<ApiHelper>()));
+    }
     if (!Get.isRegistered<SettingsController>()) {
       Get.put<SettingsController>(
         SettingsController(Get.find<SettingsApiProvider>()),
@@ -32,7 +36,10 @@ class DashboardBinding extends Bindings {
   void dependencies() {
     ensureSettingsDependencies();
     Get.lazyPut<DashboardController>(
-      () => DashboardController(Get.find<SettingsApiProvider>()),
+      () => DashboardController(
+        Get.find<SettingsApiProvider>(),
+        Get.find<HomeApiProvider>(),
+      ),
     );
   }
 }

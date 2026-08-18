@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
+import '../../../data/shared/auth_session.dart';
+import '../../../modules/dashboard/controllers/settings_controller.dart';
 
 enum AppLanguage { english, arabic }
 
@@ -11,7 +13,8 @@ class SelectLanguageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    selectedLanguage.value = Get.locale?.languageCode == 'ar'
+    final savedLanguage = AuthSession.instance.user?.language;
+    selectedLanguage.value = savedLanguage == 1 || Get.locale?.languageCode == 'ar'
         ? AppLanguage.arabic
         : AppLanguage.english;
   }
@@ -36,6 +39,11 @@ class SelectLanguageController extends GetxController {
         ? const Locale('ar', 'AE')
         : const Locale('en', 'US');
     if (Get.locale != locale) await Get.updateLocale(locale);
+    if (Get.isRegistered<SettingsController>()) {
+      await Get.find<SettingsController>().updateSettings(
+        language: selectedLanguage.value == AppLanguage.arabic ? 1 : 0,
+      );
+    }
     Get.back<void>();
   }
 }

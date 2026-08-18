@@ -49,6 +49,17 @@ class SettingsApiProvider {
     );
   }
 
+  Future<ApiResponse<UserModel>> updateSettings(Map<String, dynamic> body) {
+    return _apiHelper.callApi<UserModel>(
+      ApiConstants.settings,
+      RequestType.put,
+      body: body,
+      showLoading: true,
+      fromJsonT: (data) =>
+          UserModel.fromJson(Map<String, dynamic>.from(data as Map)),
+    );
+  }
+
   Future<ApiResponse<Map<String, dynamic>>> createRequest(
     Map<String, dynamic> body,
   ) {

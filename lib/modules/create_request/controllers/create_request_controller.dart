@@ -67,9 +67,7 @@ class CreateRequestController extends GetxController
       lastDate: DateTime.now().add(const Duration(days: 3650)),
     );
     if (value != null) {
-      dateController.text =
-          '${value.day.toString().padLeft(2, '0')}/'
-          '${value.month.toString().padLeft(2, '0')}/${value.year}';
+      dateController.text = _formatDate(value);
       if (_isSelectedTimeInPast()) {
         timeController.clear();
         _selectedTime = null;
@@ -91,7 +89,7 @@ class CreateRequestController extends GetxController
         return;
       }
       _selectedTime = value;
-      timeController.text = value.format(context);
+      timeController.text = _formatTime24(context, value);
     }
   }
 
@@ -175,18 +173,16 @@ class CreateRequestController extends GetxController
 
   Future<void> createRequest() async {
     Utils.hideKeyboard(Get.context!);
-    if (productImage.value == null) {
-      Utils.showSnackBar('Please upload product image.');
-      return;
-    }
     if (!Validator.validateCreateRequest(
       customerName: customerNameController,
       phone: phoneController,
       country: selectedCountry.value,
+      hasImage: productImage.value != null,
       pickupLocation: pickupController,
       dropoffLocation: dropoffController,
       date: dateController,
       time: timeController,
+      instructions: instructionsController,
     )) {
       return;
     }
@@ -208,7 +204,7 @@ class CreateRequestController extends GetxController
       'dropoffLocation': dropoffController.text.trim(),
       'dropoffLatitude': dropoffLatitude.value.toString(),
       'dropoffLongitude': dropoffLongitude.value.toString(),
-      'scheduledDate': dateController.text.trim(),
+      'scheduledDate': _apiDateFromDisplay(dateController.text.trim()),
       'scheduledTimeFrom': timeController.text.trim(),
       'scheduledTimeTo': timeController.text.trim(),
       'distance': 0,
@@ -263,6 +259,26 @@ class CreateRequestController extends GetxController
     final year = int.tryParse(parts[2]);
     if (day == null || month == null || year == null) return null;
     return DateTime(year, month, day);
+  }
+
+  String _formatDate(DateTime value) {
+    return '${value.day.toString().padLeft(2, '0')}/'
+        '${value.month.toString().padLeft(2, '0')}/${value.year}';
+  }
+
+  String _apiDateFromDisplay(String value) {
+    final parsed = _parseDate(value);
+    if (parsed == null) return value;
+    return '${parsed.year.toString().padLeft(4, '0')}-'
+        '${parsed.month.toString().padLeft(2, '0')}-'
+        '${parsed.day.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTime24(BuildContext context, TimeOfDay time) {
+    return MaterialLocalizations.of(context).formatTimeOfDay(
+      time,
+      alwaysUse24HourFormat: true,
+    );
   }
 
   @override

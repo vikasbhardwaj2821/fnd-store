@@ -8,6 +8,7 @@ import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
+import '../../../utils/common/app_image_view.dart';
 import '../../../utils/common/app_text.dart';
 import '../../../utils/common/textform_field.dart';
 import '../../../utils/utils.dart';
@@ -127,34 +128,22 @@ class _EditProfilePhoto extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: Obx(
-                    () => ClipOval(
-                      child: controller.profileImage.value == null
-                          ? controller.existingProfileImageUrl.isEmpty
-                                ? Container(
-                                    padding: const EdgeInsets.all(20),
-                                    color: AppColors.profilePhotoBackground,
-                                    child: SvgPicture.asset(
-                                      Assets.person,
-                                      colorFilter: const ColorFilter.mode(
-                                        AppColors.iconMuted,
-                                        BlendMode.srcIn,
-                                      ),
-                                    ),
-                                  )
-                                : Image.network(
-                                    controller.existingProfileImageUrl,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) => Container(
-                                      padding: const EdgeInsets.all(20),
-                                      color: AppColors.profilePhotoBackground,
-                                      child: SvgPicture.asset(Assets.person),
-                                    ),
-                                  )
-                          : Image.file(
+                    () => controller.profileImage.value == null
+                        ? AppImageView(
+                            imageUrl: controller.existingProfileImageUrl,
+                            isCircle: true,
+                            width: 84,
+                            height: 84,
+                            placeholderPadding: const EdgeInsets.all(20),
+                          )
+                        : ClipOval(
+                            child: Image.file(
                               controller.profileImage.value!,
+                              width: 84,
+                              height: 84,
                               fit: BoxFit.cover,
                             ),
-                    ),
+                          ),
                   ),
                 ),
                 PositionedDirectional(

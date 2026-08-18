@@ -66,6 +66,19 @@ class EditProfileController extends GetxController
     );
     if (!isValid) return;
 
+    String? uploadedImageUrl;
+    final imagePath = profileImage.value?.path ?? '';
+    if (imagePath.isNotEmpty) {
+      final uploadResponse = await _apiProvider.uploadImage(File(imagePath));
+      uploadedImageUrl = uploadResponse.body?.toString();
+      if (!uploadResponse.success || uploadedImageUrl == null) {
+        Utils.showSnackBar(
+          uploadResponse.message ?? 'Unable to upload image. Please try again.',
+        );
+        return;
+      }
+    }
+
     final body = <String, dynamic>{
       'firstName': firstNameController.text.trim(),
       'lastName': lastNameController.text.trim(),
@@ -74,9 +87,8 @@ class EditProfileController extends GetxController
       'role': AuthSession.instance.user?.role ?? 2,
     };
 
-    final imagePath = profileImage.value?.path ?? '';
-    if (imagePath.isNotEmpty) {
-      body['profilePicture'] = imagePath.split('/').last;
+    if (uploadedImageUrl != null) {
+      body['profilePicture'] = uploadedImageUrl;
     }
 
     final response = await _apiProvider.completeProfile(body);
