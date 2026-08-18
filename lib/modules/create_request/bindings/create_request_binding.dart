@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../data/network/google_places_service.dart';
+import '../../../data/network/auth_api_provider.dart';
 import '../../../data/network/settings_api_provider.dart';
 import '../../../data/network/base_client.dart';
 import '../../../data/shared/api_helper.dart';
@@ -20,6 +21,11 @@ class CreateRequestBinding extends Bindings {
     if (!Get.isRegistered<ApiHelper>()) {
       Get.lazyPut<ApiHelper>(() => ApiHelper(Get.find<BaseClient>()));
     }
+    if (!Get.isRegistered<AuthApiProvider>()) {
+      Get.lazyPut<AuthApiProvider>(
+        () => AuthApiProvider(Get.find<ApiHelper>()),
+      );
+    }
     if (!Get.isRegistered<SettingsApiProvider>()) {
       Get.lazyPut<SettingsApiProvider>(
         () => SettingsApiProvider(Get.find<ApiHelper>()),
@@ -28,6 +34,7 @@ class CreateRequestBinding extends Bindings {
     Get.lazyPut<GooglePlacesService>(GooglePlacesService.new);
     Get.lazyPut<CreateRequestController>(
       () => CreateRequestController(
+        Get.find<AuthApiProvider>(),
         Get.find<SettingsApiProvider>(),
         Get.find<GooglePlacesService>(),
       ),

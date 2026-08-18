@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/network/auth_api_provider.dart';
 import '../../../data/network/google_places_service.dart';
 import '../../../data/network/settings_api_provider.dart';
 import '../../../data/validators/validator.dart';
@@ -13,10 +14,15 @@ import '../../../utils/utils.dart';
 
 class CreateRequestController extends GetxController
     implements CameraOnCompleteListener {
-  CreateRequestController(this._apiProvider, this._placesService) {
+  CreateRequestController(
+    this._uploadApiProvider,
+    this._apiProvider,
+    this._placesService,
+  ) {
     cameraHelper = CameraHelper(this);
   }
 
+  final AuthApiProvider _uploadApiProvider;
   final SettingsApiProvider _apiProvider;
   final GooglePlacesService _placesService;
   final customerNameController = TextEditingController();
@@ -214,7 +220,18 @@ class CreateRequestController extends GetxController
 
     final imagePath = productImage.value?.path ?? '';
     if (imagePath.isNotEmpty) {
-      body['packageImage'] = imagePath.split('/').last;
+      final uploadResponse = await _uploadApiProvider.uploadImage(
+        File(imagePath),
+      );
+      if (!uploadResponse.success ||
+          uploadResponse.body == null ||
+          uploadResponse.body!.trim().isEmpty) {
+        Utils.showSnackBar(
+          uploadResponse.message ?? 'Unable to upload image. Please try again.',
+        );
+        return;
+      }
+      body['packageImage'] = uploadResponse.body!.trim();
     } else {
       body['packageImage'] = '';
     }

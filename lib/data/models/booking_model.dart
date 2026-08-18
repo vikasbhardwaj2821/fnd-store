@@ -1,8 +1,9 @@
 enum BookingStatus {
   pending,
-  assigned,
-  inProgress,
-  completed,
+  accepted,
+  orderPickedUp,
+  driverOnTheWay,
+  delivered,
   cancelled,
   unknown,
 }
@@ -10,6 +11,7 @@ enum BookingStatus {
 class BookingModel {
   const BookingModel({
     this.id,
+    this.orderNumber,
     this.customerName,
     this.phoneNumber,
     this.countryCode,
@@ -25,7 +27,8 @@ class BookingModel {
     this.createdAt,
   });
 
-  final int? id;
+  final String? id;
+  final String? orderNumber;
   final String? customerName;
   final String? phoneNumber;
   final String? countryCode;
@@ -41,17 +44,32 @@ class BookingModel {
   final DateTime? createdAt;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => BookingModel(
-    id: _int(json['id'] ?? json['bookingID'] ?? json['requestID']),
+    id: json['id']?.toString() ??
+        json['bookingID']?.toString() ??
+        json['requestID']?.toString(),
+    orderNumber: _string(json, 'orderNumber', 'order_number'),
     customerName: _string(json, 'customerName', 'customer_name'),
     phoneNumber: _string(json, 'phoneNumber', 'phone_number'),
     countryCode: _string(json, 'countryCode', 'country_code'),
     productName: _string(json, 'productName', 'product_name'),
     productImage: _string(json, 'productImage', 'product_image'),
-    pickupAddress: _string(json, 'pickupAddress', 'pickup_address'),
-    dropoffAddress: _string(json, 'dropoffAddress', 'dropoff_address'),
-    pickupDate: _date(json['pickupDate'] ?? json['pickup_date']),
-    pickupTime: _string(json, 'pickupTime', 'pickup_time'),
-    instructions: json['instructions']?.toString(),
+    pickupAddress: _string(
+      json,
+      'pickupAddress',
+      'pickup_address',
+    ) ?? json['pickupLocation']?.toString(),
+    dropoffAddress: _string(
+      json,
+      'dropoffAddress',
+      'dropoff_address',
+    ) ?? json['dropoffLocation']?.toString(),
+    pickupDate: _date(
+      json['pickupDate'] ?? json['pickup_date'] ?? json['scheduledDate'],
+    ),
+    pickupTime: _string(json, 'pickupTime', 'pickup_time') ??
+        json['scheduledTimeFrom']?.toString(),
+    instructions:
+        json['instructions']?.toString() ?? json['packageInstructions']?.toString(),
     status: _status(json['status']),
     driver: json['driver'] is Map
         ? DriverModel.fromJson(Map<String, dynamic>.from(json['driver'] as Map))
@@ -70,6 +88,7 @@ class BookingModel {
 
   Map<String, dynamic> toJson() => {
     'id': id,
+    'orderNumber': orderNumber,
     'customerName': customerName,
     'phoneNumber': phoneNumber,
     'countryCode': countryCode,
@@ -124,12 +143,20 @@ DateTime? _date(dynamic value) =>
 String? _string(Map<String, dynamic> json, String camel, String snake) =>
     json[camel]?.toString() ?? json[snake]?.toString();
 BookingStatus _status(dynamic value) {
-  final normalized = '$value'
-      .replaceAll('_', '')
-      .replaceAll(' ', '')
-      .toLowerCase();
-  return BookingStatus.values.firstWhere(
-    (status) => status.name.toLowerCase() == normalized,
-    orElse: () => BookingStatus.unknown,
-  );
+  switch (_int(value)) {
+    case 0:
+      return BookingStatus.pending;
+    case 1:
+      return BookingStatus.accepted;
+    case 2:
+      return BookingStatus.orderPickedUp;
+    case 3:
+      return BookingStatus.driverOnTheWay;
+    case 4:
+      return BookingStatus.delivered;
+    case 5:
+      return BookingStatus.cancelled;
+    default:
+      return BookingStatus.unknown;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../modules/complete_profile/bindings/complete_profile_binding.dart';
 import '../../modules/complete_profile/views/complete_profile_view.dart';
 import '../../modules/bookings/views/booking_details_view.dart';
+import '../../modules/bookings/bindings/booking_details_binding.dart';
 import '../../modules/bookings/views/track_delivery_view.dart';
 import '../../modules/bookings/views/rate_delivery_view.dart';
 import '../../modules/bookings/views/driver_reviews_view.dart';
@@ -85,7 +86,11 @@ abstract final class AppPages {
       page: NotificationsView.new,
       binding: NotificationsBinding(),
     ),
-    GetPage<void>(name: AppRoutes.bookingDetails, page: BookingDetailsView.new),
+    GetPage<void>(
+      name: AppRoutes.bookingDetails,
+      page: BookingDetailsView.new,
+      binding: BookingDetailsBinding(),
+    ),
     GetPage<void>(name: AppRoutes.trackDelivery, page: TrackDeliveryView.new),
     GetPage<void>(name: AppRoutes.rateDelivery, page: RateDeliveryView.new),
     GetPage<void>(name: AppRoutes.driverReviews, page: DriverReviewsView.new),

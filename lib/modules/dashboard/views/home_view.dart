@@ -86,8 +86,11 @@ class HomeView extends StatelessWidget {
     Get.toNamed<void>(AppRoutes.trackDelivery);
   }
 
-  static void _openBookingDetails() {
-    Get.toNamed<void>(AppRoutes.bookingDetails);
+  static void _openBookingDetails(String? id) {
+    Get.toNamed<void>(
+      AppRoutes.bookingDetails,
+      arguments: {'requestId': id},
+    );
   }
 
   static List<Widget> _buildBookingCards(List<HomeBooking> bookings) {
@@ -105,8 +108,8 @@ class HomeView extends StatelessWidget {
               pickupAddress: booking.pickupLocation ?? '',
               dropoffAddress: booking.dropoffLocation ?? '',
               time: _bookingTime(booking),
-              onAction: _openTracking,
-              onTap: _openBookingDetails,
+              onAction: () => _openTracking(),
+              onTap: () => _openBookingDetails(booking.id),
             ),
           ),
         )

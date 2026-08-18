@@ -13,6 +13,8 @@ abstract final class ApiConstants {
   static const String logout = '$baseUrl/logout';
   static const String storeDetails = '$baseUrl/store/details';
   static const String createRequest = '$baseUrl/store/create-request';
+  static const String storeBookings = '$baseUrl/store/bookings';
+  static const String trackRequest = '$baseUrl/store/track';
   static const String support = '$baseUrl/support';
   static const String upload = '$baseUrl/upload';
   static const String home = '$baseUrl/store/home';

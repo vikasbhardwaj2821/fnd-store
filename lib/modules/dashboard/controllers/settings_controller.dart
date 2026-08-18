@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../data/models/cms_model.dart';
-import '../../../data/models/user_model.dart';
 import '../../../data/network/settings_api_provider.dart';
 import '../../../data/shared/auth_session.dart';
 import '../../../utils/utils.dart';

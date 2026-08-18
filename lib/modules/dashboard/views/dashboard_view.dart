@@ -47,7 +47,12 @@ class DashboardView extends GetView<DashboardController> {
         () => DashboardNavigation(
           selectedIndex: controller.currentIndex.value,
           onSelected: controller.changeTab,
-          onCreate: () => Get.toNamed<void>(AppRoutes.createRequest),
+          onCreate: () async {
+            final result = await Get.toNamed(AppRoutes.createRequest);
+            if (result == true) {
+              await controller.getHome();
+            }
+          },
         ),
       ),
     );

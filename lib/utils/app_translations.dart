@@ -74,7 +74,7 @@ class AppTranslations extends Translations {
           'by creating a new request and assign it to a driver.',
       AppStrings.createRequest: 'Create Request',
       AppStrings.recipientDetail: 'Recipient Detail',
-      AppStrings.customerName: 'Customer Name',
+      AppStrings.customerName: 'Recipient Name',
       AppStrings.enter: 'Enter',
       AppStrings.packageDetails: 'Package Details',
       AppStrings.productImage: 'Product Image',

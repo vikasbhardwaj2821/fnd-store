@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:intl/intl.dart';
 import '../../../app/routes/app_routes.dart';
+import '../../../data/network/api_constant.dart';
 import '../../../generated/asset_paths.dart';
 import '../../../utils/app_strings.dart';
 import '../../../utils/common/app_button.dart';
 import '../../../utils/common/app_colors.dart';
 import '../../../utils/common/app_header.dart';
+import '../../../utils/common/app_image_view.dart';
 import '../../../utils/common/app_text.dart';
+import '../controllers/booking_details_controller.dart';
 
-class BookingDetailsView extends StatelessWidget {
+class BookingDetailsView extends GetView<BookingDetailsController> {
   const BookingDetailsView({super.key});
 
   @override
@@ -21,55 +24,102 @@ class BookingDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.pageBackground,
       body: SafeArea(
-        child: Column(
-          children: [
-            const AppHeader(
-              title: AppStrings.bookingDetails,
-              centerTitle: true,
-              height: 56,
-            ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
-                children: [
-                  _StatusCard(isCompleted: isCompleted),
-                  const SizedBox(height: 16),
-                  const _SectionTitle(AppStrings.recipientDetailTitle),
-                  const SizedBox(height: 8),
-                  const _RecipientCard(),
-                  const SizedBox(height: 16),
-                  const _SectionTitle(AppStrings.packageDetails),
-                  const SizedBox(height: 8),
-                  const _PackageCard(),
-                  const SizedBox(height: 16),
-                  const _SectionTitle(AppStrings.driverDetails),
-                  const SizedBox(height: 8),
-                  _DriverCard(showCallButton: !isCompleted),
-                ],
-              ),
-            ),
-            if (!isCompleted)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                child: AppButton(
-                  text: AppStrings.track,
-                  onTap: () => _openTracking(fromTrackDelivery),
-                  height: 50,
-                  borderRadius: 8,
-                  showShadow: false,
-                  icon1: Assets.trackIcon,
-                  widthIcon1: 18,
-                  heightIcon1: 18,
-                  iconColor: AppColors.white,
+        child: Obx(
+          () {
+            final track = controller.trackData.value?.request;
+            final isPending = track?.status == 0;
+            final showDriverSection = !isPending;
+            return Column(
+              children: [
+                const AppHeader(
+                  title: AppStrings.bookingDetails,
+                  centerTitle: true,
+                  height: 56,
                 ),
-              ),
-          ],
+                Expanded(
+                  child: controller.isLoading.value || track == null
+                      ? const _BookingDetailsShimmer()
+                      : ListView(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+                          children: [
+                            _StatusCard(
+                              isCompleted: isCompleted,
+                              orderNumber: track.orderNumber ?? '',
+                              statusText: _statusText(track.status),
+                            ),
+                            const SizedBox(height: 16),
+                            const _SectionTitle(AppStrings.recipientDetailTitle),
+                            const SizedBox(height: 8),
+                            _RecipientCard(
+                              name: track.recipientName ?? '',
+                              phone: track.recipientPhone ?? '',
+                            ),
+                            const SizedBox(height: 16),
+                            const _SectionTitle(AppStrings.packageDetails),
+                            const SizedBox(height: 8),
+                            _PackageCard(track: track),
+                            const SizedBox(height: 16),
+                            if (showDriverSection) ...[
+                              const _SectionTitle(AppStrings.driverDetails),
+                              const SizedBox(height: 8),
+                              _DriverCard(
+                                showCallButton: !isCompleted,
+                                driverName:
+                                    track.driver?['name']?.toString() ??
+                                    'Driver',
+                                driverStats: controller.trackData.value
+                                        ?.driverDeliveryCount
+                                        ?.toString()
+                                        .isNotEmpty ==
+                                    true
+                                    ? '${controller.trackData.value?.driverDeliveryCount} Deliveries'
+                                    : '0 Deliveries',
+                              ),
+                            ],
+                          ],
+                        ),
+                ),
+                if (showDriverSection && !isCompleted && track != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                    child: AppButton(
+                      text: AppStrings.track,
+                      onTap: () => _openTracking(fromTrackDelivery),
+                      height: 50,
+                      borderRadius: 8,
+                      showShadow: false,
+                      icon1: Assets.trackIcon,
+                      widthIcon1: 18,
+                      heightIcon1: 18,
+                      iconColor: AppColors.white,
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  static void _emptyAction() {}
+  static String _statusText(int? status) {
+    switch (status) {
+      case 0:
+        return 'Pending';
+      case 1:
+        return 'Accepted';
+      case 2:
+        return 'Order picked up';
+      case 3:
+        return 'Driver on the way';
+      case 4:
+        return AppStrings.delivered;
+      case 5:
+        return 'Cancelled';
+      default:
+        return AppStrings.inTransit;
+    }
+  }
 
   static void _openTracking(bool fromTrackDelivery) {
     if (fromTrackDelivery) {
@@ -77,6 +127,67 @@ class BookingDetailsView extends StatelessWidget {
       return;
     }
     Get.toNamed<void>(AppRoutes.trackDelivery);
+  }
+}
+
+class _BookingDetailsShimmer extends StatelessWidget {
+  const _BookingDetailsShimmer();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      children: [
+        _ShimmerBlock(height: 54, radius: 9),
+        const SizedBox(height: 16),
+        const _ShimmerLine(widthFactor: 0.42),
+        const SizedBox(height: 8),
+        _ShimmerBlock(height: 74, radius: 9),
+        const SizedBox(height: 16),
+        const _ShimmerLine(widthFactor: 0.34),
+        const SizedBox(height: 8),
+        _ShimmerBlock(height: 240, radius: 9),
+        const SizedBox(height: 16),
+        const _ShimmerLine(widthFactor: 0.34),
+        const SizedBox(height: 8),
+        _ShimmerBlock(height: 110, radius: 9),
+      ],
+    );
+  }
+}
+
+class _ShimmerLine extends StatelessWidget {
+  const _ShimmerLine({required this.widthFactor});
+  final double widthFactor;
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) => Container(
+        width: constraints.maxWidth * widthFactor,
+        height: 12,
+        decoration: BoxDecoration(
+          color: AppColors.border.withValues(alpha: 0.35),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+}
+
+class _ShimmerBlock extends StatelessWidget {
+  const _ShimmerBlock({required this.height, required this.radius});
+  final double height;
+  final double radius;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: AppColors.fieldBorder),
+      ),
+    );
   }
 }
 
@@ -96,8 +207,14 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _StatusCard extends StatelessWidget {
-  const _StatusCard({required this.isCompleted});
+  const _StatusCard({
+    required this.isCompleted,
+    required this.orderNumber,
+    required this.statusText,
+  });
   final bool isCompleted;
+  final String orderNumber;
+  final String statusText;
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +227,8 @@ class _StatusCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _StatusValue(
-            AppStrings.orderStatus,
-            isCompleted ? AppStrings.delivered : AppStrings.inTransit,
-          ),
-          const _StatusValue(AppStrings.orderId, '#FND-8821', alignEnd: true),
+          _StatusValue(AppStrings.orderStatus, statusText),
+          _StatusValue(AppStrings.orderId, orderNumber, alignEnd: true),
         ],
       ),
     );
@@ -130,9 +244,7 @@ class _StatusValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: alignEnd
-          ? CrossAxisAlignment.end
-          : CrossAxisAlignment.start,
+      crossAxisAlignment: alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         AppText(
           text: label,
@@ -153,16 +265,18 @@ class _StatusValue extends StatelessWidget {
 }
 
 class _RecipientCard extends StatelessWidget {
-  const _RecipientCard();
+  const _RecipientCard({required this.name, required this.phone});
+  final String name;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
     return _CardShell(
       child: Column(
-        children: const [
-          _LabeledValue(AppStrings.customerName, AppStrings.customerNameValue),
-          Divider(color: AppColors.border),
-          _LabeledValue(AppStrings.phoneNumber, AppStrings.customerPhoneValue),
+        children: [
+          _LabeledValue(AppStrings.customerName, name),
+          const Divider(color: AppColors.border),
+          _LabeledValue(AppStrings.phoneNumber, phone),
         ],
       ),
     );
@@ -170,7 +284,9 @@ class _RecipientCard extends StatelessWidget {
 }
 
 class _PackageCard extends StatelessWidget {
-  const _PackageCard();
+  const _PackageCard({required this.track});
+
+  final dynamic track;
 
   @override
   Widget build(BuildContext context) {
@@ -185,80 +301,51 @@ class _PackageCard extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           const SizedBox(height: 7),
-          Container(
-            height: 165,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(9),
-            ),
-            child: CustomPaint(
-              foregroundPainter: const _DashedRoundedBorderPainter(),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(9),
-                child: Image.asset(
-                  Assets.productImage,
-                  width: double.infinity,
-                  height: 165,
-                  fit: BoxFit.cover,
-                ),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(9),
+              child: AppImageView(
+                imageUrl: ApiConstants.mediaUrl(track.packageImage ?? ''),
+                width: double.infinity,
+                height: 165,
             ),
           ),
           const SizedBox(height: 14),
-          Stack(
-            children: [
-              const PositionedDirectional(
-                start: 7,
-                top: 15,
-                bottom: 15,
-                child: SizedBox(
-                  width: 2,
-                  child: ColoredBox(color: AppColors.routeConnector),
-                ),
-              ),
-              const Column(
-                children: [
-                  _RouteValue(
-                    icon: Icons.radio_button_checked,
-                    iconColor: AppColors.primary,
-                    label: AppStrings.pickupLocation,
-                    value: AppStrings.bookingPickupAddress,
-                  ),
-                  SizedBox(height: 10),
-                  _RouteValue(
-                    icon: Icons.location_on_outlined,
-                    iconColor: AppColors.countdown,
-                    label: AppStrings.dropoffLocation,
-                    value: AppStrings.bookingDropoffAddress,
-                  ),
-                ],
-              ),
-            ],
+          _RouteValue(
+            icon: Icons.radio_button_checked,
+            iconColor: AppColors.primary,
+            label: AppStrings.pickupLocation,
+            value: track.pickupLocation ?? '',
+          ),
+          const SizedBox(height: 10),
+          _RouteValue(
+            icon: Icons.location_on_outlined,
+            iconColor: AppColors.countdown,
+            label: AppStrings.dropoffLocation,
+            value: track.dropoffLocation ?? '',
           ),
           const Divider(height: 24, color: AppColors.border),
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: _IconValue(
                   icon: Icons.calendar_today_outlined,
                   label: AppStrings.date,
-                  value: AppStrings.bookingDateValue,
+                  value: track.scheduledDate ?? '',
                 ),
               ),
               Expanded(
-                child: _IconValue(
+              child: _IconValue(
                   icon: Icons.access_time,
                   label: AppStrings.time,
-                  value: AppStrings.bookingTimeValue,
+                  value: _time12Hour(track.scheduledTimeFrom),
                 ),
               ),
             ],
           ),
           const Divider(height: 24, color: AppColors.border),
-          const _LabeledValue(
+          _LabeledValue(
             AppStrings.packageInstructions,
-            AppStrings.packageInstructionsValue,
+            track.packageInstructions ?? '',
           ),
           const Divider(height: 24, color: AppColors.border),
           const AppText(
@@ -268,15 +355,15 @@ class _PackageCard extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           const SizedBox(height: 5),
-          const Row(
+          Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.payments_outlined,
                 size: 15,
                 color: AppColors.textSecondary,
               ),
-              SizedBox(width: 6),
-              Expanded(
+              const SizedBox(width: 6),
+              const Expanded(
                 child: AppText(
                   text: AppStrings.delivery,
                   color: AppColors.black,
@@ -285,7 +372,7 @@ class _PackageCard extends StatelessWidget {
                 ),
               ),
               AppText(
-                text: AppStrings.deliveryPrice,
+                text: '\$${track.price ?? 0}',
                 color: AppColors.primary,
                 textSize: 14,
                 fontWeight: FontWeight.w700,
@@ -296,93 +383,83 @@ class _PackageCard extends StatelessWidget {
       ),
     );
   }
+
+  static String _time12Hour(String? rawTime) {
+    if (rawTime == null || rawTime.isEmpty) return '';
+    try {
+      final parsed = DateFormat('HH:mm:ss').parse(rawTime);
+      return DateFormat('hh:mm a').format(parsed);
+    } catch (_) {
+      return rawTime;
+    }
+  }
 }
 
 class _DriverCard extends StatelessWidget {
-  const _DriverCard({required this.showCallButton});
+  const _DriverCard({
+    required this.showCallButton,
+    required this.driverName,
+    required this.driverStats,
+  });
+
   final bool showCallButton;
+  final String driverName;
+  final String driverStats;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => Get.toNamed<void>(AppRoutes.driverReviews),
-      child: _CardShell(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage(Assets.driverPhoto),
-                ),
-                const SizedBox(width: 10),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        text: AppStrings.driverName,
-                        color: AppColors.black,
-                        textSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      AppText(
-                        text: AppStrings.driverVehicle,
-                        color: AppColors.textSecondary,
-                        textSize: 11,
-                        fontWeight: FontWeight.w500,
-                        maxLines: 2,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.star, color: AppColors.express, size: 13),
-                      SizedBox(width: 3),
-                      AppText(
-                        text: '4.9',
-                        color: AppColors.black,
-                        textSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (showCallButton) ...[
-              const SizedBox(height: 10),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: AppButton(
-                  text: AppStrings.callDriver,
-                  onTap: BookingDetailsView._emptyAction,
-                  width: 150,
-                  height: 40,
-                  borderRadius: 8,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  textSize: 13,
-                  showShadow: false,
-                  icon1: Assets.callIcon,
-                  widthIcon1: 17,
-                  heightIcon1: 17,
-                  iconColor: AppColors.white,
+    return _CardShell(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage(Assets.driverPhoto),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      text: driverName,
+                      color: AppColors.black,
+                      textSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    AppText(
+                      text: driverStats,
+                      color: AppColors.textSecondary,
+                      textSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
                 ),
               ),
             ],
+          ),
+          if (showCallButton) ...[
+            const SizedBox(height: 10),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: AppButton(
+                text: AppStrings.callDriver,
+                onTap: () {},
+                width: 150,
+                height: 40,
+                borderRadius: 8,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                textSize: 13,
+                showShadow: false,
+                icon1: Assets.callIcon,
+                widthIcon1: 17,
+                heightIcon1: 17,
+                iconColor: AppColors.white,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
@@ -517,32 +594,4 @@ class _IconValue extends StatelessWidget {
       ],
     );
   }
-}
-
-class _DashedRoundedBorderPainter extends CustomPainter {
-  const _DashedRoundedBorderPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final path = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(9)),
-      );
-    final paint = Paint()
-      ..color = AppColors.textSecondary
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4;
-
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final end = (distance + 6).clamp(0.0, metric.length);
-        canvas.drawPath(metric.extractPath(distance, end), paint);
-        distance += 10;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DashedRoundedBorderPainter oldDelegate) => false;
 }
