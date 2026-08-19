@@ -78,7 +78,7 @@ class CompleteProfileController extends GetxController
     final body = <String, dynamic>{
       'mobile_number': phoneController.text.trim(),
       'country_code': '+${selectedCountry.value.dialCode}',
-      'role': 2,
+      'role': 1,
       'firstName': firstNameController.text.trim(),
       'lastName': lastNameController.text.trim(),
       'email': emailController.text.trim(),
